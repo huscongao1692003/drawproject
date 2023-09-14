@@ -52,6 +52,10 @@ public class User extends BaseEntity {
     @Email(message = "Please provide a valid email address" )
     private String email;
 
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private String avatar;
+
     @NotBlank(message="Confirm Email must not be blank")
     @Email(message = "Please provide a valid confirm email address" )
     @Transient
@@ -60,8 +64,7 @@ public class User extends BaseEntity {
     @NotBlank(message="Password must not be blank")
     @Size(min=5, message="Password must be at least 5 characters long")
     @PasswordValidator
-    @Column(name="pwd")
-    private String password;
+    private String pwd;
 
     @NotBlank(message="Confirm Password must not be blank")
     @Size(min=5, message="Confirm Password must be at least 5 characters long")

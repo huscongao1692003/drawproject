@@ -19,9 +19,11 @@ public class Posts extends BaseEntity{
     @Size(min=5, message="Post must be at least 5 characters long")
     private String title;
 
-    @NotBlank(message="Category must not be blank")
-    @Size(min=3, message="Category must be at least 3 characters long")
-    private String category;
+
+    @OneToOne(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,targetEntity = Category.class)
+    @JoinColumn(name = "category_id", referencedColumnName = "categoryId",nullable = false)
+    private Category category;
 
     @NotBlank(message="description must not be blank")
     @Size(min=10, message="description must be at least 10 characters long")
