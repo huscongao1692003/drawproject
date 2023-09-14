@@ -44,6 +44,7 @@ public class Courses extends BaseEntity {
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
+    @NotBlank
     private String image;
 
     private String status;

@@ -32,6 +32,7 @@ import org.hibernate.annotations.GenericGenerator;
                 message = "Email addresses do not match!"
         )
 })
+@Table(name = "users")
 public class User extends BaseEntity {
 
     @Id
@@ -59,7 +60,8 @@ public class User extends BaseEntity {
     @NotBlank(message="Password must not be blank")
     @Size(min=5, message="Password must be at least 5 characters long")
     @PasswordValidator
-    private String pwd;
+    @Column(name="pwd")
+    private String password;
 
     @NotBlank(message="Confirm Password must not be blank")
     @Size(min=5, message="Confirm Password must be at least 5 characters long")
@@ -85,5 +87,7 @@ public class User extends BaseEntity {
                     @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
     private Set<Courses> courses = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Posts> posts;
 
 }
