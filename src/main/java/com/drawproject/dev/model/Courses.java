@@ -42,6 +42,11 @@ public class Courses extends BaseEntity {
     @JoinColumn(name = "category_id", referencedColumnName = "categoryId",nullable = false)
     private Category category;
 
+    @OneToOne(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL,targetEntity = Style.class)
+    @JoinColumn(name = "rolling_style_id", referencedColumnName = "rollingStyleId",nullable = false)
+    private Style style;
+
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     @NotBlank

@@ -38,7 +38,7 @@ public class CustomUserDetailsService  implements UserDetailsService {
 
     private List<GrantedAuthority> mapRolesToAuthorities(Roles roles) {
         List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+roles.getRoleName()));
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+roles.getName()));
         return grantedAuthorities;
     }
 }

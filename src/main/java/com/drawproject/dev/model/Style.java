@@ -1,19 +1,17 @@
 package com.drawproject.dev.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity
-public class Category{
+@Table(name = "rolling_style")
+public class Style{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
-    private int categoryId;
+    private int rollingStyleId;
 
-    private String categoryName;
+    private String rollingStyleName;
 }

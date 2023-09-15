@@ -1,9 +1,6 @@
 package com.drawproject.dev.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -15,5 +12,6 @@ public class Roles extends BaseEntity{
     @GenericGenerator(name = "native",strategy = "native")
     private int roleId;
 
-    private String roleName;
+    @Column(name = "role_name")
+    private String name;
 }

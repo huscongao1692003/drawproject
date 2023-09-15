@@ -9,7 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity
-public class Skills extends BaseEntity{
+public class Skills{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
