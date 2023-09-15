@@ -1,3 +1,12 @@
+use drawcourses;
+
+CREATE TABLE `skills` (
+                          `skill_id` integer primary key auto_increment not null,
+                          `skill_name` varchar(255) not null
+);
+
+
+
 CREATE TABLE `users` (
                          `user_id` integer PRIMARY KEY auto_increment,
                          `username` varchar(255) not null,
@@ -12,11 +21,6 @@ CREATE TABLE `users` (
                          `updated_at` timestamp,
                          FOREIGN KEY (`skill_id`) REFERENCES `skills`(`skill_id`)
 );
-CREATE TABLE `skills` (
-                          `skill_id` integer primary key auto_increment not null,
-                          `skill_name` varchar(255) not null
-
-);
 
 CREATE TABLE `posts` (
                          `post_id` integer PRIMARY KEY auto_increment,
@@ -29,9 +33,7 @@ CREATE TABLE `posts` (
                          `user_id` integer not null,
                          `status` varchar(255) not null,
                          `created_at` timestamp,
-                         `created_by` varchar(255),
-                         `updated_at` timestamp,
-                         `updated_by` varchar(255)
+                         `updated_at` timestamp
 );
 
 CREATE TABLE `courses` (
@@ -45,9 +47,7 @@ CREATE TABLE `courses` (
                            `image` longblob not null,
                            `status` varchar(255) not null,
                            `created_at` timestamp,
-                           `created_by` varchar(255),
                            `updated_at` timestamp,
-                           `updated_by` varchar(255),
                            FOREIGN KEY (`skill_id`) REFERENCES `skills`(`skill_id`)
 );
 
@@ -74,9 +74,7 @@ CREATE TABLE `contact_msg` (
                                `message` varchar(255) not null,
                                `status` varchar(255) not null,
                                `created_at` timestamp,
-                               `created_by` varchar(255),
-                               `updated_at` timestamp,
-                               `updated_by` varchar(255)
+                               `updated_at` timestamp
 );
 
 CREATE TABLE `subscribe` (
@@ -86,11 +84,7 @@ CREATE TABLE `subscribe` (
 
 CREATE TABLE `roles` (
                          `role_id` integer PRIMARY KEY auto_increment,
-                         `role_name` varchar(255) not null,
-                         `created_at` timestamp,
-                         `created_by` varchar(255),
-                         `updated_at` timestamp,
-                         `updated_by` varchar(255)
+                         `role_name` varchar(255) not null
 );
 
 CREATE TABLE `orders` (
@@ -104,7 +98,6 @@ CREATE TABLE `orders` (
 );
 
 CREATE TABLE `order_details` (
-                                 `price` integer,
                                  `course_id` integer not null,
                                  `orders_id` integer not null,
                                  PRIMARY KEY (`course_id`, `orders_id`)
@@ -116,7 +109,6 @@ CREATE TABLE `feedback` (
                             `status` varchar(255) not null,
                             `star` integer not null,
                             `created_at` timestamp,
-                            `created_by` varchar(255),
                             `updated_at` timestamp,
                             `course_id` integer not null,
                             `user_id` integer not null
@@ -127,9 +119,7 @@ CREATE TABLE `video_url` (
                              `video_url` varchar(255) not null,
                              `course_id` integer not null,
                              `created_at` timestamp,
-                             `created_by` varchar(255),
-                             `updated_at` timestamp,
-                             `updated_by` varchar(255)
+                             `updated_at` timestamp
 );
 
 CREATE TABLE `comment` (
@@ -139,7 +129,6 @@ CREATE TABLE `comment` (
                            `post_id` integer not null,
                            `course_id` integer not null,
                            `created_at` timestamp,
-                           `updated_at` timestamp,
                            `status` varchar(255) not null
 );
 
@@ -148,9 +137,7 @@ CREATE TABLE `homework` (
                             `homework_title` varchar(255) not null,
                             `topic` text not null,
                             `created_at` timestamp,
-                            `created_by` varchar(255),
                             `updated_at` timestamp,
-                            `updated_by` varchar(255),
                             `course_id` integer not null,
                             `status` varchar(255) not null,
                             FOREIGN KEY (`course_id`) REFERENCES `courses` (`course_id`)
@@ -171,9 +158,7 @@ CREATE TABLE `user_homework` (
                                  `description` varchar(255) ,
                                  `image` longblob not null,
                                  `created_at` timestamp,
-                                 `created_by` varchar(255),
                                  `updated_at` timestamp,
-                                 `updated_by` varchar(255),
                                  `homework_id` integer not null
 );
 
