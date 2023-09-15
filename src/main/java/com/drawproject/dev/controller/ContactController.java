@@ -1,7 +1,6 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.model.Contact;
-import com.drawproject.dev.model.Response;
 import com.drawproject.dev.service.ContactService;
 import jakarta.validation.Valid;
 import org.springframework.http.*;
