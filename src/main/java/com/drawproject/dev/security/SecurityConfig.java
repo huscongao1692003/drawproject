@@ -37,6 +37,8 @@ public class SecurityConfig {
                 .authorizeRequests()
                 .requestMatchers("/api/auth/**").permitAll()
                  .requestMatchers("/contact/saveMsg").permitAll()
+                 .requestMatchers("/api/dashboard").authenticated()
+                 .requestMatchers("/api/profile/**").authenticated()
                  .requestMatchers("/contact/displayMessages").hasRole("ADMIN")
                  .requestMatchers("/contact/closeMsg").hasRole("ADMIN")
                 .anyRequest().authenticated()

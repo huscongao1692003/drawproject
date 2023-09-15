@@ -1,4 +1,4 @@
-package com.drawproject.dev.model;
+package com.drawproject.dev.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+public class ResponseDTO {
 
     private String statusCode;
     private String statusMsg;
