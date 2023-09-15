@@ -23,4 +23,7 @@ public class Profile {
     @Pattern(regexp = "^(4[0-9]|[5-9][0-9]|9[0-9])$", message = "Age must be between 4 and 99")
     private int age;
 
+
+    private int skillId;
+
 }
