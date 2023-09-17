@@ -1,9 +1,6 @@
 package com.drawproject.dev.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,11 +13,19 @@ public class Comment extends BaseEntity{
     @GenericGenerator(name = "native",strategy = "native")
     private int commentId;
 
-    private String status;
-
     @NotBlank
     private String commentValue;
 
+    @ManyToOne(fetch = FetchType.LAZY,
+            targetEntity = Posts.class)
+    @JoinColumn(name = "post_id", referencedColumnName = "postId",nullable = true)
+    private Posts posts;
 
+    @ManyToOne(fetch = FetchType.LAZY,
+            targetEntity = Courses.class)
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId",nullable = true)
+    private Courses courses;
+
+    private String status;
 
 }

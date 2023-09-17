@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.List;
+
 @Data
 @Entity
 public class Posts extends BaseEntity{
@@ -45,5 +47,8 @@ public class Posts extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 
 }

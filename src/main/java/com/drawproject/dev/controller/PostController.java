@@ -7,11 +7,13 @@ import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.PostRepository;
+import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,10 +35,15 @@ public class PostController {
     PostService postService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
     CategoryRepository categoryRepository;
 
     @Autowired
     private ModelMapper modelMapper;
+
+
 
     @PostMapping("/savePost")
     public ResponseEntity<String> savePost(@Valid @RequestBody PostDTO postDTO, Errors errors, HttpSession session){
@@ -71,11 +78,20 @@ public class PostController {
     @GetMapping("/showPosts")
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         List<Posts> posts = postRepository.findAll();
+
         if (!posts.isEmpty()) {
             // Convert the list of Post entities to a list of PostDTOs
             List<PostDTO> postDTOs = posts.stream()
-                    .map(post -> modelMapper.map(post, PostDTO.class))
+                    .map(post -> {
+                        PostDTO postDTO = modelMapper.map(post, PostDTO.class);
+                        User user = userRepository.findByUserId(post.getUser().getUserId());
+                        if (user != null) {
+                            postDTO.setUserName(user.getUsername());
+                        }
+                        return postDTO;
+                    })
                     .collect(Collectors.toList());
+
             return ResponseEntity.ok(postDTOs);
         } else {
             return ResponseEntity.noContent().build();
@@ -84,6 +100,7 @@ public class PostController {
     @GetMapping("/showPostUser")
     public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
         User user = (User) session.getAttribute("loggedInPerson");
+
         // Retrieve posts by user ID from the database
         List<Posts> userPosts = postRepository.findPostsByUserUserId(user.getUserId());
 
