@@ -39,9 +39,13 @@ public class SecurityConfig {
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()
                  .requestMatchers("/api/profile/**").authenticated()
+                 .requestMatchers("/api/post/showPosts").permitAll()
+                 .requestMatchers("/api/post/showPostUser").authenticated()
+                 .requestMatchers("/api/post/savePost").authenticated()
+                 .requestMatchers("/api/post/closePost").authenticated()
+                 .requestMatchers("/api/post/deletePost").hasRole("ADMIN")
                  .requestMatchers("/contact/displayMessages").hasRole("ADMIN")
                  .requestMatchers("/contact/closeMsg").hasRole("ADMIN")
-                .anyRequest().authenticated()
                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

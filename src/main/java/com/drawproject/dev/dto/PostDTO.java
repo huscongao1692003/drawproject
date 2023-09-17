@@ -1,29 +1,21 @@
-package com.drawproject.dev.model;
+package com.drawproject.dev.dto;
 
+import com.drawproject.dev.model.Category;
+import com.drawproject.dev.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
 
 @Data
-@Entity
-public class Posts extends BaseEntity{
-    @Id
-    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
-    @GenericGenerator(name = "native",strategy = "native")
-    private int postId;
-
+public class PostDTO {
     @NotBlank(message="Post must not be blank")
     @Size(min=5, message="Post must be at least 5 characters long")
     private String title;
 
 
-    @OneToOne(fetch = FetchType.EAGER, targetEntity = Category.class)
-    @JoinColumn(name = "category_id", referencedColumnName = "categoryId",nullable = false)
-    private Category category;
+    private int categoryId;
 
     @NotBlank(message="description must not be blank")
     @Size(min=10, message="description must be at least 10 characters long")
@@ -40,10 +32,7 @@ public class Posts extends BaseEntity{
     @Size(min=10, message="body must be at least 10 characters long")
     private String body;
 
-    private String status;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-    private User user;
+    private int userId;
 
 }
