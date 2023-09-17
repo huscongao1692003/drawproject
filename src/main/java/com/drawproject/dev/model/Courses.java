@@ -60,4 +60,7 @@ public class Courses extends BaseEntity {
     @OneToMany(mappedBy ="courses",fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Feedback> feedback;
+
+    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL)
+    private List<Comment> comments;
 }

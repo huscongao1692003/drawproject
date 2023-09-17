@@ -1,12 +1,15 @@
 package com.drawproject.dev.dto;
 
 import com.drawproject.dev.model.Category;
+import com.drawproject.dev.model.Comment;
 import com.drawproject.dev.model.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class PostDTO {
@@ -16,6 +19,8 @@ public class PostDTO {
 
 
     private int categoryId;
+
+    private String categoryName;
 
     @NotBlank(message="description must not be blank")
     @Size(min=10, message="description must be at least 10 characters long")
@@ -34,5 +39,9 @@ public class PostDTO {
 
 
     private int userId;
+
+    private String userName;
+
+    private List<Comment> commentValue;
 
 }
