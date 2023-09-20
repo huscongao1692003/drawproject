@@ -1,6 +1,5 @@
 package com.drawproject.dev.repository;
 
-import com.drawproject.dev.model.Contact;
 import com.drawproject.dev.model.Posts;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

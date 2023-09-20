@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -77,7 +76,7 @@ public class PostController {
     }
     @GetMapping("/showPosts")
     public ResponseEntity<List<PostDTO>> getAllPosts() {
-        List<Posts> posts = postRepository.findAll();
+        List<Posts> posts = postService.findPostWithOpenStatus();
 
         if (!posts.isEmpty()) {
             // Convert the list of Post entities to a list of PostDTOs
@@ -114,4 +113,17 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    @PostMapping("/closePost")
+    public ResponseEntity<String> closePost(@RequestParam int id, HttpSession session){
+        User user = (User) session.getAttribute("loggedInPerson");
+        Optional<Posts> posts = postRepository.findById(id);
+        if (posts != null && posts.get().getUser().getUserId() == user.getUserId() || user.getRoles().getName().equals("ADMIN") || user.getRoles().getName().equals("STAFF")) {
+            postService.updatePostStatus(id);
+            return new ResponseEntity<>("Close post Successful", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+    }
+
+
 }

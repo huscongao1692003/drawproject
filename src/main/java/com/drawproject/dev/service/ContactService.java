@@ -44,7 +44,7 @@ public class ContactService {
             contact1.setStatus(DrawProjectConstaints.CLOSE);
         });
         Contact updatedContact = contactRepository.save(contact.get());
-        if(null != updatedContact && updatedContact.getUpdatedBy()!=null) {
+        if(null != updatedContact) {
             isUpdated = true;
         }
         return isUpdated;

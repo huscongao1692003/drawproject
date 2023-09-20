@@ -24,11 +24,11 @@ public class PostService {
     public boolean updatePostStatus(int postId){
         boolean isUpdated = false;
         Optional<Posts> posts = postRepository.findById(postId);
-        posts.ifPresent(contact1 -> {
-            contact1.setStatus(DrawProjectConstaints.CLOSE);
+        posts.ifPresent(posts1 -> {
+            posts1.setStatus(DrawProjectConstaints.CLOSE);
         });
         Posts updatedPost = postRepository.save(posts.get());
-        if(null != updatedPost && updatedPost.getUpdatedBy()!=null) {
+        if(null != updatedPost && updatedPost.getUser() !=null) {
             isUpdated = true;
         }
         return isUpdated;
