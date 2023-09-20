@@ -94,3 +94,23 @@ VALUES
   (1, 15),
   (2, 15);
 
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '12');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '13');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '11');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '12');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('4', '12');
+
+# Tạo 10 bản ghi
+INSERT INTO feedback (feedback_information, status, star, created_at, course_id, user_id)
+VALUES
+  ('Giảng viên giảng bài rất hay, dễ hiểu và nhiệt tình.', 'Đã xem', 5, '2023-09-20 23:12:49', 1, 12),
+  ('Nội dung khóa học rất hữu ích, giúp tôi học được nhiều kiến thức mới.', 'Đã xem', 5, '2023-09-21 00:00:00', 2, 13),
+  ('Tôi có một góp ý nhỏ về khóa học. Tôi nghĩ sẽ tốt hơn nếu giảng viên có thể cung cấp thêm một số bài tập thực hành.', 'Đã xem', 4, '2023-09-21 01:00:00', 3, 14),
+  ('Tôi rất hài lòng với khóa học này. Tôi đã học được nhiều điều và tôi sẽ giới thiệu khóa học này cho bạn bè của tôi.', 'Đã xem', 5, '2023-09-21 02:00:00', 4, 15),
+  ('Tôi cảm thấy khóa học này hơi khó, nhưng tôi cũng học được nhiều thứ. Tôi hy vọng giảng viên có thể cung cấp thêm một số tài liệu tham khảo.', 'Đã xem', 4, '2023-09-21 03:00:00', 5, 11),
+  ('Tôi không hài lòng với khóa học này. Tôi nghĩ nội dung khóa học không được cập nhật và giảng viên không nhiệt tình.', 'Đã xem', 2, '2023-09-21 04:00:00', 5, 12),
+  ('Tôi hy vọng giảng viên có thể cung cấp thêm một số bài tập nhóm để chúng tôi có thể thực hành cùng nhau.', 'Đã xem', 4, '2023-09-21 05:00:00', 1, 13),
+  ('Tôi nghĩ khóa học này rất hay và hữu ích. Tôi đã học được nhiều kiến thức mới và tôi có thể áp dụng nó vào công việc của mình.', 'Đã xem', 5, '2023-09-21 06:00:00', 1, 14),
+  ('Tôi có một thắc mắc về bài tập thực hành. Tôi có thể liên hệ với giảng viên để được giải đáp không?', 'Đã xem', 4, '2023-09-21 07:00:00', 4, 12);
+
+

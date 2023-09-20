@@ -28,7 +28,7 @@ public class PostService {
             contact1.setStatus(DrawProjectConstaints.CLOSE);
         });
         Posts updatedPost = postRepository.save(posts.get());
-        if(null != updatedPost && updatedPost.getUpdatedBy()!=null) {
+        if(null != updatedPost) {
             isUpdated = true;
         }
         return isUpdated;

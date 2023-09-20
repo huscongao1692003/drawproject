@@ -16,7 +16,7 @@ public class Feedback extends BaseEntity{
 
     @NotBlank(message="Infomation must not be blank")
     @Size(min=10, message="Name must be at least 3 characters long")
-    private String feedbackInfomation;
+    private String feedbackInformation;
 
     private String status;
 

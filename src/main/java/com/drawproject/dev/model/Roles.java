@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 @Data
 @Entity
-public class Roles extends BaseEntity{
+public class Roles{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")

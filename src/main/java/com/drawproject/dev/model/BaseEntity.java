@@ -20,13 +20,13 @@ public class BaseEntity {
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
-    @CreatedBy
-    @Column(updatable = false)
-    private String createdBy;
+//    @CreatedBy
+//    @Column(updatable = false)
+//    private String createdBy;
     @LastModifiedDate
     @Column(insertable = false)
     private LocalDateTime updatedAt;
-    @LastModifiedBy
-    @Column(insertable = false)
-    private String updatedBy;
+//    @LastModifiedBy
+//    @Column(insertable = false)
+//    private String updatedBy;
 }
