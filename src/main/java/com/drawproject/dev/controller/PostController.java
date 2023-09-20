@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PostDTO;
+import com.drawproject.dev.dto.PostResponseDTO;
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.User;
@@ -14,6 +15,9 @@ import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -75,26 +79,25 @@ public class PostController {
 
     }
     @GetMapping("/showPosts")
-    public ResponseEntity<List<PostDTO>> getAllPosts() {
-        List<Posts> posts = postService.findPostWithOpenStatus();
+    public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "perPage", defaultValue = "10") int perPage
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, perPage); // Page numbers are 0-based
+        Page<Posts> postPage = postRepository.findAll(pageable);
 
-        if (!posts.isEmpty()) {
-            // Convert the list of Post entities to a list of PostDTOs
-            List<PostDTO> postDTOs = posts.stream()
-                    .map(post -> {
-                        PostDTO postDTO = modelMapper.map(post, PostDTO.class);
-                        User user = userRepository.findByUserId(post.getUser().getUserId());
-                        if (user != null) {
-                            postDTO.setUserName(user.getUsername());
-                        }
-                        return postDTO;
-                    })
-                    .collect(Collectors.toList());
+        List<PostDTO> postDTOList = postPage.getContent().stream()
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toList());
 
-            return ResponseEntity.ok(postDTOs);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
+        PostResponseDTO<PostDTO> response = new PostResponseDTO<>();
+        response.setPage(page);
+        response.setPer_page(perPage);
+        response.setTotal((int) postPage.getTotalElements());
+        response.setTotal_pages(postPage.getTotalPages());
+        response.setData(postDTOList);
+
+        return ResponseEntity.ok(response);
     }
     @GetMapping("/showPostUser")
     public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
