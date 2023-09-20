@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResponseDTO {
-
-    private String statusCode;
-    private String statusMsg;
+    private int page;
+    private int totalPage;
+    private int perPage;
+    private Object data;
 }
