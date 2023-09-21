@@ -2,10 +2,7 @@ package com.drawproject.dev.dto;
 
 import com.drawproject.dev.annotation.PasswordValidator;
 import jakarta.persistence.Transient;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 
 @Data
@@ -14,6 +11,10 @@ public class RegisterDTO {
     @NotBlank(message="Name must not be blank")
     @Size(min=3, message="Name must be at least 3 characters long")
     private String username;
+
+
+    @NotNull
+    private int skillId;
 
     @NotBlank(message="Password must not be blank")
     @Size(min=5, message="Password must be at least 5 characters long")
@@ -37,4 +38,6 @@ public class RegisterDTO {
     @Size(min=5, message="Confirm Password must be at least 5 characters long")
     @Transient
     private String confirmPwd;
+
+
 }

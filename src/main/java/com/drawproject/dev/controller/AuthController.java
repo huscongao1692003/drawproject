@@ -4,9 +4,12 @@ import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.AuthResponseDTO;
 import com.drawproject.dev.dto.LoginDTO;
 import com.drawproject.dev.dto.RegisterDTO;
+import com.drawproject.dev.exceptions.ResourceNotFoundException;
 import com.drawproject.dev.model.Roles;
+import com.drawproject.dev.model.Skills;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.RoleRepository;
+import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.security.JWTGenerator;
 import jakarta.validation.Valid;
@@ -25,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -35,6 +39,9 @@ public class AuthController {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+
+    @Autowired
+    SkillRepository skillRepository;
 
     @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
@@ -72,13 +79,15 @@ public class AuthController {
         if (!registerDto.getEmail().equals(registerDto.getConfirmEmail())) {
             return new ResponseEntity<>("Email and Confirm Email do not match", HttpStatus.BAD_REQUEST);
         }else {
-
+            Skills skill = skillRepository.findById(registerDto.getSkillId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
             User user = new User();
             user.setUsername(registerDto.getUsername());
             user.setPwd(passwordEncoder.encode((registerDto.getPwd())));
             user.setEmail(registerDto.getEmail());
             user.setMobileNum(registerDto.getMobileNum());
             user.setStatus(DrawProjectConstaints.OPEN);
+            user.setSkill(skill);
             Roles roles = roleRepository.findByName("USER").get();
             user.setRoles(roles);
 
