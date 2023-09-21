@@ -6,14 +6,17 @@ import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.CourseRepository;
-import com.drawproject.dev.repository.LessonRepository;
-import com.drawproject.dev.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Course service.
+ */
 @Service
 public class CourseService {
     @Autowired
@@ -22,12 +25,11 @@ public class CourseService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @Autowired
-    LessonRepository lessonRepository;
-
-    @Autowired
-    TopicRepository topicRepository;
-
+    /**
+     * Gets top course by category.
+     *
+     * @return top list course preview DTO by category
+     */
     public List<List<CoursePreviewDTO>> getTopCourseByCategory() {
         List<List<CoursePreviewDTO>> coursesPreview = new ArrayList<>();
 
@@ -37,5 +39,15 @@ public class CourseService {
         });
 
         return coursesPreview;
+    }
+
+    public ResponseDTO getCourseByCategory(int page, int eachPage) {
+
+        Pageable pageable = PageRequest.of(page, eachPage);
+        List<Courses> courses = courseRepository.findAll(pageable).getContent();
+
+        int totalPage = (int) Math.ceil((double) courseRepository.count() / eachPage);
+
+        return new ResponseDTO(page, totalPage, eachPage, MapModel.mapListToDTO(courses));
     }
 }
