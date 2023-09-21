@@ -2,6 +2,10 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PostDTO;
+<<<<<<< HEAD
+=======
+import com.drawproject.dev.dto.PostResponseDTO;
+>>>>>>> origin/main
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.User;
@@ -13,8 +17,15 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+<<<<<<< HEAD
 import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+=======
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+>>>>>>> origin/main
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -76,6 +87,7 @@ public class PostController {
 
     }
     @GetMapping("/showPosts")
+<<<<<<< HEAD
     public ResponseEntity<List<PostDTO>> getAllPosts() {
         List<Posts> posts = postRepository.findAll();
 
@@ -96,6 +108,27 @@ public class PostController {
         } else {
             return ResponseEntity.noContent().build();
         }
+=======
+    public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "perPage", defaultValue = "10") int perPage
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, perPage); // Page numbers are 0-based
+        Page<Posts> postPage = postRepository.findByStatus(DrawProjectConstaints.OPEN, pageable);
+
+        List<PostDTO> postDTOList = postPage.getContent().stream()
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toList());
+
+        PostResponseDTO<PostDTO> response = new PostResponseDTO<>();
+        response.setPage(page);
+        response.setPer_page(perPage);
+        response.setTotal((int) postPage.getTotalElements());
+        response.setTotal_pages(postPage.getTotalPages());
+        response.setData(postDTOList);
+
+        return ResponseEntity.ok(response);
+>>>>>>> origin/main
     }
     @GetMapping("/showPostUser")
     public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
@@ -114,4 +147,20 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
     }
+<<<<<<< HEAD
+=======
+
+    @PostMapping("/closePost")
+    public ResponseEntity<String> closePost(@RequestParam int id, HttpSession session){
+        User user = (User) session.getAttribute("loggedInPerson");
+        Optional<Posts> posts = postRepository.findById(id);
+        if (posts != null && posts.get().getUser().getUserId() == user.getUserId() || user.getRoles().getName().equals("ADMIN") || user.getRoles().getName().equals("STAFF")) {
+            postService.updatePostStatus(id);
+            return new ResponseEntity<>("Close post Successful", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
+    }
+
+
+>>>>>>> origin/main
 }
