@@ -27,17 +27,26 @@ public class CourseController {
      *
      * @return the top list course by list category
      */
-    @GetMapping("/")
-    public ResponseEntity<List<List<CoursePreviewDTO>>> getTopCourse() {
-        return ResponseEntity.ok().body(courseService.getTopCourseByCategory());
+    @GetMapping("/topcourses")
+    public ResponseEntity<List<List<CoursePreviewDTO>>> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
+        return ResponseEntity.ok().body(courseService.getTopCourseByCategory(limit));
     }
 
 
+    /**
+     * Gets courses.
+     *
+     * @param page     : the page to show
+     * @param eachPage : the each page have limit course showing on the page
+     * @return the courses
+     */
     @GetMapping("/courses")
     public ResponseEntity<ResponseDTO> getCourses(@RequestParam("page") int page,
                                                             @RequestParam("eachPage") int eachPage) {
 
         return ResponseEntity.ok().body(courseService.getCourseByCategory(page, eachPage));
     }
+
+
 
 }
