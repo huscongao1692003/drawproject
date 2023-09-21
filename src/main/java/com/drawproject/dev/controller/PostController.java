@@ -84,7 +84,7 @@ public class PostController {
             @RequestParam(name = "perPage", defaultValue = "10") int perPage
     ) {
         Pageable pageable = PageRequest.of(page - 1, perPage); // Page numbers are 0-based
-        Page<Posts> postPage = postRepository.findAll(pageable);
+        Page<Posts> postPage = postRepository.findByStatus(DrawProjectConstaints.OPEN, pageable);
 
         List<PostDTO> postDTOList = postPage.getContent().stream()
                 .map(post -> modelMapper.map(post, PostDTO.class))

@@ -38,6 +38,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()
+                 .requestMatchers("/api/instructor/**").permitAll()
                  .requestMatchers("/api/profile/**").authenticated()
                  .requestMatchers("/api/post/showPosts").permitAll()
                  .requestMatchers("/api/post/showPostUser").authenticated()
