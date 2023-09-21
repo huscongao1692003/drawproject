@@ -30,17 +30,25 @@ public class CourseService {
      *
      * @return top list course preview DTO by category
      */
-    public List<List<CoursePreviewDTO>> getTopCourseByCategory() {
+    public List<List<CoursePreviewDTO>> getTopCourseByCategory(int limit) {
         List<List<CoursePreviewDTO>> coursesPreview = new ArrayList<>();
 
         categoryRepository.findAll().forEach(category -> {
             coursesPreview.add(MapModel.mapListToDTO(
-                    courseRepository.findTopCourseByCategory(category.getCategoryId())));
+                    courseRepository.findTopCourseByCategory(category.getCategoryId(), limit)));
         });
 
         return coursesPreview;
     }
 
+    /**
+     * Gets course by category.
+     *
+     * @param page     the page
+     * @param eachPage the each page
+     *
+     * @return the course by category
+     */
     public ResponseDTO getCourseByCategory(int page, int eachPage) {
 
         Pageable pageable = PageRequest.of(page, eachPage);

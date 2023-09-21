@@ -16,6 +16,6 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "WHERE c.category.categoryId = :categoryId " +
             "GROUP BY c.category.categoryId, c.courseId " +
             "ORDER BY COUNT(o.orderId) DESC " +
-            "LIMIT 3")
-    public List<Courses> findTopCourseByCategory(int categoryId);
+            "LIMIT :limit")
+    public List<Courses> findTopCourseByCategory(int categoryId, int limit);
 }
