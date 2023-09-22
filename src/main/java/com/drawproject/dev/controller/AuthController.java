@@ -6,7 +6,7 @@ import com.drawproject.dev.dto.LoginDTO;
 import com.drawproject.dev.dto.RegisterDTO;
 import com.drawproject.dev.exceptions.ResourceNotFoundException;
 import com.drawproject.dev.model.Roles;
-import com.drawproject.dev.model.Skills;
+import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
@@ -26,9 +26,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.Collections;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -79,7 +76,7 @@ public class AuthController {
         if (!registerDto.getEmail().equals(registerDto.getConfirmEmail())) {
             return new ResponseEntity<>("Email and Confirm Email do not match", HttpStatus.BAD_REQUEST);
         }else {
-            Skills skill = skillRepository.findById(registerDto.getSkillId())
+            Skill skill = skillRepository.findById(registerDto.getSkillId())
                     .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
             User user = new User();
             user.setUsername(registerDto.getUsername());

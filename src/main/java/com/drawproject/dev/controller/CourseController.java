@@ -1,13 +1,14 @@
 package com.drawproject.dev.controller;
 
-import com.drawproject.dev.dto.CoursePreviewDTO;
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.course.CoursePreviewDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.service.CategoryService;
 import com.drawproject.dev.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,8 +29,9 @@ public class CourseController {
      * @return the top list course by list category
      */
     @GetMapping("/topcourses")
-    public ResponseEntity<List<List<CoursePreviewDTO>>> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
-        return ResponseEntity.ok().body(courseService.getTopCourseByCategory(limit));
+    public ResponseEntity<ResponseDTO> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
+        ResponseDTO rep = new ResponseDTO(HttpStatus.OK, "Request successfully", courseService.getTopCourseByCategory(limit));
+        return ResponseEntity.ok().body(rep);
     }
 
 
@@ -42,11 +44,21 @@ public class CourseController {
      */
     @GetMapping("/courses")
     public ResponseEntity<ResponseDTO> getCourses(@RequestParam("page") int page,
-                                                            @RequestParam("eachPage") int eachPage) {
+                                                        @RequestParam("eachPage") int eachPage) {
 
-        return ResponseEntity.ok().body(courseService.getCourseByCategory(page, eachPage));
+        ResponseDTO rep = new ResponseDTO(HttpStatus.OK, "Request successfully", courseService.getCourseByCategory(page, eachPage));
+        return ResponseEntity.ok().body(rep);
     }
 
+    @GetMapping("/courses/search")
+    public ResponseEntity<ResponseDTO> searchCourse(@RequestParam("page") int page, @RequestParam("eachPage") int eachPage,
+                                                    @RequestParam(value = "category", required = false) List<Integer> categories,
+                                                    @RequestParam(value = "skill", required = false) List<Integer> skills,
+                                                    @RequestParam(value = "star", required = false) Integer star,
+                                                    @RequestParam(value = "search", required = false, defaultValue = "") String search) {
 
+        ResponseDTO rep = new ResponseDTO(HttpStatus.OK, "Request successfully", courseService.searchCourse(page, eachPage, star, categories, skills, search));
+        return ResponseEntity.ok().body(rep);
+    }
 
 }

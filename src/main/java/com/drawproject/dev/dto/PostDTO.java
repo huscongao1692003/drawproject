@@ -40,18 +40,10 @@ public class PostDTO {
 
     private int userId;
 
-<<<<<<< HEAD
-=======
     private String status;
-
->>>>>>> origin/main
     private String userName;
 
     private List<Comment> commentValue;
 
-<<<<<<< HEAD
-=======
     private String avatar;
-
->>>>>>> origin/main
 }

@@ -2,10 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PostDTO;
-<<<<<<< HEAD
-=======
 import com.drawproject.dev.dto.PostResponseDTO;
->>>>>>> origin/main
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.User;
@@ -17,15 +14,10 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-<<<<<<< HEAD
-import org.modelmapper.PropertyMap;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
->>>>>>> origin/main
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -66,49 +58,27 @@ public class PostController {
         Optional<Category> optionalCategory = categoryRepository.findById(postDTO.getCategoryId());
         if (optionalCategory.isPresent())
         {
-        Category category = new Category();
-        User user1 = new User();
-        user1.setUserId(user.getUserId());
-        category.setCategoryId(postDTO.getCategoryId());
-        Posts posts = new Posts();
-        posts.setCategory(category);
-        posts.setImage(postDTO.getImage());
-        posts.setDescription(postDTO.getDescription());
-        posts.setReadingTime(postDTO.getReadingTime());
-        posts.setStatus(DrawProjectConstaints.OPEN);
-        posts.setTitle(postDTO.getTitle());
-        posts.setBody(postDTO.getBody());
-        posts.setUser(user1);
-        postRepository.save(posts);
-        return new ResponseEntity<>("Create post success", HttpStatus.OK);
+            Category category = new Category();
+            User user1 = new User();
+            user1.setUserId(user.getUserId());
+            category.setCategoryId(postDTO.getCategoryId());
+            Posts posts = new Posts();
+            posts.setCategory(category);
+            posts.setImage(postDTO.getImage());
+            posts.setDescription(postDTO.getDescription());
+            posts.setReadingTime(postDTO.getReadingTime());
+            posts.setStatus(DrawProjectConstaints.OPEN);
+            posts.setTitle(postDTO.getTitle());
+            posts.setBody(postDTO.getBody());
+            posts.setUser(user1);
+            postRepository.save(posts);
+            return new ResponseEntity<>("Create post success", HttpStatus.OK);
         } else {
             return ResponseEntity.badRequest().body("Invalid category ID");
         }
 
     }
     @GetMapping("/showPosts")
-<<<<<<< HEAD
-    public ResponseEntity<List<PostDTO>> getAllPosts() {
-        List<Posts> posts = postRepository.findAll();
-
-        if (!posts.isEmpty()) {
-            // Convert the list of Post entities to a list of PostDTOs
-            List<PostDTO> postDTOs = posts.stream()
-                    .map(post -> {
-                        PostDTO postDTO = modelMapper.map(post, PostDTO.class);
-                        User user = userRepository.findByUserId(post.getUser().getUserId());
-                        if (user != null) {
-                            postDTO.setUserName(user.getUsername());
-                        }
-                        return postDTO;
-                    })
-                    .collect(Collectors.toList());
-
-            return ResponseEntity.ok(postDTOs);
-        } else {
-            return ResponseEntity.noContent().build();
-        }
-=======
     public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "perPage", defaultValue = "10") int perPage
@@ -128,7 +98,6 @@ public class PostController {
         response.setData(postDTOList);
 
         return ResponseEntity.ok(response);
->>>>>>> origin/main
     }
     @GetMapping("/showPostUser")
     public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
@@ -147,8 +116,6 @@ public class PostController {
             return ResponseEntity.notFound().build();
         }
     }
-<<<<<<< HEAD
-=======
 
     @PostMapping("/closePost")
     public ResponseEntity<String> closePost(@RequestParam int id, HttpSession session){
@@ -162,5 +129,4 @@ public class PostController {
     }
 
 
->>>>>>> origin/main
 }

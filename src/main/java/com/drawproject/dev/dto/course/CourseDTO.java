@@ -1,7 +1,7 @@
-package com.drawproject.dev.dto;
+package com.drawproject.dev.dto.course;
 
 import com.drawproject.dev.model.Category;
-import com.drawproject.dev.model.Skills;
+import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.Style;
 
 public class CourseDTO {
@@ -9,7 +9,7 @@ public class CourseDTO {
     private String courseTitle;
     private String description;
     private String information;
-    private Skills skill;
+    private Skill skill;
     private int price;
     private Category category;
     private Style style;

@@ -30,9 +30,9 @@ public class Courses extends BaseEntity {
     private String information;
 
     @OneToOne(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL,targetEntity = Skills.class)
+            cascade = CascadeType.ALL,targetEntity = Skill.class)
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId", nullable = false)
-    private Skills skills;
+    private Skill skill;
 
     private int price;
 
