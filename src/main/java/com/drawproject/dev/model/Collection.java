@@ -12,11 +12,6 @@ public class Collection {
     @GenericGenerator(name = "native",strategy = "native")
     private int collectionId;
 
-    @OneToOne( fetch = FetchType.EAGER,
-            targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId",nullable = false)
-    private User user;
-
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     private String artwork;
@@ -26,4 +21,8 @@ public class Collection {
     private String cetificate;
 
     private String experiment;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
+    private User user;
 }

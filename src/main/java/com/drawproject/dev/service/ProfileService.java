@@ -9,7 +9,9 @@ import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProfileService {
@@ -20,6 +22,12 @@ public class ProfileService {
         List<User> instructor = userRepository.findByRolesName(DrawProjectConstaints.INSTRUCTOR);
         return instructor;
     }
+
+    public User findInstructorById(int userId){
+        User instructor = userRepository.findUserByUserId(userId);
+        return instructor;
+    }
+
 
 
 
