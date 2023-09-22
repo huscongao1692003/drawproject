@@ -1,5 +1,7 @@
 package com.drawproject.dev.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Lob;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -18,10 +20,9 @@ public class Profile {
     @Email(message = "Please provide a valid email address" )
     private String email;
 
-    @NotBlank(message="Age must not be blank")
-    @NotEmpty
-    @Pattern(regexp = "^(4[0-9]|[5-9][0-9]|9[0-9])$", message = "Age must be between 4 and 99")
-    private int age;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private String avatar;
 
 
     private int skillId;

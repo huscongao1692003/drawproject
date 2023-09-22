@@ -1,17 +1,25 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.model.Profile;
+import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
 @RequestMapping("/api/profile")
 public class ProfileController {
+
+    @Autowired
+    UserRepository userRepository;
 
     @GetMapping("/displayProfile")
     public Profile displayProfile(HttpSession session) {
@@ -23,8 +31,25 @@ public class ProfileController {
         if (user.getSkill() != null && user.getSkill().getSkillId() > 0) {
             profile.setSkillId(user.getSkill().getSkillId());
         }
-
         return profile;
+    }
+
+    @PostMapping("/updateProfile")
+    public ResponseEntity<String> updateProfile(@Valid @RequestBody Profile profile, Errors errors,HttpSession session){
+        if(errors.hasErrors()){
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
+        }
+        User user = (User) session.getAttribute("loggedInPerson");
+        user.setUsername(profile.getName());
+        user.setEmail(profile.getEmail());
+        user.setMobileNum(profile.getMobileNumber());
+        user.setAvatar(profile.getAvatar());
+        if(user.getSkill() ==null || !(user.getSkill().getSkillId()>0)){
+            user.setSkill(new Skill());
+        }
+        User savedUser = userRepository.save(user);
+        session.setAttribute("loggedInPerson", savedUser);
+        return new ResponseEntity<>("Update Profile Successful", HttpStatus.OK);
     }
 
 }
