@@ -13,6 +13,8 @@ import java.util.List;
 
 @Data
 public class PostDTO {
+
+    private int postId;
     @NotBlank(message="Post must not be blank")
     @Size(min=5, message="Post must be at least 5 characters long")
     private String title;

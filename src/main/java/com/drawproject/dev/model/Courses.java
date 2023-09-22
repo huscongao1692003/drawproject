@@ -1,5 +1,6 @@
 package com.drawproject.dev.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -53,6 +54,7 @@ public class Courses extends BaseEntity {
 
     private String status;
 
+    @JsonBackReference
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<User> users = new HashSet<>();
 

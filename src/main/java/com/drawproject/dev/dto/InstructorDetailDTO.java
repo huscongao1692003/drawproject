@@ -1,5 +1,6 @@
 package com.drawproject.dev.dto;
 
+import com.drawproject.dev.dto.course.CoursePreviewDTO;
 import com.drawproject.dev.model.Collection;
 import com.drawproject.dev.model.Courses;
 import lombok.Data;
@@ -14,7 +15,5 @@ public class InstructorDetailDTO {
     private String mobileNum;
     private String email;
     private String skillName;
-    private Set<Courses> courses;
-    private List<Collection> collectionList;
-
+    private List<CoursePreviewDTO> courses; // Change the data type to List<CoursePreviewDTO>
 }

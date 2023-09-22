@@ -2,10 +2,14 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
+import com.drawproject.dev.model.Collection;
+import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -52,12 +58,11 @@ public class InstructorController {
 
         if (instructor != null) {
             InstructorDetailDTO instructorDetailDTO = modelMapper.map(instructor, InstructorDetailDTO.class);
-            instructorDetailDTO.setCollectionList(instructor.getCollections());
-
             return ResponseEntity.ok(instructorDetailDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 }
