@@ -58,21 +58,21 @@ public class PostController {
         Optional<Category> optionalCategory = categoryRepository.findById(postDTO.getCategoryId());
         if (optionalCategory.isPresent())
         {
-        Category category = new Category();
-        User user1 = new User();
-        user1.setUserId(user.getUserId());
-        category.setCategoryId(postDTO.getCategoryId());
-        Posts posts = new Posts();
-        posts.setCategory(category);
-        posts.setImage(postDTO.getImage());
-        posts.setDescription(postDTO.getDescription());
-        posts.setReadingTime(postDTO.getReadingTime());
-        posts.setStatus(DrawProjectConstaints.OPEN);
-        posts.setTitle(postDTO.getTitle());
-        posts.setBody(postDTO.getBody());
-        posts.setUser(user1);
-        postRepository.save(posts);
-        return new ResponseEntity<>("Create post success", HttpStatus.OK);
+            Category category = new Category();
+            User user1 = new User();
+            user1.setUserId(user.getUserId());
+            category.setCategoryId(postDTO.getCategoryId());
+            Posts posts = new Posts();
+            posts.setCategory(category);
+            posts.setImage(postDTO.getImage());
+            posts.setDescription(postDTO.getDescription());
+            posts.setReadingTime(postDTO.getReadingTime());
+            posts.setStatus(DrawProjectConstaints.OPEN);
+            posts.setTitle(postDTO.getTitle());
+            posts.setBody(postDTO.getBody());
+            posts.setUser(user1);
+            postRepository.save(posts);
+            return new ResponseEntity<>("Create post success", HttpStatus.OK);
         } else {
             return ResponseEntity.badRequest().body("Invalid category ID");
         }

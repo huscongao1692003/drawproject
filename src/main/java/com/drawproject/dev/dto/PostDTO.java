@@ -41,11 +41,9 @@ public class PostDTO {
     private int userId;
 
     private String status;
-
     private String userName;
 
     private List<Comment> commentValue;
 
     private String avatar;
-
 }
