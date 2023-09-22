@@ -117,6 +117,8 @@ public class PostController {
         }
     }
 
+
+
     @PostMapping("/closePost")
     public ResponseEntity<String> closePost(@RequestParam int id, HttpSession session){
         User user = (User) session.getAttribute("loggedInPerson");

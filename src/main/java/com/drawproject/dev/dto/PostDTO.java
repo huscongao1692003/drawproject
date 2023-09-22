@@ -43,7 +43,6 @@ public class PostDTO {
     private String status;
     private String userName;
 
-    private List<Comment> commentValue;
 
     private String avatar;
 }
