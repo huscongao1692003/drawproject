@@ -1,11 +1,14 @@
 package com.drawproject.dev.service;
 
-import com.drawproject.dev.dto.CoursePreviewDTO;
-import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.course.CoursePreviewDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapModel;
+import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -24,6 +27,9 @@ public class CourseService {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    SkillRepository skillRepository;
 
     /**
      * Gets top course by category.
@@ -49,13 +55,35 @@ public class CourseService {
      *
      * @return the course by category
      */
-    public ResponseDTO getCourseByCategory(int page, int eachPage) {
+    public ResponsePagingDTO getCourseByCategory(int page, int eachPage) {
 
         Pageable pageable = PageRequest.of(page, eachPage);
         List<Courses> courses = courseRepository.findAll(pageable).getContent();
 
         int totalPage = (int) Math.ceil((double) courseRepository.count() / eachPage);
 
-        return new ResponseDTO(page, totalPage, eachPage, MapModel.mapListToDTO(courses));
+        return new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListToDTO(courses));
     }
+
+    public ResponsePagingDTO searchCourse(int page, int eachPage, int star,
+                                          List<Integer> categories, List<Integer> skills, String search) {
+
+        Pageable pageable = PageRequest.of(page, eachPage);
+
+        if(categories == null) {
+            categories = categoryRepository.findAll().stream().map(Category::getCategoryId).toList();
+        }
+
+        if(skills == null) {
+            skills = skillRepository.findAll().stream().map(Skill::getSkillId).toList();
+        }
+
+        List<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
+
+
+        int totalPage = (int) Math.ceil((double) courseRepository.countSearchCourse(categories, skills, star, search) / eachPage);
+
+        return new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListToDTO(courses));
+    }
+
 }

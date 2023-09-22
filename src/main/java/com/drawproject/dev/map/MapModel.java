@@ -1,6 +1,6 @@
 package com.drawproject.dev.map;
 
-import com.drawproject.dev.dto.CoursePreviewDTO;
+import com.drawproject.dev.dto.course.CoursePreviewDTO;
 import com.drawproject.dev.model.Courses;
 import org.modelmapper.ModelMapper;
 
@@ -18,9 +18,7 @@ public class MapModel {
 
         List<CoursePreviewDTO> list = new ArrayList<>();
 
-        courses.forEach(course -> {
-            list.add(mapCourseToDTO(course));
-        });
+        courses.forEach(course -> list.add(mapCourseToDTO(course)));
 
         return list;
     }

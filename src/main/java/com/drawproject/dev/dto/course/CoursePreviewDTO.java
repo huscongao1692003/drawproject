@@ -1,4 +1,4 @@
-package com.drawproject.dev.dto;
+package com.drawproject.dev.dto.course;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +15,8 @@ public class CoursePreviewDTO {
     private String courseTitle;
     private int price;
     private String style;
+    private String category;
+    private String skill;
     private String image;
     private double averageStar;
     private int numLesson;

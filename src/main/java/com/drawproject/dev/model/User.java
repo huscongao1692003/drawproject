@@ -78,9 +78,9 @@ public class User extends BaseEntity {
     private String status;
 
     @OneToOne( fetch = FetchType.EAGER,
-            targetEntity = Skills.class)
+            targetEntity = Skill.class)
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
-    private Skills skill;
+    private Skill skill;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_courses",
