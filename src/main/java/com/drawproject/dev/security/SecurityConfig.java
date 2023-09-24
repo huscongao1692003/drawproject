@@ -41,6 +41,7 @@ public class SecurityConfig {
                  .requestMatchers("/api/instructor/**").permitAll()
                  .requestMatchers("/api/profile/**").authenticated()
                  .requestMatchers("/api/post/showPosts").permitAll()
+                 .requestMatchers("/api/post/showPostDetail").permitAll()
                  .requestMatchers("/api/post/showPostUser").authenticated()
                  .requestMatchers("/api/post/savePost").authenticated()
                  .requestMatchers("/api/post/closePost").authenticated()

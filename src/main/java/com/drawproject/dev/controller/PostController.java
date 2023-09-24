@@ -130,5 +130,24 @@ public class PostController {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/showPostDetail")
+    public ResponseEntity<PostDTO> showPostDetail(@RequestParam int postId){
+        Posts post = postRepository.findPostsByPostId(postId);
+        PostDTO postDTO = new PostDTO();
+        postDTO.setTitle(post.getTitle());
+        postDTO.setAvatar(post.getUser().getAvatar());
+        postDTO.setDescription(post.getDescription());
+        postDTO.setBody(post.getBody());
+        postDTO.setCategoryId(post.getCategory().getCategoryId());
+        postDTO.setCategoryName(post.getCategory().getCategoryName());
+        postDTO.setImage(post.getImage());
+        postDTO.setReadingTime(post.getReadingTime());
+        postDTO.setCreated_at(post.getCreatedAt());
+        postDTO.setUserId(post.getUser().getUserId());
+        postDTO.setPostId(post.getPostId());
+        postDTO.setUserName(post.getUser().getUsername());
+        return ResponseEntity.ok(postDTO);
+    }
+
 
 }
