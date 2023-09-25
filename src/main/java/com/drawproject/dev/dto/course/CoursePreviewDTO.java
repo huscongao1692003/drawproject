@@ -17,7 +17,7 @@ public class CoursePreviewDTO {
     private String style;
     private String category;
     private String skill;
-    private String image;
+    private byte[] image;
     private double averageStar;
     private int numLesson;
 }

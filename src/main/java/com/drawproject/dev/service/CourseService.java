@@ -6,27 +6,19 @@ import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.CoursePreviewDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapModel;
-import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
-import com.drawproject.dev.model.Skill;
-import com.drawproject.dev.model.Style;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.StyleRepository;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.util.*;
 import java.util.stream.Collectors;
 

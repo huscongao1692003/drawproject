@@ -2,18 +2,12 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
-import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,8 +15,6 @@ public class CourseController {
 
     @Autowired
     CourseService courseService;
-    @Autowired
-    private CourseRepository courseRepository;
 
     @GetMapping("/top-courses")
     public ResponseEntity<ResponseDTO> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
@@ -43,6 +35,7 @@ public class CourseController {
     public ResponseEntity<ResponseDTO> createUpdate(@Valid CourseDTO courseDTO) {
         return ResponseEntity.ok().body(courseService.saveCourse(courseDTO));
     }
+
 
 
 }
