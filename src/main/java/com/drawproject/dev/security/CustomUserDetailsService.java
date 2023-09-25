@@ -1,7 +1,9 @@
 package com.drawproject.dev.security;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,7 +33,13 @@ public class CustomUserDetailsService  implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+
+        if (DrawProjectConstaints.CLOSE.equals(user.getStatus())) {
+            throw new DisabledException("User account has been Disable!");
+        }
+
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(), user.getPwd(), mapRolesToAuthorities(user.getRoles()));
     }

@@ -53,6 +53,8 @@ public class SecurityConfig {
                  .requestMatchers("/api/post/savePost").authenticated()
                  .requestMatchers("/api/post/closePost").authenticated()
                  .requestMatchers("/api/post/deletePost").hasRole("ADMIN")
+                 .requestMatchers("/api/admin/getAllUser").hasRole("ADMIN")
+                 .requestMatchers("/api/admin/disableUser").hasRole("ADMIN")
                  .requestMatchers("/contact/displayMessages").hasRole("ADMIN")
                  .requestMatchers("/contact/closeMsg").hasRole("ADMIN")
                 .and()
