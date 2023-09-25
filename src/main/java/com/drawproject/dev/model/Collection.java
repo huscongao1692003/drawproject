@@ -18,7 +18,7 @@ public class Collection {
 
     private String bio;
 
-    private String cetificate;
+    private String certificate;
 
     private String experiment;
 

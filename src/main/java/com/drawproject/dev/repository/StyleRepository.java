@@ -1,10 +1,10 @@
 package com.drawproject.dev.repository;
 
-import com.drawproject.dev.model.Skill;
+import com.drawproject.dev.model.Style;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SkillRepository extends JpaRepository<Skill, Integer> {
-    Skill findBySkillId(int id);
+public interface StyleRepository extends JpaRepository<Style, Integer> {
+    Style findByRollingStyleId(int id);
 }

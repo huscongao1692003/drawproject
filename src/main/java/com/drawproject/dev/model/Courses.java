@@ -3,14 +3,17 @@ package com.drawproject.dev.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Courses extends BaseEntity {
     @Id
@@ -18,15 +21,12 @@ public class Courses extends BaseEntity {
     @GenericGenerator(name = "native", strategy = "native")
     private int courseId;
 
-    @NotBlank(message = "Title must not be blank")
+    @NotBlank(message = "Title can not be blank")
     @Size(min = 6, message = "Title must be at least 6 characters long")
     private String courseTitle;
 
-    @NotBlank
     private String description;
 
-    @NotBlank
-    @Size(min = 100, message = "Title must be at least 100 characters long")
     private String information;
 
     @OneToOne(fetch = FetchType.EAGER,
@@ -49,7 +49,7 @@ public class Courses extends BaseEntity {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     @NotBlank
-    private String image;
+    private byte[] image;
 
     private String status;
 
@@ -67,7 +67,7 @@ public class Courses extends BaseEntity {
     private List<Topic> topics;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<Orders> orders = new HashSet<Orders>();
+    private Set<Orders> orders = new HashSet< Orders>();
 
     @Transient
     private double averageStar;
@@ -96,5 +96,14 @@ public class Courses extends BaseEntity {
             this.numLesson = 0;
         }
         return this.numLesson;
+    }
+
+    public Courses(String courseTitle, String description, String information, int price, byte[] image, String status) {
+        this.courseTitle = courseTitle;
+        this.description = description;
+        this.information = information;
+        this.price = price;
+        this.image = image;
+        this.status = status;
     }
 }
