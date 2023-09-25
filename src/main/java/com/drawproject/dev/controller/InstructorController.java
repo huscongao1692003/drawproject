@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,12 +51,11 @@ public class InstructorController {
 
         if (instructor != null) {
             InstructorDetailDTO instructorDetailDTO = modelMapper.map(instructor, InstructorDetailDTO.class);
-            instructorDetailDTO.setCollectionList(instructor.getCollections());
-
             return ResponseEntity.ok(instructorDetailDTO);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
+
 
 }

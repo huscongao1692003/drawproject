@@ -1,7 +1,10 @@
 package com.drawproject.dev.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 @Entity
@@ -22,7 +25,8 @@ public class Collection {
 
     private String experiment;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
+    @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User user;
 }

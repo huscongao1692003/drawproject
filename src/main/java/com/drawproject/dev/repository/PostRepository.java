@@ -13,6 +13,8 @@ public interface PostRepository extends JpaRepository<Posts, Integer> {
 
     List<Posts> findByStatus(String status);
 
+    Posts findPostsByPostId(int postId);
+
     Page<Posts> findByStatus(String status, Pageable pageable);
     List<Posts> findPostsByUserUserId(int userId);
 }

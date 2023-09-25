@@ -3,6 +3,8 @@ package com.drawproject.dev.model;
 
 import com.drawproject.dev.annotation.FieldsValueMatch;
 import com.drawproject.dev.annotation.PasswordValidator;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -82,6 +84,7 @@ public class User extends BaseEntity {
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
     private Skill skill;
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_courses",
             joinColumns = {
@@ -93,6 +96,6 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Posts> posts;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Collection> collections;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = Collection.class)
+    private List<Collection> collection;
 }
