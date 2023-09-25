@@ -35,10 +35,14 @@ public class PostDTO {
     @NotBlank(message="body must not be blank")
     @Size(min=10, message="body must be at least 10 characters long")
     private String body;
+
     private int userId;
+
     private String status;
+
     private String userName;
 
     private LocalDateTime created_at;
+
     private String avatar;
 }

@@ -8,7 +8,6 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +31,10 @@ public class ModelMapperConfig {
                         .collect(Collectors.toList());
                 return coursePreviewDTOs;
             }).map(User::getCourses, InstructorDetailDTO::setCourses);
+        });
+        // Map 'collections' property to 'collections' in InstructorDetailDTO
+        userToInstructorDetailDTOTypeMap.addMappings(mapping -> {
+            mapping.map(User::getCollection, InstructorDetailDTO::setCollections);
         });
 
         return modelMapper;

@@ -96,6 +96,6 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Posts> posts;
 
-//    @OneToMany(fetch = FetchType.EAGER, targetEntity = Collection.class)
-//    private List<Collection> collections;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", targetEntity = Collection.class)
+    private List<Collection> collection;
 }
