@@ -43,6 +43,11 @@ public class SecurityConfig {
                          "/webjars/**"
                  ).permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
+                 .requestMatchers("/api/top-courses/**").permitAll()
+                 .requestMatchers("/api/courses/search").permitAll()
+                 .requestMatchers("/api/courses/create").authenticated()
+                 .requestMatchers("/api/courses/update").authenticated()
+                 .requestMatchers("/api/courses/{id}/feedback").permitAll()
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()
                  .requestMatchers("/api/instructor/**").permitAll()

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api")
 public class CourseController {
 
     @Autowired
@@ -31,11 +32,14 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.searchCourse(page, eachPage, star, categories, skills, search));
     }
 
-    @PostMapping(value = "/courses", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> createUpdate(@Valid CourseDTO courseDTO) {
+    @PostMapping(value = "/courses/create", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO) {
         return ResponseEntity.ok().body(courseService.saveCourse(courseDTO));
     }
 
-
+    @PostMapping(value = "/courses/update", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> updateCourse(@Valid CourseDTO courseDTO) {
+        return ResponseEntity.ok().body(courseService.saveCourse(courseDTO));
+    }
 
 }

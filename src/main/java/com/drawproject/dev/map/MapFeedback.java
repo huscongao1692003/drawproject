@@ -3,6 +3,7 @@ package com.drawproject.dev.map;
 import com.drawproject.dev.dto.FeedbackDTO;
 import com.drawproject.dev.model.Feedback;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,10 @@ public class MapFeedback {
 
         return feedbackDTOs;
 
+    }
+
+    public static void test() {
+        TypeMap<Feedback, FeedbackDTO> feedbackToDtoTypeMap = modelMapper.createTypeMap(Feedback.class, FeedbackDTO.class);
     }
 
 }
