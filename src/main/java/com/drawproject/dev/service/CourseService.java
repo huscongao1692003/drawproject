@@ -6,13 +6,16 @@ import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.CoursePreviewDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapModel;
+import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.StyleRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -52,48 +55,55 @@ public class CourseService {
 
         categoryRepository.findAll().forEach(category ->
                 list.put(category.getCategoryId(), MapModel.mapListToDTO(
-                courseRepository.findTopCourseByCategory
-                        (category.getCategoryId(), limit))));
+                        courseRepository.findTopCourseByCategory
+                                (category.getCategoryId(), limit))));
 
         return new ResponseDTO(HttpStatus.OK, "Request Successfully!", list);
     }
 
-    public ResponseDTO searchCourse(int page, int eachPage, int star,
-                                          List<Integer> categories, List<Integer> skills, String search) {
+    public ResponseDTO searchCourse(int page, int eachPage, Integer star,
+                                    List<Integer> categories, List<Integer> skills, String search) {
 
         Pageable pageable = PageRequest.of(page, eachPage);
 
         /*
-        if(categories == null) {
+                List<Integer> courseSearch = courseRepository
+                .findByInformationContainingOrDescriptionContainingOrCourseTitleContaining(search, search, search, pageable)
+                .getContent().stream()
+                .map(Courses::getCourseId).toList();
+
+        Page<Courses> result = courseRepository.findByStatusAndCourseIdIn(DrawProjectConstaints.OPEN, courseSearch, pageable);
+
+        if(categories != null) {
+            courseSearch = result.getContent().stream()
+                    .map(Courses::getCourseId).toList();
+            result = courseRepository.findByCourseIdInAndCategory_CategoryIdIn(courseSearch, categories, pageable);
+        }
+        if(skills != null) {
+            courseSearch = result.getContent().stream()
+                    .map(Courses::getCourseId).toList();
+            result = courseRepository.findByCourseIdInAndSkillSkillIdIn(courseSearch, skills, pageable);
+        }
+        if (star != null) {
+            courseSearch = result.getContent().stream()
+                    .map(Courses::getCourseId).toList();
+            result = courseRepository.findByAverageStar(courseSearch, star, pageable);
+        }
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, result.getTotalPages(), eachPage, MapModel.mapListToDTO(result.getContent()));
+        */
+
+
+        if (categories == null) {
             categories = categoryRepository.findAll().stream().map(Category::getCategoryId).toList();
         }
-        if(skills == null) {
+        if (skills == null) {
             skills = skillRepository.findAll().stream().map(Skill::getSkillId).toList();
         }
         Page<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
         int totalPage = courses.getTotalPages();
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListCourseDetailsToDTO(courses));
-        */
-
-
-        List<Courses> courseSearch = courseRepository
-                .findByInformationContainingOrDescriptionContainingOrCourseTitleContainingAndStatus(search, search, search, DrawProjectConstaints.OPEN, pageable)
-                .getContent();
-
-        if(categories != null) {
-            courseSearch = courseSearch.stream()
-                    .filter(courseRepository.findByCategory_CategoryIdIn(categories, pageable).getContent()::contains)
-                    .collect(Collectors.toList());
-        }
-        if (skills != null) {
-            courseSearch = courseSearch.stream()
-                    .filter(courseRepository.findByAverageStar(star, pageable).getContent()::contains)
-                    .collect(Collectors.toList());
-        }
-
-        int totalPage = courseSearch.size();
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListToDTO(courseSearch));
 
         return new ResponseDTO(HttpStatus.OK, "Request Successfully", responsePagingDTO);
     }
@@ -102,7 +112,7 @@ public class CourseService {
         ResponseDTO responseDTO = new ResponseDTO();
         Courses course;
 
-        if(courseDTO.getCourseId() == 0) {
+        if (courseDTO.getCourseId() == 0) {
             course = new Courses();
             responseDTO.setMessage("Create new Courses Successfully");
         } else {
