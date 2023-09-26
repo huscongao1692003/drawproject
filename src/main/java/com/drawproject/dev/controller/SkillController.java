@@ -1,8 +1,7 @@
 package com.drawproject.dev.controller;
 
-
-import com.drawproject.dev.model.Category;
-import com.drawproject.dev.service.CategoryService;
+import com.drawproject.dev.model.Skill;
+import com.drawproject.dev.service.SkillService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,16 +10,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 @Slf4j
-@RequestMapping("/api/category")
-public class CategoryController {
+@RestController
+@RequestMapping("/api/skill")
+public class SkillController {
 
     @Autowired
-    CategoryService categoryService;
+    SkillService skillService;
 
-    @GetMapping("/getAllCategory")
-    public List<Category> getAllCategory(){
-        return categoryService.getCategory();
+    @GetMapping("/getAllSkill")
+    public List<Skill> getAllSkill(){
+        return skillService.getAllSkill();
     }
 }
