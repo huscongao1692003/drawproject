@@ -40,9 +40,6 @@ public class CourseService {
     SkillRepository skillRepository;
 
     @Autowired
-    StyleRepository styleRepository;
-
-    @Autowired
     ModelMapper modelMapper;
 
     /**
@@ -61,37 +58,10 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, "Request Successfully!", list);
     }
 
-    public ResponseDTO searchCourse(int page, int eachPage, Integer star,
+    public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,
                                     List<Integer> categories, List<Integer> skills, String search) {
 
-        Pageable pageable = PageRequest.of(page, eachPage);
-
-        /*
-                List<Integer> courseSearch = courseRepository
-                .findByInformationContainingOrDescriptionContainingOrCourseTitleContaining(search, search, search, pageable)
-                .getContent().stream()
-                .map(Courses::getCourseId).toList();
-
-        Page<Courses> result = courseRepository.findByStatusAndCourseIdIn(DrawProjectConstaints.OPEN, courseSearch, pageable);
-
-        if(categories != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByCourseIdInAndCategory_CategoryIdIn(courseSearch, categories, pageable);
-        }
-        if(skills != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByCourseIdInAndSkillSkillIdIn(courseSearch, skills, pageable);
-        }
-        if (star != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByAverageStar(courseSearch, star, pageable);
-        }
-
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, result.getTotalPages(), eachPage, MapModel.mapListToDTO(result.getContent()));
-        */
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
 
 
         if (categories == null) {
@@ -103,9 +73,15 @@ public class CourseService {
         Page<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
         int totalPage = courses.getTotalPages();
 
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListCourseDetailsToDTO(courses));
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, MapModel.mapListCourseDetailsToDTO(courses));
 
-        return new ResponseDTO(HttpStatus.OK, "Request Successfully", responsePagingDTO);
+        if(!courses.isEmpty()) {
+            responsePagingDTO.setMessage("Course found");
+            responsePagingDTO.setStatus(HttpStatus.OK);
+        }
+
+        return responsePagingDTO;
     }
 
     public ResponseDTO saveCourse(CourseDTO courseDTO) {
@@ -140,4 +116,5 @@ public class CourseService {
 
         return responseDTO;
     }
+
 }

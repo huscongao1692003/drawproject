@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.service.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +24,13 @@ public class CourseController {
     }
 
     @GetMapping("/courses/search")
-    public ResponseEntity<ResponseDTO> searchCourse(@RequestParam("page") int page, @RequestParam("eachPage") int eachPage,
-                                                    @RequestParam(value = "category", required = false) List<Integer> categories,
-                                                    @RequestParam(value = "skill", required = false) List<Integer> skills,
-                                                    @RequestParam(value = "star", required = false, defaultValue = "0") int star,
-                                                    @RequestParam(value = "search", required = false, defaultValue = "") String search) {
+    public ResponseEntity<ResponsePagingDTO> searchCourse(@RequestParam("page") int page, @RequestParam("eachPage") int eachPage,
+                                                          @RequestParam(value = "category", required = false) List<Integer> categories,
+                                                          @RequestParam(value = "skill", required = false) List<Integer> skills,
+                                                          @RequestParam(value = "star", required = false, defaultValue = "0") int star,
+                                                          @RequestParam(value = "search", required = false, defaultValue = "") String search) {
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
 
         return ResponseEntity.ok().body(courseService.searchCourse(page, eachPage, star, categories, skills, search));
     }

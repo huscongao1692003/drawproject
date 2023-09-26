@@ -21,11 +21,19 @@ public class FeedbackService {
     @Autowired
     FeedbackRepository feedbackRepository;
 
-    public ResponseDTO getFeedback(int courseId, int page, int eachPage) {
-        Pageable pageable = PageRequest.of(page, eachPage);
+    public ResponsePagingDTO getFeedback(int courseId, int page, int eachPage) {
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
         Page<Feedback> feedbacks = feedbackRepository.findByCoursesCourseId(courseId, pageable);
 
-        return new ResponseDTO(HttpStatus.OK, "Request successfully!", new ResponsePagingDTO(page, feedbacks.getTotalPages(), eachPage, MapFeedback.mapListFeedbackToDTO(feedbacks.getContent())));
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                feedbacks.getTotalElements(), page, feedbacks.getTotalPages(), eachPage, MapFeedback.mapListFeedbackToDTO(feedbacks.getContent()));
+
+        if (!feedbacks.isEmpty()) {
+            responsePagingDTO.setMessage("Course found");
+            responsePagingDTO.setStatus(HttpStatus.OK);
+        }
+
+        return responsePagingDTO;
     }
 
 }

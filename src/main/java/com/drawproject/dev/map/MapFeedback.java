@@ -11,8 +11,18 @@ import java.util.List;
 public class MapFeedback {
     private static final ModelMapper modelMapper = new ModelMapper();
 
+    static {
+        // Define the mapping configuration for Feedback to FeedbackDTO
+        TypeMap<Feedback, FeedbackDTO> feedbackToDTOTypeMap = modelMapper.createTypeMap(Feedback.class, FeedbackDTO.class)
+                .addMapping(src -> src.getUser().getUserId(), FeedbackDTO::setUserId)
+                .addMapping(src -> src.getUser().getUsername(), FeedbackDTO::setUsername)
+                .addMapping(src -> src.getUser().getAvatar(), FeedbackDTO::setAvatar);
+
+    }
+
     public static FeedbackDTO mapFeedbackToDTO(Feedback feedback) {
         System.out.println(feedback.getUser().getUsername());
+
         return modelMapper.map(feedback, FeedbackDTO.class);
     }
 
@@ -23,10 +33,6 @@ public class MapFeedback {
 
         return feedbackDTOs;
 
-    }
-
-    public static void test() {
-        TypeMap<Feedback, FeedbackDTO> feedbackToDtoTypeMap = modelMapper.createTypeMap(Feedback.class, FeedbackDTO.class);
     }
 
 }

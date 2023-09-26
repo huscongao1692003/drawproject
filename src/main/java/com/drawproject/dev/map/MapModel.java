@@ -20,6 +20,10 @@ public class MapModel {
 
     public static List<CoursePreviewDTO> mapListToDTO(List<Courses> courses) {
 
+        if(courses.isEmpty()) {
+            return null;
+        }
+
         List<CoursePreviewDTO> list = new ArrayList<>();
 
         courses.forEach(course -> list.add(mapCourseToDTO(course)));

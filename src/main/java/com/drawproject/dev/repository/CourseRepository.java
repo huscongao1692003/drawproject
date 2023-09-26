@@ -23,30 +23,6 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "LIMIT :limit")
     List<Courses> findTopCourseByCategory(int categoryId, int limit);
 
-    //search courses
-    Page<Courses> findByCourseIdInAndCategory_CategoryIdIn(List<Integer> listId, List<Integer> categories, Pageable page);
-    Page<Courses> findByStatusAndCourseIdIn(String status, List<Integer> listId, Pageable pageable);
-    @Query("SELECT f.courses FROM Feedback f " +
-            "WHERE f.courses.courseId IN :listId " +
-            "GROUP BY f.courses.courseId HAVING COALESCE(AVG(f.star), 0) > :star ")
-    Page<Courses> findByAverageStar(List<Integer> listId, int star, Pageable pageable);
-    Page<Courses> findByInformationContainingOrDescriptionContainingOrCourseTitleContaining(String information, String description, String courseTitle, Pageable page);
-    Page<Courses> findByCourseIdInAndSkillSkillIdIn(List<Integer> listId, List<Integer> skills, Pageable page);
-
-    //search courses
-
-//    @Query("SELECT c " +
-//            "FROM Courses c " +
-//            "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
-//            "' AND c.category.categoryId IN :categories " +
-//            "AND c.skill.skillId IN :skills " +
-//            "AND (c.courseTitle LIKE %:search% " +
-//            "OR c.description LIKE %:search% " +
-//            "OR c.information LIKE %:search%) " +
-//            "AND c.courseId IN (" +
-//            "SELECT f.courses.courseId FROM Feedback f GROUP BY f.courses.courseId HAVING COALESCE(AVG(f.star), 0) > :star)")
-//    Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, String search, int star, Pageable pageable);
-
     @Query("SELECT c " +
             "FROM Courses c LEFT JOIN c.feedback f " +
             "ON c.courseId = f.courses.courseId " +
@@ -58,5 +34,6 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "OR c.information LIKE %:search%) " +
             "GROUP BY c.courseId HAVING COALESCE(AVG(f.star), 0) >= :star")
     Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, String search, int star, Pageable pageable);
-;
+
+    Page<Courses> findByUsersUserId(int userId, Pageable pageable);
 }
