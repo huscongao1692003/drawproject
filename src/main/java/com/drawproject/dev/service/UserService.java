@@ -1,9 +1,12 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.UserDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapModel;
+import com.drawproject.dev.map.MapUser;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,33 +16,37 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
     @Autowired
-    UserRepository userRepository;
+    CourseRepository coursesRepository;
     @Autowired
-    CourseRepository courseRepository;
+    UserRepository userRepository;
 
-    public Object getCoursesByUser(int userId, int page, int eachPage) {
+    public Object getStudentEnrollCourse(int courseId, int page, int eachPage) {
 
-        if(!userRepository.existsById(userId)) {
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
+        if(!coursesRepository.existsById(courseId)) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
         }
 
         Pageable pageable = PageRequest.of(page - 1, eachPage);
 
-        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
+        Page<User> users = userRepository.findByCoursesCourseId(courseId, pageable);
 
+        long total = users.getTotalElements();
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
+                users.getTotalElements(), page, users.getTotalPages(), eachPage, MapUser.mapUsersToDTOs(users.getContent()));
 
-        if(!course.isEmpty()) {
-            responsePagingDTO.setMessage("Course found");
+        if(total > 0) {
             responsePagingDTO.setStatus(HttpStatus.OK);
+            responsePagingDTO.setMessage("Found user");
         }
 
         return responsePagingDTO;
+
     }
 
 }

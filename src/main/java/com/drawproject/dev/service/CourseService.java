@@ -9,10 +9,7 @@ import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Skill;
-import com.drawproject.dev.repository.CategoryRepository;
-import com.drawproject.dev.repository.CourseRepository;
-import com.drawproject.dev.repository.SkillRepository;
-import com.drawproject.dev.repository.StyleRepository;
+import com.drawproject.dev.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,6 +38,8 @@ public class CourseService {
 
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Gets top course by category.
@@ -115,6 +114,38 @@ public class CourseService {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND COURSE", MapModel.mapCourseDetailsToDTO(course));
 
         return responseDTO;
+    }
+
+    public ResponseDTO deleteCourse(int courseId) {
+
+        if(!courseRepository.existsById(courseId)) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
+        }
+
+        courseRepository.deleteById(courseId);
+
+        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", "TRUE");
+    }
+
+    public Object getCoursesByUser(int userId, int page, int eachPage) {
+
+        if(!userRepository.existsById(userId)) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+
+        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
+
+        if(!course.isEmpty()) {
+            responsePagingDTO.setMessage("Course found");
+            responsePagingDTO.setStatus(HttpStatus.OK);
+        }
+
+        return responsePagingDTO;
     }
 
 }

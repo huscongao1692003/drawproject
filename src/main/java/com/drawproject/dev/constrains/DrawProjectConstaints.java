@@ -7,5 +7,6 @@ public class DrawProjectConstaints {
     public static final String INSTRUCTOR = "INSTRUCTOR";
     public static final String STAFF = "STAFF";
     public static final String ADMIN_ROLE = "ADMIN";
-
+    public static final String DOC = "PDF";
+    public static final String VIDEO = "VIDEO";
 }

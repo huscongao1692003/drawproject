@@ -12,9 +12,6 @@ public class UserController {
     @Autowired
     CourseService courseService;
 
-    @Autowired
-    UserService userService;
-
     @GetMapping("/users/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
@@ -23,7 +20,7 @@ public class UserController {
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
 
-        return ResponseEntity.ok(userService.getCoursesByUser(userId, page, eachPage));
+        return ResponseEntity.ok(courseService.getCoursesByUser(userId, page, eachPage));
     }
 
 }
