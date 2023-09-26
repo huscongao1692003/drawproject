@@ -3,6 +3,7 @@ package com.drawproject.dev.controller;
 import com.drawproject.dev.model.Profile;
 import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -21,6 +22,9 @@ public class ProfileController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    SkillRepository skillRepository;
+
     @GetMapping("/displayProfile")
     public Profile displayProfile(HttpSession session) {
         User user = (User) session.getAttribute("loggedInPerson");
@@ -29,7 +33,8 @@ public class ProfileController {
         profile.setMobileNumber(user.getMobileNum());
         profile.setEmail(user.getEmail());
         if (user.getSkill() != null && user.getSkill().getSkillId() > 0) {
-            profile.setSkillId(user.getSkill().getSkillId());
+            Skill skill = skillRepository.findBySkillId(user.getSkill().getSkillId());
+            profile.setSkill(skill);
         }
         return profile;
     }
