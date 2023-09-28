@@ -57,6 +57,8 @@ public class SecurityConfig {
                  .requestMatchers("/api/skill/getAllSkill").permitAll()
                  .requestMatchers("/api/post/showPostDetail").permitAll()
                  .requestMatchers("/api/post/showPostUser").authenticated()
+                 .requestMatchers("/api/cart/addItemToCart").authenticated()
+                 .requestMatchers("/api/cart/showAllItemInCart").authenticated()
                  .requestMatchers("/api/post/savePost").authenticated()
                  .requestMatchers("/api/post/closePost").authenticated()
                  .requestMatchers("/api/post/deletePost").hasRole("ADMIN")

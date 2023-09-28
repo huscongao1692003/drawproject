@@ -3,7 +3,6 @@ package com.drawproject.dev.model;
 
 import com.drawproject.dev.annotation.FieldsValueMatch;
 import com.drawproject.dev.annotation.PasswordValidator;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
