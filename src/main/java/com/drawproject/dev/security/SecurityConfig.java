@@ -1,5 +1,6 @@
 package com.drawproject.dev.security;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -48,6 +49,12 @@ public class SecurityConfig {
                  .requestMatchers("/api/courses/create").authenticated()
                  .requestMatchers("/api/courses/update").authenticated()
                  .requestMatchers("/api/courses/{id}/feedback").permitAll()
+                 .requestMatchers("/api/courses/{id}").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers("/api/courses/{id}/student").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
+                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
+                 .requestMatchers("/api/courses/{id}/feedback").permitAll()
+                 .requestMatchers("/api/users/{id}/courses").authenticated()
+                 .requestMatchers("/api/courses/{courseId}/topic").permitAll()
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()
                  .requestMatchers("/api/instructor/**").permitAll()

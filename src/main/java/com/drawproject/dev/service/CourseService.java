@@ -117,14 +117,18 @@ public class CourseService {
     }
 
     public ResponseDTO deleteCourse(int courseId) {
-
+        System.out.println("id: " + courseId);
         if(!courseRepository.existsById(courseId)) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
         }
 
-        courseRepository.deleteById(courseId);
+        Courses course = courseRepository.findById(courseId).orElseThrow();
 
-        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", "TRUE");
+        course.setStatus(DrawProjectConstaints.CLOSE);
+
+        courseRepository.save(course);
+
+        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", true);
     }
 
     public Object getCoursesByUser(int userId, int page, int eachPage) {
