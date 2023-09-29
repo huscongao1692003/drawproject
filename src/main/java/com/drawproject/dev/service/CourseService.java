@@ -9,10 +9,7 @@ import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Skill;
-import com.drawproject.dev.repository.CategoryRepository;
-import com.drawproject.dev.repository.CourseRepository;
-import com.drawproject.dev.repository.SkillRepository;
-import com.drawproject.dev.repository.StyleRepository;
+import com.drawproject.dev.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -40,10 +37,9 @@ public class CourseService {
     SkillRepository skillRepository;
 
     @Autowired
-    StyleRepository styleRepository;
-
-    @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Gets top course by category.
@@ -61,37 +57,10 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, "Request Successfully!", list);
     }
 
-    public ResponseDTO searchCourse(int page, int eachPage, Integer star,
+    public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,
                                     List<Integer> categories, List<Integer> skills, String search) {
 
-        Pageable pageable = PageRequest.of(page, eachPage);
-
-        /*
-                List<Integer> courseSearch = courseRepository
-                .findByInformationContainingOrDescriptionContainingOrCourseTitleContaining(search, search, search, pageable)
-                .getContent().stream()
-                .map(Courses::getCourseId).toList();
-
-        Page<Courses> result = courseRepository.findByStatusAndCourseIdIn(DrawProjectConstaints.OPEN, courseSearch, pageable);
-
-        if(categories != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByCourseIdInAndCategory_CategoryIdIn(courseSearch, categories, pageable);
-        }
-        if(skills != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByCourseIdInAndSkillSkillIdIn(courseSearch, skills, pageable);
-        }
-        if (star != null) {
-            courseSearch = result.getContent().stream()
-                    .map(Courses::getCourseId).toList();
-            result = courseRepository.findByAverageStar(courseSearch, star, pageable);
-        }
-
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, result.getTotalPages(), eachPage, MapModel.mapListToDTO(result.getContent()));
-        */
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
 
 
         if (categories == null) {
@@ -103,9 +72,15 @@ public class CourseService {
         Page<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
         int totalPage = courses.getTotalPages();
 
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(page, totalPage, eachPage, MapModel.mapListCourseDetailsToDTO(courses));
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, MapModel.mapListCourseDetailsToDTO(courses));
 
-        return new ResponseDTO(HttpStatus.OK, "Request Successfully", responsePagingDTO);
+        if(!courses.isEmpty()) {
+            responsePagingDTO.setMessage("Course found");
+            responsePagingDTO.setStatus(HttpStatus.OK);
+        }
+
+        return responsePagingDTO;
     }
 
     public ResponseDTO saveCourse(CourseDTO courseDTO) {
@@ -140,4 +115,41 @@ public class CourseService {
 
         return responseDTO;
     }
+
+    public ResponseDTO deleteCourse(int courseId) {
+        System.out.println("id: " + courseId);
+        if(!courseRepository.existsById(courseId)) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
+        }
+
+        Courses course = courseRepository.findById(courseId).orElseThrow();
+
+        course.setStatus(DrawProjectConstaints.CLOSE);
+
+        courseRepository.save(course);
+
+        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", true);
+    }
+
+    public Object getCoursesByUser(int userId, int page, int eachPage) {
+
+        if(!userRepository.existsById(userId)) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+
+        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
+
+        if(!course.isEmpty()) {
+            responsePagingDTO.setMessage("Course found");
+            responsePagingDTO.setStatus(HttpStatus.OK);
+        }
+
+        return responsePagingDTO;
+    }
+
 }

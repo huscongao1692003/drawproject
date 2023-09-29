@@ -114,3 +114,10 @@ VALUES
   ('Tôi có một thắc mắc về bài tập thực hành. Tôi có thể liên hệ với giảng viên để được giải đáp không?', 'Đã xem', 4, '2023-09-21 07:00:00', 4, 12);
 
 
+INSERT INTO `drawcourses`.`user_courses` (`user_id`, `course_id`) VALUES
+(11, 1), (12, 2), (13, 3), (14, 4), (15, 5), (11, 6), (12, 1), (13, 2), (14, 3), (15, 4),
+(11, 4),
+(12, 4),
+(12, 5),
+(13, 1);
+
