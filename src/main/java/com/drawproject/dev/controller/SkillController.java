@@ -12,7 +12,7 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/skill")
+@RequestMapping("/api/v1/skill")
 public class SkillController {
 
     @Autowired

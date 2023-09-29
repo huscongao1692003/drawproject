@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/profile")
+@RequestMapping("/api/v1/profile")
 public class ProfileController {
 
     @Autowired

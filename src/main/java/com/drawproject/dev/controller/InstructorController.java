@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/instructor")
+@RequestMapping("/api/v1/instructor")
 public class InstructorController {
 
     @Autowired

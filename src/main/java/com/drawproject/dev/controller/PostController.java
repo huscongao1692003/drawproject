@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/post")
+@RequestMapping("/api/v1/post")
 public class PostController {
     @Autowired
     PostRepository postRepository;
@@ -72,7 +72,7 @@ public class PostController {
             posts.setBody(postDTO.getBody());
             posts.setUser(user1);
             postRepository.save(posts);
-            return new ResponseEntity<>("Create post success", HttpStatus.OK);
+            return new ResponseEntity<>("Create post success", HttpStatus.CREATED);
         } else {
             return ResponseEntity.badRequest().body("Invalid category ID");
         }

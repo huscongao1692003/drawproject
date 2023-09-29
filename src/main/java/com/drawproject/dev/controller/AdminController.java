@@ -1,17 +1,25 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
+import com.drawproject.dev.dto.PostDTO;
+import com.drawproject.dev.dto.PostResponseDTO;
 import com.drawproject.dev.dto.UserDTO;
 import com.drawproject.dev.dto.UserResponseDTO;
+import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.Roles;
 import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.PostRepository;
 import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import jakarta.validation.Valid;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
@@ -21,7 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/admin")
+@RequestMapping("/api/v1/admin")
 public class AdminController {
 
     @Autowired
@@ -32,6 +40,12 @@ public class AdminController {
 
     @Autowired
     SkillRepository skillRepository;
+
+    @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @GetMapping("/getAllUser")
     public ResponseEntity<List<UserResponseDTO>> getAllUser() {
@@ -78,5 +92,27 @@ public class AdminController {
         }
         userRepository.save(user);
         return new ResponseEntity<>("Create User Success",HttpStatus.OK);
+    }
+
+    @GetMapping("/showPostsAdmin")
+    public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            @RequestParam(name = "perPage", defaultValue = "10") int perPage
+    ) {
+        Pageable pageable = PageRequest.of(page - 1, perPage); // Page numbers are 0-based
+        Page<Posts> postPage = postRepository.findByStatus(DrawProjectConstaints.OPEN, pageable);
+
+        List<PostDTO> postDTOList = postPage.getContent().stream()
+                .map(post -> modelMapper.map(post, PostDTO.class))
+                .collect(Collectors.toList());
+
+        PostResponseDTO<PostDTO> response = new PostResponseDTO<>();
+        response.setPage(page);
+        response.setPer_page(perPage);
+        response.setTotal((int) postPage.getTotalElements());
+        response.setTotal_pages(postPage.getTotalPages());
+        response.setData(postDTOList);
+
+        return ResponseEntity.ok(response);
     }
 }

@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/cart")
+@RequestMapping("/api/v1/cart")
 public class CartController {
 
     @Autowired

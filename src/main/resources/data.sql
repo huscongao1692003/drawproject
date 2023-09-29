@@ -26,11 +26,11 @@ INSERT INTO `rolling_style` (`rolling_style_name`) VALUES
 -- Thêm dữ liệu vào bảng 'courses' liên quan đến học vẽ
 INSERT INTO `courses` (`course_title`, `description`, `information`, `skill_id`, `price`, `category_id`, `status`, `image`, `rolling_style_id`)
 VALUES
-  ('Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Active', 'beach.jpg', 1),
-  ('Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Active', 'tulip.jpg', 2),
-  ('Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Active', 'night.jpg', 3),
-  ('Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Active', 'portrait.jpg', 4),
-  ('Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Active', 'graffiti.jpg', 5);
+  ('Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Open', 'beach.jpg', 1),
+  ('Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Open', 'tulip.jpg', 2),
+  ('Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Open', 'night.jpg', 3),
+  ('Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Open', 'portrait.jpg', 4),
+  ('Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Open', 'graffiti.jpg', 5);
 
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson'
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson' liên quan đến học vẽ
@@ -62,18 +62,18 @@ VALUES
 
   INSERT INTO `roles` (`role_name`)
   VALUES
-    ("Admin"),
-    ("Staff"),
-    ("Instructor"),
-    ("Customer");
+    ("ADMIN"),
+    ("STAFF"),
+    ("INSTRUCTOR"),
+    ("CUSTOMER");
 
     INSERT INTO `users` (`username`, `avatar`, `pwd`, `email`, `mobile_num`, `status`, `skill_id`, `role_id`, `created_at`, `updated_at`)
     VALUES
-      ('newuser1', NULL, '12345', 'user1@example.com', '1234567890', 'Active', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00'),
-      ('newuser2', NULL, '12345', 'user2@example.com', NULL, 'Active', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00'),
+      ('newuser1', NULL, '12345', 'user1@example.com', '1234567890', 'Open', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00'),
+      ('newuser2', NULL, '12345', 'user2@example.com', NULL, 'Open', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00'),
       ('newuser3', 'avatar_blob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'Active', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00'),
-      ('admin1', NULL, '12345', 'admin@example.com', '555-123-4567', 'Active', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00'),
-      ('newuser4', NULL, '12345', 'user4@example.com', '111-222-3333', 'Active', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00');
+      ('admin1', NULL, '12345', 'admin@example.com', '555-123-4567', 'Open', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00'),
+      ('newuser4', NULL, '12345', 'user4@example.com', '111-222-3333', 'Open', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00');
 
 
 -- Thêm dữ liệu vào bảng 'orders' và 'order_details' liên quan đến học vẽ
