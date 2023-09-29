@@ -1,7 +1,9 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.TopicDTO;
 import com.drawproject.dev.map.MapTopic;
+import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Topic;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.TopicRepository;
@@ -19,6 +21,9 @@ public class TopicService {
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    LessonService lessonService;
+
     public ResponseDTO getTopicByCourse(int courseId) {
         if(!courseRepository.existsById(courseId)) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
@@ -28,6 +33,22 @@ public class TopicService {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "Topic not found", MapTopic.mapTopicpsToDTOs(topics));
         }
         return new ResponseDTO(HttpStatus.OK, "Topic found", MapTopic.mapTopicpsToDTOs(topics));
+    }
+
+    public ResponseDTO createTopic(int courseId, TopicDTO topicDTO) {
+
+        Courses course = courseRepository.findById(courseId).orElseThrow();
+
+        Topic topic = MapTopic.mapDTOtoTopic(topicDTO);
+        topicRepository.save(topic);
+
+        List<Topic> topics = course.getTopics();
+         topics.add(topic);
+         course.setTopics(topics);
+
+        courseRepository.save(course);
+
+        return new ResponseDTO(HttpStatus.OK, "Topic created", "ok");
     }
 
 }

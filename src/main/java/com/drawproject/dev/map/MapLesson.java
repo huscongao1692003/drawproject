@@ -26,4 +26,16 @@ public class MapLesson {
         return list;
     }
 
+    public static Lesson mapDTOtoLesson(LessonDTO lessonDTO) {
+        return modelMapper.map(lessonDTO, Lesson.class);
+    }
+
+    public static List<Lesson> mapDTOtoLessons(List<LessonDTO> lessonDTOs) {
+        List<Lesson> list = new ArrayList<>();
+
+        lessonDTOs.forEach(lessonDTO -> list.add(mapDTOtoLesson(lessonDTO)));
+
+        return list;
+    }
+
 }

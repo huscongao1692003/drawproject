@@ -25,4 +25,16 @@ public class MapTopic {
         return list;
     }
 
+    public static Topic mapDTOtoTopic(TopicDTO topicDTO) {
+        return modelMapper.map(topicDTO, Topic.class);
+    }
+
+    public static List<Topic> mapDTOsToTopics(List<TopicDTO> topicDTOs) {
+        List<Topic> list = new ArrayList<>();
+
+        topicDTOs.forEach(topicDTO -> list.add(mapDTOtoTopic(topicDTO)));
+
+        return list;
+    }
+
 }
