@@ -3,6 +3,7 @@ package com.drawproject.dev.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -48,25 +49,22 @@ public class SecurityConfig {
                  .requestMatchers("/api/courses/create").hasRole("INSTRUCTOR")
                  .requestMatchers("/api/courses/update").hasRole("INSTRUCTOR")
                  .requestMatchers("/api/courses/{id}/feedback").permitAll()
-                 .requestMatchers("/api/v1/contact/saveMsg").permitAll()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()
                  .requestMatchers("/api/v1/profile/**").authenticated()
-                 .requestMatchers("/api/v1/post/showPosts").permitAll()
-                 .requestMatchers("/api/v1/category/getAllCategory").permitAll()
-                 .requestMatchers("/api/v1/skill/getAllSkill").permitAll()
-                 .requestMatchers("/api/v1/post/showPostDetail").permitAll()
-                 .requestMatchers("/api/v1/post/showPostUser").authenticated()
-                 .requestMatchers("/api/v1/cart/addItemToCart").authenticated()
-                 .requestMatchers("/api/v1/cart/showAllItemInCart").authenticated()
-                 .requestMatchers("/api/v1/post/savePost").authenticated()
-                 .requestMatchers("/api/v1/post/closePost").authenticated()
+                 .requestMatchers("/api/v1/cart/**").authenticated()
+                 .requestMatchers("/api/v1/category/**").permitAll()
+                 .requestMatchers("/api/v1/skill/**").permitAll()
+                 .requestMatchers(HttpMethod.GET,"/api/v1/post/{postId}").permitAll()
+                 .requestMatchers(HttpMethod.GET,"/api/v1/profile/posts").authenticated()
+                 .requestMatchers(HttpMethod.GET,"/api/v1/post").permitAll()
+                 .requestMatchers(HttpMethod.POST,"/api/v1/post").authenticated()
+                 .requestMatchers(HttpMethod.PUT,"/api/v1/post/{id}").authenticated()
                  .requestMatchers("/api/v1/post/deletePost").hasRole("ADMIN")
-                 .requestMatchers("/api/v1/admin/getAllUser").hasRole("ADMIN")
-                 .requestMatchers("/api/v1/admin/createUser").hasRole("ADMIN")
-                 .requestMatchers("/api/v1/admin/disableUser").hasRole("ADMIN")
-                 .requestMatchers("/api/v1/displayMessages").hasRole("ADMIN")
-                 .requestMatchers("/api/v1/contact/closeMsg").hasRole("ADMIN")
+                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                 .requestMatchers(HttpMethod.POST,"/api/v1/contact").permitAll()
+                 .requestMatchers(HttpMethod.GET,"api/v1/contact").hasRole("ADMIN")
+                 .requestMatchers(HttpMethod.PUT,"/api/v1/contact/{id}").hasRole("ADMIN")
                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

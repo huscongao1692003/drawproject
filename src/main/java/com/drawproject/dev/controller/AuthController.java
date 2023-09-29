@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.AuthResponseDTO;
+import com.drawproject.dev.dto.DashboardResponseDTO;
 import com.drawproject.dev.dto.LoginDTO;
 import com.drawproject.dev.dto.RegisterDTO;
 import com.drawproject.dev.exceptions.ResourceNotFoundException;
@@ -12,6 +13,7 @@ import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.security.JWTGenerator;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,13 +53,18 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto, HttpSession session){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),
                         loginDto.getPwd()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user != null) {
+            session.setAttribute("loggedInPerson",user);
+        }
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 

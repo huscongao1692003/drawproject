@@ -30,9 +30,9 @@ public class CartController {
         }
         return -1; // Return -1 if the item does not exist
     }
-    @PostMapping("/addItemToCart")
+    @PostMapping("{courseId}")
     public ResponseEntity<String> addItemToCart(
-            @RequestParam int courseId, HttpSession session) {
+            @PathVariable int courseId, HttpSession session) {
 
         Optional<Courses> optionalCourses = courseRepository.findById(courseId);
 

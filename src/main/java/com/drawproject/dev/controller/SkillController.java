@@ -18,7 +18,7 @@ public class SkillController {
     @Autowired
     SkillService skillService;
 
-    @GetMapping("/getAllSkill")
+    @GetMapping
     public List<Skill> getAllSkill(){
         return skillService.getAllSkill();
     }

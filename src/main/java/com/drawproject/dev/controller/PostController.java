@@ -48,7 +48,7 @@ public class PostController {
 
 
 
-    @PostMapping("/savePost")
+    @PostMapping
     public ResponseEntity<String> savePost(@Valid @RequestBody PostDTO postDTO, Errors errors, HttpSession session){
         User user = (User) session.getAttribute("loggedInPerson");
         if(errors.hasErrors()){
@@ -78,7 +78,7 @@ public class PostController {
         }
 
     }
-    @GetMapping("/showPosts")
+    @GetMapping
     public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "perPage", defaultValue = "10") int perPage
@@ -99,28 +99,9 @@ public class PostController {
 
         return ResponseEntity.ok(response);
     }
-    @GetMapping("/showPostUser")
-    public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
 
-        // Retrieve posts by user ID from the database
-        List<Posts> userPosts = postRepository.findPostsByUserUserId(user.getUserId());
-
-        if (!userPosts.isEmpty()) {
-            // Convert the list of Post entities to a list of PostDTOs
-            List<PostDTO> postDTOs = userPosts.stream()
-                    .map(post -> modelMapper.map(post, PostDTO.class))
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(postDTOs);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
-
-
-
-    @PostMapping("/closePost")
-    public ResponseEntity<String> closePost(@RequestParam int id, HttpSession session){
+    @PutMapping("{id}")
+    public ResponseEntity<String> closePost(@PathVariable int id, HttpSession session){
         User user = (User) session.getAttribute("loggedInPerson");
         Optional<Posts> posts = postRepository.findById(id);
         if (posts != null && posts.get().getUser().getUserId() == user.getUserId() || user.getRoles().getName().equals("ADMIN") || user.getRoles().getName().equals("STAFF")) {
@@ -130,8 +111,8 @@ public class PostController {
         return new ResponseEntity<>("Something went wrong", HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/showPostDetail")
-    public ResponseEntity<PostDTO> showPostDetail(@RequestParam int postId){
+    @GetMapping("{postId}")
+    public ResponseEntity<PostDTO> showPostDetail(@PathVariable int postId){
         Posts post = postRepository.findPostsByPostId(postId);
         PostDTO postDTO = new PostDTO();
         postDTO.setTitle(post.getTitle());

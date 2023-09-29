@@ -47,7 +47,7 @@ public class AdminController {
     @Autowired
     ModelMapper modelMapper;
 
-    @GetMapping("/getAllUser")
+    @GetMapping("/user")
     public ResponseEntity<List<UserResponseDTO>> getAllUser() {
         List<User> users = userRepository.findAll();
         List<UserResponseDTO> userDTOs = users.stream()
@@ -61,14 +61,14 @@ public class AdminController {
         return ResponseEntity.ok(userDTOs);
     }
 
-    @PostMapping("/disableUser")
-    public ResponseEntity<String> disableUser(@RequestParam int userId){
+    @PutMapping("/user/{userId}")
+    public ResponseEntity<String> disableUser(@PathVariable int userId){
         User user = userRepository.findUserByUserId(userId);
         user.setStatus(DrawProjectConstaints.CLOSE);
         userRepository.save(user);
         return new ResponseEntity<>("User Has Been Disable", HttpStatus.OK);
     }
-    @PostMapping("/createUser")
+    @PostMapping("/user")
     public ResponseEntity<String> createUser(@Valid @RequestBody UserDTO userDTO, Errors errors){
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(),HttpStatus.BAD_REQUEST);
@@ -94,7 +94,7 @@ public class AdminController {
         return new ResponseEntity<>("Create User Success",HttpStatus.OK);
     }
 
-    @GetMapping("/showPostsAdmin")
+    @GetMapping("/posts")
     public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
             @RequestParam(name = "page", defaultValue = "1") int page,
             @RequestParam(name = "perPage", defaultValue = "10") int perPage
