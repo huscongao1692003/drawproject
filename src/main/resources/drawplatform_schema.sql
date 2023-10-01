@@ -63,11 +63,13 @@ CREATE TABLE `courses` (
     `image` LONGBLOB NOT NULL,
     `status` VARCHAR(255) NOT NULL,
     `rolling_style_id` INT NOT NULL,
+    `instructor_id` INT NOT NULL,
     `created_at` TIMESTAMP,
     `updated_at` TIMESTAMP,
     FOREIGN KEY (`skill_id`) REFERENCES `skills`(`skill_id`),
     FOREIGN KEY (`category_id`) REFERENCES `category`(`category_id`),
-    FOREIGN KEY (`rolling_style_id`) REFERENCES `rolling_style`(`rolling_style_id`)
+    FOREIGN KEY (`rolling_style_id`) REFERENCES `rolling_style`(`rolling_style_id`),
+    FOREIGN KEY (`instructor_id`) REFERENCES `users`(`user_id`)
 );
 
 CREATE TABLE `user_courses` (

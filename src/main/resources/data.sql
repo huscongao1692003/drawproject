@@ -22,15 +22,32 @@ INSERT INTO `rolling_style` (`rolling_style_name`) VALUES
 ("Thiết kế Vintage"),
 ("Thiết kế tự nhsiên");
 
+   INSERT INTO `roles` (`role_name`)
+  VALUES
+    ("Admin"),
+    ("Staff"),
+    ("Instructor"),
+    ("Customer");
+
+ INSERT INTO `users` (`username`, `avatar`, `pwd`, `email`, `mobile_num`, `status`, `skill_id`, `role_id`, `created_at`, `updated_at`)
+    VALUES
+      ('newuser1', NULL, '12345', 'user1@example.com', '1234567890', 'OPEN', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00'),
+      ('newuser2', NULL, '12345', 'user2@example.com', NULL, 'OPEN', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00'),
+      ('newuser3', 'avatar_blob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00'),
+      ('admin1', NULL, '12345', 'admin@example.com', '555-123-4567', 'OPEN', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00'),
+      ('newuser4', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00'),
+      ('newuser6', 'avdawlob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00'),
+      ('newuser7', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 3, '2023-09-23 18:00:00', '2023-09-23 18:00:00');
+
 
 -- Thêm dữ liệu vào bảng 'courses' liên quan đến học vẽ
-INSERT INTO `courses` (`course_title`, `description`, `information`, `skill_id`, `price`, `category_id`, `status`, `image`, `rolling_style_id`)
+INSERT INTO `courses` (`course_title`, `description`, `information`, `skill_id`, `price`, `category_id`, `status`, `image`, `rolling_style_id`, `instructor_id`)
 VALUES
-  ('Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Active', 'beach.jpg', 1),
-  ('Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Active', 'tulip.jpg', 2),
-  ('Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Active', 'night.jpg', 3),
-  ('Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Active', 'portrait.jpg', 4),
-  ('Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Active', 'graffiti.jpg', 5);
+  ('Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'OPEN', 'beach.jpg', 1, 10),
+  ('Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'OPEN', 'tulip.jpg', 2, 10),
+  ('Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'OPEN', 'night.jpg', 3, 13),
+  ('Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'OPEN', 'portrait.jpg', 4, 14),
+  ('Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'OPEN', 'graffiti.jpg', 5, 14);
 
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson'
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson' liên quan đến học vẽ
@@ -60,22 +77,6 @@ VALUES
   ('lesson2.mp4', 7, 'Vẽ chi tiết trên khuôn mặt', 'video', '2023-09-24 10:30:00', '2023-09-24 11:15:00'),
   ('lesson1.pdf', 8, 'Vẽ phong cảnh và phác hoạt dòng người', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00');
 
-  INSERT INTO `roles` (`role_name`)
-  VALUES
-    ("Admin"),
-    ("Staff"),
-    ("Instructor"),
-    ("Customer");
-
-    INSERT INTO `users` (`username`, `avatar`, `pwd`, `email`, `mobile_num`, `status`, `skill_id`, `role_id`, `created_at`, `updated_at`)
-    VALUES
-      ('newuser1', NULL, '12345', 'user1@example.com', '1234567890', 'Active', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00'),
-      ('newuser2', NULL, '12345', 'user2@example.com', NULL, 'Active', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00'),
-      ('newuser3', 'avatar_blob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'Active', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00'),
-      ('admin1', NULL, '12345', 'admin@example.com', '555-123-4567', 'Active', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00'),
-      ('newuser4', NULL, '12345', 'user4@example.com', '111-222-3333', 'Active', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00');
-
-
 -- Thêm dữ liệu vào bảng 'orders' và 'order_details' liên quan đến học vẽ
 INSERT INTO `orders` (`price`, `method`, `description`, `user_id`, `order_date`)
 VALUES
@@ -87,35 +88,35 @@ VALUES
 
 INSERT INTO `order_details` (`course_id`, `orders_id`)
 VALUES
-  (1, 11),
-  (2, 11),
-  (1, 13),
-  (4, 14),
-  (1, 15),
-  (2, 15);
+  (1, 1),
+  (2, 2),
+  (1, 3),
+  (4, 4),
+  (1, 5),
+  (2, 5);
 
-INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '12');
-INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '13');
-INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '11');
-INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '12');
-INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('4', '12');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '2');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('3', '3');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '1');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('5', '2');
+INSERT INTO `drawcourses`.`order_details` (`course_id`, `orders_id`) VALUES ('4', '2');
 
 # Tạo 10 bản ghi
 INSERT INTO feedback (feedback_information, status, star, created_at, course_id, user_id)
 VALUES
-  ('Giảng viên giảng bài rất hay, dễ hiểu và nhiệt tình.', 'Đã xem', 5, '2023-09-20 23:12:49', 1, 12),
-  ('Nội dung khóa học rất hữu ích, giúp tôi học được nhiều kiến thức mới.', 'Đã xem', 5, '2023-09-21 00:00:00', 2, 13),
-  ('Tôi có một góp ý nhỏ về khóa học. Tôi nghĩ sẽ tốt hơn nếu giảng viên có thể cung cấp thêm một số bài tập thực hành.', 'Đã xem', 4, '2023-09-21 01:00:00', 3, 14),
-  ('Tôi rất hài lòng với khóa học này. Tôi đã học được nhiều điều và tôi sẽ giới thiệu khóa học này cho bạn bè của tôi.', 'Đã xem', 5, '2023-09-21 02:00:00', 4, 15),
-  ('Tôi cảm thấy khóa học này hơi khó, nhưng tôi cũng học được nhiều thứ. Tôi hy vọng giảng viên có thể cung cấp thêm một số tài liệu tham khảo.', 'Đã xem', 4, '2023-09-21 03:00:00', 5, 11),
-  ('Tôi không hài lòng với khóa học này. Tôi nghĩ nội dung khóa học không được cập nhật và giảng viên không nhiệt tình.', 'Đã xem', 2, '2023-09-21 04:00:00', 5, 12),
-  ('Tôi hy vọng giảng viên có thể cung cấp thêm một số bài tập nhóm để chúng tôi có thể thực hành cùng nhau.', 'Đã xem', 4, '2023-09-21 05:00:00', 1, 13),
-  ('Tôi nghĩ khóa học này rất hay và hữu ích. Tôi đã học được nhiều kiến thức mới và tôi có thể áp dụng nó vào công việc của mình.', 'Đã xem', 5, '2023-09-21 06:00:00', 1, 14),
-  ('Tôi có một thắc mắc về bài tập thực hành. Tôi có thể liên hệ với giảng viên để được giải đáp không?', 'Đã xem', 4, '2023-09-21 07:00:00', 4, 12);
+  ('Giảng viên giảng bài rất hay, dễ hiểu và nhiệt tình.', 'OPEN', 5, '2023-09-20 23:12:49', 1, 12),
+  ('Nội dung khóa học rất hữu ích, giúp tôi học được nhiều kiến thức mới.', 'OPEN', 5, '2023-09-21 00:00:00', 2, 13),
+  ('Tôi có một góp ý nhỏ về khóa học. Tôi nghĩ sẽ tốt hơn nếu giảng viên có thể cung cấp thêm một số bài tập thực hành.', 'OPEN', 4, '2023-09-21 01:00:00', 3, 14),
+  ('Tôi rất hài lòng với khóa học này. Tôi đã học được nhiều điều và tôi sẽ giới thiệu khóa học này cho bạn bè của tôi.', 'OPEN', 5, '2023-09-21 02:00:00', 4, 8),
+  ('Tôi cảm thấy khóa học này hơi khó, nhưng tôi cũng học được nhiều thứ. Tôi hy vọng giảng viên có thể cung cấp thêm một số tài liệu tham khảo.', 'OPEN', 4, '2023-09-21 03:00:00', 5, 11),
+  ('Tôi không hài lòng với khóa học này. Tôi nghĩ nội dung khóa học không được cập nhật và giảng viên không nhiệt tình.', 'OPEN', 2, '2023-09-21 04:00:00', 5, 12),
+  ('Tôi hy vọng giảng viên có thể cung cấp thêm một số bài tập nhóm để chúng tôi có thể thực hành cùng nhau.', 'OPEN', 4, '2023-09-21 05:00:00', 1, 13),
+  ('Tôi nghĩ khóa học này rất hay và hữu ích. Tôi đã học được nhiều kiến thức mới và tôi có thể áp dụng nó vào công việc của mình.', 'OPEN', 5, '2023-09-21 06:00:00', 1, 14),
+  ('Tôi có một thắc mắc về bài tập thực hành. Tôi có thể liên hệ với giảng viên để được giải đáp không?', 'OPEN', 4, '2023-09-21 07:00:00', 4, 12);
 
 
 INSERT INTO `drawcourses`.`user_courses` (`user_id`, `course_id`) VALUES
-(11, 1), (12, 2), (13, 3), (14, 4), (15, 5), (11, 6), (12, 1), (13, 2), (14, 3), (15, 4),
+(11, 1), (12, 2), (13, 3), (14, 4), (8, 5), (11, 3), (12, 1), (13, 2), (14, 3), (9, 4),
 (11, 4),
 (12, 4),
 (12, 5),
