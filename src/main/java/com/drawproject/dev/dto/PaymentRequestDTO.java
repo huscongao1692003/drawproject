@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class PaymentRequestDTO {
-    private int price;
 
     private String description;
 

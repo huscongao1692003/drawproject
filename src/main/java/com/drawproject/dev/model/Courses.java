@@ -77,6 +77,9 @@ public class Courses extends BaseEntity {
     @Transient
     private int numLesson;
 
+    @OneToMany(mappedBy = "course")
+    private List<OrderDetail> orderDetails;
+
     public double getAverageStar() {
         if(this.feedback != null && !this.feedback.isEmpty()) {
             double totalStars = 0;
