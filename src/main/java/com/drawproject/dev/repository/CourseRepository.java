@@ -36,4 +36,6 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, String search, int star, Pageable pageable);
 
     Page<Courses> findByUsersUserId(int userId, Pageable pageable);
+
+    Page<Courses> findByInstructorUserId(int userId, Pageable pageable);
 }

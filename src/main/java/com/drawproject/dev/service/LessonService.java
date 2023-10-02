@@ -7,6 +7,7 @@ import com.drawproject.dev.model.Lesson;
 import com.drawproject.dev.model.Topic;
 import com.drawproject.dev.repository.LessonRepository;
 import com.drawproject.dev.repository.TopicRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class LessonService {
     @Autowired
     private TopicRepository topicRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
     public ResponseDTO getLessonByTopic(int topicId) {
         List<Lesson> lessons = lessonRepository.findByTopicTopicId(topicId);
         if(lessons.isEmpty()) {
@@ -30,13 +34,20 @@ public class LessonService {
         return new ResponseDTO(HttpStatus.OK, "Lesson found", lessons);
     }
 
-    public ResponseDTO createLesson(int topicId, List<LessonDTO> lessonDTOs) {
-        Topic topic = topicRepository.findById(topicId).orElseThrow();
-
-        topic.setLessons(MapLesson.mapDTOtoLessons(lessonDTOs));
+    public ResponseDTO createLessons(Topic topic, List<LessonDTO> lessonDTOs) {
+        MapLesson.mapDTOtoLessons(lessonDTOs).forEach(lesson -> {
+            createLesson(topic, lesson);
+        });
 
         return new ResponseDTO(HttpStatus.OK, "Lesson created", lessonDTOs);
 
+    }
+
+    public void createLesson(Topic topic, Lesson lesson) {
+        Lesson newLesson = new Lesson();
+        modelMapper.map(lesson, newLesson);
+        newLesson.setTopic(topic);
+        lessonRepository.save(newLesson);
     }
 
 }

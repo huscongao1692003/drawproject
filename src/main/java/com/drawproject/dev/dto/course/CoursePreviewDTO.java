@@ -20,4 +20,5 @@ public class CoursePreviewDTO {
     private byte[] image;
     private double averageStar;
     private int numLesson;
+    private String username;
 }

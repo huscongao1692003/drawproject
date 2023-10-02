@@ -64,4 +64,6 @@ public class CourseController {
 
         return ResponseEntity.ok().body(userService.getStudentEnrollCourse(id, page, eachPage));
     }
+    
+
 }

@@ -54,7 +54,7 @@ public class SecurityConfig {
                  .requestMatchers("/api/courses/{id}/student").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
                          DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
                  .requestMatchers("/api/courses/{id}/feedback").permitAll()
-                 .requestMatchers("/api/users/{id}/courses").authenticated()
+                 //.requestMatchers("/api/users/{id}/courses").authenticated()
                  .requestMatchers("/api/courses/{courseId}/topic").permitAll()
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()

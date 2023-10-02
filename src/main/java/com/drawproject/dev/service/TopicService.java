@@ -39,16 +39,13 @@ public class TopicService {
 
         Courses course = courseRepository.findById(courseId).orElseThrow();
 
-        Topic topic = MapTopic.mapDTOtoTopic(topicDTO);
-        topicRepository.save(topic);
+        Topic topic = new Topic();
+        topic.setTopicTitle(topicDTO.getTopicTitle());
+        topic.setCourse(course);
+        //save lesson
+        lessonService.createLessons(topicRepository.save(topic), topicDTO.getLessons());
 
-        List<Topic> topics = course.getTopics();
-         topics.add(topic);
-         course.setTopics(topics);
-
-        courseRepository.save(course);
-
-        return new ResponseDTO(HttpStatus.OK, "Topic created", "ok");
+        return new ResponseDTO(HttpStatus.CREATED, "Topic created", "ok");
     }
 
 }

@@ -54,6 +54,11 @@ public class Courses extends BaseEntity {
 
     private String status;
 
+    @OneToOne(fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL, targetEntity = User.class)
+    @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
+    private User instructor;
+
     @JsonBackReference
     @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
     private Set<User> users = new HashSet<>();

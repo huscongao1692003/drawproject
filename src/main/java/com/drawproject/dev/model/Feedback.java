@@ -27,7 +27,7 @@ public class Feedback extends BaseEntity{
     private int star;
 
     @OneToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST, targetEntity = User.class)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId",nullable = false,insertable = false, updatable = false)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId",nullable = false)
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = true)

@@ -9,6 +9,7 @@ import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Skill;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -131,15 +132,36 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, "Delete course successfully", true);
     }
 
+//    public Object getCoursesByUser(int userId, int page, int eachPage) {
+//
+//        if(!userRepository.existsById(userId)) {
+//            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
+//        }
+//
+//        Pageable pageable = PageRequest.of(page - 1, eachPage);
+//
+//        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
+//
+//        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+//                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
+//
+//        if(!course.isEmpty()) {
+//            responsePagingDTO.setMessage("Course found");
+//            responsePagingDTO.setStatus(HttpStatus.OK);
+//        }
+//
+//        return responsePagingDTO;
+//    }
+
     public Object getCoursesByUser(int userId, int page, int eachPage) {
-
-        if(!userRepository.existsById(userId)) {
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
-        }
-
+        Page<Courses> course;
+        User user = userRepository.findById(userId).orElseThrow();
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-
-        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
+        if(user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
+            course = courseRepository.findByInstructorUserId(userId, pageable);
+        } else {
+            course = courseRepository.findByUsersUserId(userId, pageable);
+        }
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
                 course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));

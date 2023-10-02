@@ -12,8 +12,9 @@ import org.hibernate.annotations.GenericGenerator;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Table(name = "lesson")
-public class Lesson {
+public class Lesson extends BaseEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
@@ -29,4 +30,5 @@ public class Lesson {
     private String name;
 
     private String typeFile;
+
 }
