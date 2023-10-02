@@ -1,5 +1,6 @@
 package com.drawproject.dev.controller;
 
+import com.drawproject.dev.dto.CartResponseDTO;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Item;
@@ -73,6 +74,23 @@ public class CartController {
         session.setAttribute("totalItems", totalItems);
 
         return ResponseEntity.ok("Added item to cart successfully");
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CartResponseDTO>> getAllItemCart(HttpSession session){
+        List<Item> cartItems = (List<Item>) session.getAttribute("cart");
+        List<CartResponseDTO> cartResponseDTOS = new ArrayList<>();
+        if (cartItems != null) {
+            for (Item item : cartItems) {
+                Courses course = item.getCourses();
+                CartResponseDTO cartResponseDTO = new CartResponseDTO();
+                cartResponseDTO.setCourseName(course.getCourseTitle());
+                cartResponseDTO.setPrice(course.getPrice());
+                cartResponseDTOS.add(cartResponseDTO);
+            }
+        }
+
+        return ResponseEntity.ok(cartResponseDTOS);
     }
 
 
