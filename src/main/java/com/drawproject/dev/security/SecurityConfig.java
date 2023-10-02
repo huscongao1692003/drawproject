@@ -55,6 +55,7 @@ public class SecurityConfig {
                  .requestMatchers("/api/v1/cart/**").authenticated()
                  .requestMatchers("/api/v1/category/**").permitAll()
                  .requestMatchers("/api/v1/skill/**").permitAll()
+                 .requestMatchers("/api/v1/comment/**").permitAll()
                  .requestMatchers(HttpMethod.GET,"/api/v1/post/{postId}").permitAll()
                  .requestMatchers(HttpMethod.GET,"/api/v1/profile/posts").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/post").permitAll()

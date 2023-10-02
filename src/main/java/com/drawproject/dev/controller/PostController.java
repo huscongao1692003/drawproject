@@ -46,6 +46,9 @@ public class PostController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    CommentController commentController;
+
 
 
     @PostMapping
@@ -129,6 +132,5 @@ public class PostController {
         postDTO.setUserName(post.getUser().getUsername());
         return ResponseEntity.ok(postDTO);
     }
-
 
 }
