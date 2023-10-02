@@ -13,6 +13,7 @@ import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.security.JWTGenerator;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,4 +101,5 @@ public class AuthController {
             return new ResponseEntity<>("User registered success!", HttpStatus.OK);
         }
     }
+
 }
