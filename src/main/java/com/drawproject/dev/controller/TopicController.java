@@ -19,12 +19,12 @@ public class TopicController {
     @Autowired
     TopicService topicService;
 
-    @GetMapping("/courses/{courseId}/topic")
+    @GetMapping("/courses/{id}/topic")
     public ResponseEntity<ResponseDTO> getTopicByCourse(@PathVariable("courseId") int courseId) {
         return ResponseEntity.ok().body(topicService.getTopicByCourse(courseId));
     }
 
-    @PostMapping("/courses/{courseId}/topic")
+    @PostMapping("/courses/{id}/topic")
     public ResponseEntity<ResponseDTO> createTopic(@PathVariable("courseId") int courseId,
                                               @Valid @RequestBody TopicDTO topicDTO) {
 

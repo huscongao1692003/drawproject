@@ -132,27 +132,6 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, "Delete course successfully", true);
     }
 
-//    public Object getCoursesByUser(int userId, int page, int eachPage) {
-//
-//        if(!userRepository.existsById(userId)) {
-//            return new ResponseDTO(HttpStatus.NOT_FOUND, "User not found", null);
-//        }
-//
-//        Pageable pageable = PageRequest.of(page - 1, eachPage);
-//
-//        Page<Courses> course = courseRepository.findByUsersUserId(userId, pageable);
-//
-//        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-//                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
-//
-//        if(!course.isEmpty()) {
-//            responsePagingDTO.setMessage("Course found");
-//            responsePagingDTO.setStatus(HttpStatus.OK);
-//        }
-//
-//        return responsePagingDTO;
-//    }
-
     public Object getCoursesByUser(int userId, int page, int eachPage) {
         Page<Courses> course;
         User user = userRepository.findById(userId).orElseThrow();
@@ -172,6 +151,15 @@ public class CourseService {
         }
 
         return responsePagingDTO;
+    }
+
+    public ResponseDTO viewAllCourse(int page, int eachPage) {
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+        Page<Courses> courses = courseRepository.findAll(pageable);
+        if(courses.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NO_CONTENT, "Course not found", null);
+        }
+        return new ResponseDTO(HttpStatus.FOUND, "Course found", MapModel.mapListCourseDetailsToDTO(courses));
     }
 
 }

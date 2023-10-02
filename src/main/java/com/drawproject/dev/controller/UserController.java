@@ -12,7 +12,7 @@ public class UserController {
     @Autowired
     CourseService courseService;
 
-    @GetMapping("/users/{userId}/courses")
+    @GetMapping("/users/{id}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {

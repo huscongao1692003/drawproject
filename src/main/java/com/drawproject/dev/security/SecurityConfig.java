@@ -49,13 +49,20 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.GET, "/api/courses").permitAll()
                  .requestMatchers(HttpMethod.POST, "/api/courses").authenticated()
                  .requestMatchers(HttpMethod.PUT, "/api/courses").authenticated()
-                 .requestMatchers("/api/courses/{ipd}/feedback").permitAll()
-                 .requestMatchers("/api/courses/{id}").hasRole(DrawProjectConstaints.INSTRUCTOR)
-                 .requestMatchers("/api/courses/{id}/student").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
+                 .requestMatchers(HttpMethod.DELETE, "/api/courses/{id}").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
+                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.GET, "/api/viewcourses").hasAnyRole(DrawProjectConstaints.ADMIN_ROLE,
+                         DrawProjectConstaints.STAFF)
+                 .requestMatchers(HttpMethod.GET,"/api/courses/{ip}/feedback").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/courses/{id}/feedback").authenticated()
+                 .requestMatchers(HttpMethod.PUT, "/api/courses/{id}/feedback").hasRole(DrawProjectConstaints.USER_ROLE)
+                 .requestMatchers(HttpMethod.DELETE, "/api/courses/{id}/feedback/{feedbackId}").hasAnyRole(DrawProjectConstaints.USER_ROLE,
+                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.GET, "/api/courses/{id}/student").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
                          DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
-                 .requestMatchers("/api/courses/{id}/feedback").permitAll()
-                 //.requestMatchers("/api/users/{id}/courses").authenticated()
-                 .requestMatchers("/api/courses/{courseId}/topic").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/courses/{id}/topic").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/users/{id}/courses").authenticated()
                  .requestMatchers("/contact/saveMsg").permitAll()
                  .requestMatchers("/api/dashboard").authenticated()
                  .requestMatchers("/api/instructor/**").permitAll()
