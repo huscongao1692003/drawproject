@@ -7,7 +7,5 @@ public class PaymentRequestDTO {
 
     private String description;
 
-    private String cancelUrl;
-
-    private String successUrl;
+    private String url = "https://drawproject-production.up.railway.app/api/v1/pay";
 }

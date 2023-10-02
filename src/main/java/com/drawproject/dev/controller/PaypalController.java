@@ -56,8 +56,8 @@ public class PaypalController {
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.order,
                     paymentRequest.getDescription(),
-                    paymentRequest.getCancelUrl() +CANCEL_URL,
-                    paymentRequest.getSuccessUrl() +SUCCESS_URL
+                    paymentRequest.getUrl() +CANCEL_URL,
+                    paymentRequest.getUrl() +SUCCESS_URL
             );
 
             for (Links links : payment.getLinks()) {
