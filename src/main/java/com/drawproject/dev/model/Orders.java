@@ -10,6 +10,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -38,11 +39,14 @@ public class Orders {
 
     private LocalDateTime orderDate;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "Order_details",
             joinColumns = {
                 @JoinColumn(name = "orders_id", referencedColumnName = "orderId")},
             inverseJoinColumns = {
                 @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
     private Set<Courses> courses = new HashSet<>();
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetail> orderDetails;
 }

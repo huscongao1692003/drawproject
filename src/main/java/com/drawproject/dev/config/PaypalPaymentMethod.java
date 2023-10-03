@@ -1,0 +1,6 @@
+package com.drawproject.dev.config;
+
+public enum PaypalPaymentMethod {
+    credit_card, paypal
+}
+

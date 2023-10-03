@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/contact")
+@RequestMapping("/api/v1/contact")
 public class ContactController {
 
     private final ContactService contactService;
@@ -21,7 +21,7 @@ public class ContactController {
         this.contactService = contactService;
     }
 
-    @PostMapping("/saveMsg")
+    @PostMapping
     public ResponseEntity<String> saveMsg(@Valid @RequestBody Contact contact, Errors errors){
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
@@ -30,13 +30,13 @@ public class ContactController {
             return new ResponseEntity<>("Save Contact Successful", HttpStatus.OK);
         }
     }
-    @GetMapping("/displayMessages")
+    @GetMapping
     public List<Contact> displayMessages(){
        List<Contact> contactMsgs= contactService.findMsgsWithOpenStatus();
        return contactMsgs;
     }
-    @PostMapping("/closeMsg")
-    public ResponseEntity<String> closeMsg(@RequestParam int id){
+    @PutMapping("/{id}")
+    public ResponseEntity<String> closeMsg(@PathVariable int id){
             contactService.updateMsgStatus(id);
             return new ResponseEntity<>("Close Contact Successful", HttpStatus.OK);
     }

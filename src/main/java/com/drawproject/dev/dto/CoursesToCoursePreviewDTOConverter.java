@@ -14,28 +14,24 @@ public class CoursesToCoursePreviewDTOConverter extends AbstractConverter<Course
         coursePreviewDTO.setCategory(source.getCategory().getCategoryName());
         coursePreviewDTO.setSkill(source.getSkill().getSkillName());
         coursePreviewDTO.setImage(source.getImage());
-        // Set other fields as needed
 
-        // Calculate the average star and set it in the DTO
+        // Get the average star and set it in Course cua huy
         double averageStar = calculateAverageStar(source);
         coursePreviewDTO.setAverageStar(averageStar);
 
-        // Set the number of lessons
+        // Get the number of lessons
         int numLessons = calculateNumLessons(source);
         coursePreviewDTO.setNumLesson(numLessons);
 
         return coursePreviewDTO;
     }
 
-    // Implement methods to calculate average star and number of lessons if needed
     private double calculateAverageStar(Courses source) {
-        // Implement your logic to calculate the average star
-        return source.getAverageStar(); // Replace with your actual calculation
+        return source.getAverageStar();
     }
 
     private int calculateNumLessons(Courses source) {
-        // Implement your logic to calculate the number of lessons
-        return source.getNumLesson(); // Replace with your actual calculation
+        return source.getNumLesson();
     }
 }
 
