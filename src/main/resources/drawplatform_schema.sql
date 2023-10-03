@@ -170,13 +170,21 @@ CREATE TABLE `homework` (
     FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );
 
+
+CREATE TABLE `StoreLink` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+	`code` INT NOT NULL,
+    `link` VARCHAR(255)
+);
+
 CREATE TABLE `collection` (
     `collection_id` INT PRIMARY KEY AUTO_INCREMENT,
     `user_id` INT NOT NULL,
-    `artwork` LONGBLOB NOT NULL,
+    `artwork` INT NOT NULL,
     `bio` VARCHAR(255) NULL,
-    `certificate` VARCHAR(255) NOT NULL,
-    `experiment` VARCHAR(255) NOT NULL,
+    `certificate` INT NOT NULL,
+    `experience` VARCHAR(255),
+    `status` VARCHAR(10) NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`)
 );
 

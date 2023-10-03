@@ -122,3 +122,16 @@ INSERT INTO `drawcourses`.`user_courses` (`user_id`, `course_id`) VALUES
 (12, 5),
 (13, 1);
 
+INSERT INTO `collection` (`user_id`, `artwork`, `bio`, `certificate`, `experiment`, `status`) VALUES
+(10, 'binary_data_here_1', 'Bio for user 10 - Artwork 1', 'Certificate for Artwork 1', 'Experiment details for Artwork 1', 'Open'),
+(10, 'binary_data_here_2', 'Bio for user 10 - Artwork 2', 'Certificate for Artwork 2', 'Experiment details for Artwork 2', 'Open'),
+(10, 'binary_data_here_3', 'Bio for user 10 - Artwork 3', 'Certificate for Artwork 3', 'Experiment details for Artwork 3', 'Open'),
+(13, 'binary_data_here_4', 'Bio for user 13 - Artwork 4', 'Certificate for Artwork 4', 'Experiment details for Artwork 4', 'Open'),
+(13, 'binary_data_here_5', 'Bio for user 13 - Artwork 5', 'Certificate for Artwork 5', 'Experiment details for Artwork 5', 'Open'),
+(14, 'binary_data_here_6', 'Bio for user 14 - Artwork 6', 'Certificate for Artwork 6', 'Experiment details for Artwork 6', 'Open'),
+(14, 'binary_data_here_7', 'Bio for user 14 - Artwork 7', 'Certificate for Artwork 7', 'Experiment details for Artwork 7', 'Open'),
+(14, 'binary_data_here_8', 'Bio for user 14 - Artwork 8', 'Certificate for Artwork 8', 'Experiment details for Artwork 8', 'Open'),
+(14, 'binary_data_here_9', 'Bio for user 14 - Artwork 9', 'Certificate for Artwork 9', 'Experiment details for Artwork 9', 'Open'),
+(14, 'binary_data_here_10', 'Bio for user 14 - Artwork 10', 'Certificate for Artwork 10', 'Experiment details for Artwork 10', 'Open');
+
+

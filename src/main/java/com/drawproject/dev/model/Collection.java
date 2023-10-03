@@ -17,13 +17,13 @@ public class Collection {
 
     @Lob
     @Column(columnDefinition = "LONGBLOB")
-    private String artwork;
+    private int artwork;
 
     private String bio;
 
-    private String certificate;
+    private int certificate;
 
-    private String experiment;
+    private String experience;
 
     @JsonIgnore
     @ManyToOne
