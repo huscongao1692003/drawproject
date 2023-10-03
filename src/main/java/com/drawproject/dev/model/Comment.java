@@ -26,6 +26,12 @@ public class Comment extends BaseEntity{
     @JoinColumn(name = "course_id", referencedColumnName = "courseId",nullable = true)
     private Courses courses;
 
+    @ManyToOne(fetch = FetchType.LAZY,
+            targetEntity = User.class)
+    @JoinColumn(name = "user_id", referencedColumnName = "userId",nullable = true)
+    private User user;
+
+
     private String status;
 
 }
