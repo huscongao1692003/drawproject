@@ -1,9 +1,7 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
-import com.drawproject.dev.dto.UserDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
-import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.map.MapUser;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.User;
@@ -15,8 +13,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -47,6 +46,10 @@ public class UserService {
 
         return responsePagingDTO;
 
+    }
+    @Transactional
+    public void saveUserWithCourses(User user) {
+        userRepository.save(user);
     }
 
 }

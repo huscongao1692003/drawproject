@@ -101,5 +101,14 @@ public class CommentController {
         return new ResponseEntity<>("Fail to delete",HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping("{commentId}")
+    public ResponseEntity<String> editComment(@PathVariable int commentId,@RequestBody CommentRequestDTO commentRequestDTO,HttpSession session){
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        comment.get().setCommentValue(commentRequestDTO.getCommentValue());
+        commentRepository.save(comment.get());
+        return new ResponseEntity<>("Edit Comment Success", HttpStatus.OK);
+
+    }
+
 
 }

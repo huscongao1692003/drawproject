@@ -78,6 +78,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.GET,"/api/v1/comment/**").permitAll()
                  .requestMatchers(HttpMethod.POST,"/api/v1/comment/**").authenticated()
                  .requestMatchers(HttpMethod.DELETE,"/api/v1/comment/**").authenticated()
+                 .requestMatchers(HttpMethod.PUT,"/api/v1/comment/**").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/post/{postId}").permitAll()
                  .requestMatchers(HttpMethod.GET,"/api/v1/profile/posts").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/post").permitAll()
@@ -90,7 +91,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.PUT,"/api/v1/contact/{id}").hasRole("ADMIN")
                  .requestMatchers(HttpMethod.POST,"/api/v1/pay").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/pay/cancel").permitAll()
-                 .requestMatchers(HttpMethod.GET,"/api/v1/pay/success").authenticated()
+                 .requestMatchers(HttpMethod.GET,"/api/v1/pay/success").permitAll()
                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

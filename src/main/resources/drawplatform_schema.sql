@@ -148,11 +148,12 @@ CREATE TABLE `feedback` (
 
 CREATE TABLE `comment` (
     `comment_id` INT PRIMARY KEY AUTO_INCREMENT,
-    `user_id` INT NOT NULL,
+    `user_id` INT NULL,
     `comment_value` VARCHAR(255) NOT NULL,
     `post_id` INT NULL,
     `course_id` INT NULL,
     `created_at` TIMESTAMP,
+    `updated_at` TIMESTAMP,
     `status` VARCHAR(255) NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
     FOREIGN KEY (`post_id`) REFERENCES `posts`(`post_id`),

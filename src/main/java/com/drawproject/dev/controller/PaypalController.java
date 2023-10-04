@@ -4,26 +4,23 @@ import com.drawproject.dev.config.PaypalPaymentIntent;
 import com.drawproject.dev.config.PaypalPaymentMethod;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
-import com.drawproject.dev.repository.OrderDetailRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.OrderService;
 import com.drawproject.dev.service.PaypalService;
+import com.drawproject.dev.service.UserService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
-import java.util.TimeZone;
-import java.util.Timer;
+
+import java.util.*;
 
 @RestController
 @Slf4j
@@ -35,6 +32,9 @@ public class PaypalController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     PaypalService paypalService;
@@ -79,10 +79,11 @@ public class PaypalController {
     @GetMapping(SUCCESS_URL)
     public ResponseEntity<String> successPayment(
             @RequestParam("paymentId") String paymentId,
-            @RequestParam("PayerID") String payerId, HttpSession session,Authentication authentication) {
+            @RequestParam("PayerID") String payerId, HttpSession session, Authentication authentication) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
-            User user = (User) session.getAttribute("loggedInPerson");
+            String username = authentication.getName();
+            User user = userRepository.findByUsername(username).orElse(null);
             if (payment.getState().equals("approved")) {
                 // Create an Orders entity
                 double totalPrice = (double) session.getAttribute("totalPrice");
@@ -91,8 +92,6 @@ public class PaypalController {
                 orders.setDescription("test");
                 orders.setUser(user);
                 orders.setMethod("Paypal");
-
-                // Save the Orders entity to the database
                 orderService.createOrder(orders);
 
                 // Create OrderDetail entities and associate them with the order
@@ -101,23 +100,23 @@ public class PaypalController {
                     OrderDetail orderDetail = new OrderDetail();
                     OrderDetailId orderDetailId = new OrderDetailId();
                     orderDetailId.setCourseId(item.getCourses().getCourseId());
-                    orderDetailId.setOrderId(orders.getOrderId()); // Set the order ID
+                    orderDetailId.setOrderId(orders.getOrderId());
                     orderDetail.setId(orderDetailId);
                     orderDetail.setCourse(item.getCourses());
                     orderDetail.setOrder(orders);
-
-                    // Save the OrderDetail entity to the database
                     orderService.createOrderDetail(orderDetail);
+                   user.getCourses().add(item.getCourses());
                 }
-
+                userService.saveUserWithCourses(user);
                 session.invalidate(); // Invalidate the session after successful payment
-
 
                 return ResponseEntity.ok("Payment successful");
             }
         } catch (PayPalRESTException e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Payment execution failed");
         }
+
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Payment execution failed");
     }
+
 }

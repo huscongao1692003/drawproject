@@ -16,7 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
+
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Getter
 @Setter
@@ -83,8 +86,8 @@ public class User extends BaseEntity {
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
     private Skill skill;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Cascade(SAVE_UPDATE)
     @JoinTable(name = "user_courses",
             joinColumns = {
                     @JoinColumn(name = "user_id", referencedColumnName = "userId")},

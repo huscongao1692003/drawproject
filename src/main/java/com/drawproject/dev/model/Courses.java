@@ -5,11 +5,14 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Getter
 @Setter
@@ -59,9 +62,9 @@ public class Courses extends BaseEntity {
     @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
     private User instructor;
 
-    @JsonBackReference
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private Set<User> users = new HashSet<>();
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
+    @Cascade(SAVE_UPDATE)
+    private Set<User> users;
 
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
