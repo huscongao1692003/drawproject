@@ -4,12 +4,15 @@ import com.drawproject.dev.dto.CartResponseDTO;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Item;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -24,6 +27,9 @@ public class CartController {
     @Autowired
     CourseRepository courseRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     private int exists(int coursesId, List<Item> cart) {
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i).getCourses().getCourseId() == coursesId) {
@@ -34,11 +40,15 @@ public class CartController {
     }
     @PostMapping("{courseId}")
     public ResponseEntity<String> addItemToCart(
-            @PathVariable int courseId, HttpSession session) {
-
+            @PathVariable int courseId, HttpSession session, Authentication authentication) {
         Optional<Courses> optionalCourses = courseRepository.findById(courseId);
-
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         if (optionalCourses.isPresent()) {
+            // Check if the user already has the course
+            if (user.getCourses().contains(optionalCourses.get())) {
+                return new ResponseEntity<>("Course Already Owned", HttpStatus.BAD_REQUEST);
+            }
             if (session.getAttribute("cart") == null) {
                 List<Item> cart = new ArrayList<Item>();
                 cart.add(new Item(optionalCourses.get()));
