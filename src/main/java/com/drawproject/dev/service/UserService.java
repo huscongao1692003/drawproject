@@ -4,8 +4,11 @@ import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapUser;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.OrderDetail;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.model.UserCourses;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.UserCoursesRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,9 @@ public class UserService {
     CourseRepository coursesRepository;
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserCoursesRepository userCoursesRepository;
 
     public Object getStudentEnrollCourse(int courseId, int page, int eachPage) {
 
@@ -47,9 +53,9 @@ public class UserService {
         return responsePagingDTO;
 
     }
-    @Transactional
-    public void saveUserWithCourses(User user) {
-        userRepository.save(user);
+
+    public UserCourses createUserCourses(UserCourses userCourses) {
+        return userCoursesRepository.save(userCourses);
     }
 
 }

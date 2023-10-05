@@ -86,8 +86,7 @@ public class User extends BaseEntity {
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
     private Skill skill;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
-    @Cascade(SAVE_UPDATE)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_courses",
             joinColumns = {
                     @JoinColumn(name = "user_id", referencedColumnName = "userId")},

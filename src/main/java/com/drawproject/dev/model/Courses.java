@@ -63,8 +63,7 @@ public class Courses extends BaseEntity {
     private User instructor;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    @Cascade(SAVE_UPDATE)
-    private Set<User> users;
+    private Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)

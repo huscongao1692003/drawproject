@@ -4,6 +4,7 @@ import com.drawproject.dev.config.PaypalPaymentIntent;
 import com.drawproject.dev.config.PaypalPaymentMethod;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
+import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.OrderService;
@@ -38,6 +39,9 @@ public class PaypalController {
 
     @Autowired
     PaypalService paypalService;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     @Autowired
     OrderService orderService;
@@ -94,8 +98,8 @@ public class PaypalController {
                 orders.setMethod("Paypal");
                 orderService.createOrder(orders);
 
-                // Create OrderDetail entities and associate them with the order
                 List<Item> cartItems = (List<Item>) session.getAttribute("cart");
+
                 for (Item item : cartItems) {
                     OrderDetail orderDetail = new OrderDetail();
                     OrderDetailId orderDetailId = new OrderDetailId();
@@ -105,9 +109,18 @@ public class PaypalController {
                     orderDetail.setCourse(item.getCourses());
                     orderDetail.setOrder(orders);
                     orderService.createOrderDetail(orderDetail);
-                   user.getCourses().add(item.getCourses());
+
+                    UserCourses userCourses = new UserCourses();
+                    UserCourseId userCourseId = new UserCourseId();
+                    userCourseId.setCourseId(item.getCourses().getCourseId());
+                    userCourseId.setUserId(user.getUserId());
+                    userCourses.setId(userCourseId);
+                    userCourses.setCourse(item.getCourses());
+                    userCourses.setUser(user);
+                    userService.createUserCourses(userCourses);
+
                 }
-                userService.saveUserWithCourses(user);
+
                 session.invalidate(); // Invalidate the session after successful payment
 
                 return ResponseEntity.ok("Payment successful");
