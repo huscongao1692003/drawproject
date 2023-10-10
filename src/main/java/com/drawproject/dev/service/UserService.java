@@ -3,12 +3,10 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapUser;
-import com.drawproject.dev.model.Courses;
-import com.drawproject.dev.model.OrderDetail;
+import com.drawproject.dev.model.Enroll;
 import com.drawproject.dev.model.User;
-import com.drawproject.dev.model.UserCourses;
 import com.drawproject.dev.repository.CourseRepository;
-import com.drawproject.dev.repository.UserCoursesRepository;
+import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -29,7 +26,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    UserCoursesRepository userCoursesRepository;
+    EnrollRepository enrollRepository;
 
     public Object getStudentEnrollCourse(int courseId, int page, int eachPage) {
 
@@ -54,8 +51,8 @@ public class UserService {
 
     }
 
-    public UserCourses createUserCourses(UserCourses userCourses) {
-        return userCoursesRepository.save(userCourses);
+    public Enroll saveToEnroll(Enroll enroll) {
+        return enrollRepository.save(enroll);
     }
 
 }

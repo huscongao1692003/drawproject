@@ -85,7 +85,13 @@ public class User extends BaseEntity {
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
     private Skill skill;
 
-    @Transient
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "enroll",
+            joinColumns = {
+                    @JoinColumn(name = "user_id", referencedColumnName = "userId")},
+            inverseJoinColumns = {
+                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
     private Set<Courses> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

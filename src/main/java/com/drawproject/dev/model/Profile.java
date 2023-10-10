@@ -8,9 +8,9 @@ import lombok.Data;
 @Data
 public class Profile {
 
-    @NotBlank(message="Name must not be blank")
-    @Size(min=3, message="Name must be at least 3 characters long")
-    private String name;
+    @NotBlank(message="FullName must not be blank")
+    @Size(min=3, message="FullName must be at least 3 characters long")
+    private String fullName;
 
     @NotBlank(message="Mobile number must not be blank")
     @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")

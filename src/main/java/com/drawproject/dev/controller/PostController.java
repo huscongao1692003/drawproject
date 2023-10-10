@@ -46,8 +46,8 @@ public class PostController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @Autowired
-    CommentController commentController;
+//    @Autowired
+//    CommentController commentController;
 
 
 

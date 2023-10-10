@@ -30,6 +30,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -75,7 +77,7 @@ public class AuthController {
             return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
         }
         if(errors.hasErrors()){
-            return new ResponseEntity<>("Check Validation", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
         if (!registerDto.getPwd().equals(registerDto.getConfirmPwd())) {
             return new ResponseEntity<>("Password and Confirm Password do not match", HttpStatus.BAD_REQUEST);
@@ -88,13 +90,21 @@ public class AuthController {
                     .orElseThrow(() -> new ResourceNotFoundException("Skill not found"));
             User user = new User();
             user.setUsername(registerDto.getUsername());
+            user.setFullName(registerDto.getFullName());
+            if (Objects.equals(registerDto.getRoleName(), DrawProjectConstaints.USER_ROLE)){
+                Roles roles = roleRepository.findByName(DrawProjectConstaints.USER_ROLE).get();
+                user.setRoles(roles);
+            } else if (Objects.equals(registerDto.getRoleName(), DrawProjectConstaints.INSTRUCTOR)) {
+                Roles roles = roleRepository.findByName(DrawProjectConstaints.INSTRUCTOR).get();
+                user.setRoles(roles);
+            }else {
+                return new ResponseEntity<>("You dont have permission to set this Role",HttpStatus.BAD_REQUEST);
+            }
             user.setPwd(passwordEncoder.encode((registerDto.getPwd())));
             user.setEmail(registerDto.getEmail());
             user.setMobileNum(registerDto.getMobileNum());
             user.setStatus(DrawProjectConstaints.OPEN);
             user.setSkill(skill);
-            Roles roles = roleRepository.findByName("USER").get();
-            user.setRoles(roles);
 
             userRepository.save(user);
 

@@ -15,20 +15,19 @@ import java.util.Set;
 public class Enroll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "enroll_id", nullable = false)
-    private Integer enrollId;
+    private int enrollId;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "course_id", nullable = false)
+    @ManyToOne
+    @MapsId("courseId")
+    @JoinColumn(name = "course_id")
     private Courses course;
 
-    @OneToMany(mappedBy = "enroll")
-    private Set<Process> processes = new LinkedHashSet<>();
+    @ManyToOne
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
+    private User user;
+
+//    @OneToMany(mappedBy = "enroll")
+//    private Set<Process> processes = new LinkedHashSet<>();
 
 }

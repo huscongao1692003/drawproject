@@ -18,9 +18,9 @@ public class Process extends BaseEntity {
     @Column(name = "process_id", nullable = false)
     private int processId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "enroll_id")
-    private Enroll enroll;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "enroll_id")
+//    private Enroll enroll;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "course_id")

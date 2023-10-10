@@ -59,6 +59,9 @@ public class Courses extends BaseEntity {
     @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
     private User instructor;
 
+    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
+    private Set<User> users = new HashSet<>();
+
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Feedback> feedback;

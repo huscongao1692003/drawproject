@@ -41,4 +41,6 @@ public class Orders extends BaseEntity {
     @JoinColumn(name = "course_id", referencedColumnName = "courseId", nullable = false)
     private Courses course;
 
+    private String status;
+
 }

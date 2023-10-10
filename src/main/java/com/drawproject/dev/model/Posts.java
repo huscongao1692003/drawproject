@@ -48,7 +48,7 @@ public class Posts extends BaseEntity{
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
-    private List<Comment> comments;
+//    @OneToMany(mappedBy = "posts", cascade = CascadeType.ALL)
+//    private List<Comment> comments;
 
 }

@@ -39,5 +39,12 @@ public class RegisterDTO {
     @Transient
     private String confirmPwd;
 
+    @NotBlank(message="Confirm Password must not be blank")
+    @Size(min=5, message="fullName must be at least 5 characters long")
+    private String fullName;
+
+    @NotBlank(message="Role must not be blank")
+    private String roleName;
+
 
 }

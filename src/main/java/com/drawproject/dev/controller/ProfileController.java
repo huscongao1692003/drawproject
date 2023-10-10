@@ -42,7 +42,7 @@ public class ProfileController {
     public Profile displayProfile(HttpSession session) {
         User user = (User) session.getAttribute("loggedInPerson");
         Profile profile = new Profile();
-        profile.setName(user.getUsername());
+        profile.setFullName(user.getFullName());
         profile.setMobileNumber(user.getMobileNum());
         profile.setEmail(user.getEmail());
         if (user.getSkill() != null && user.getSkill().getSkillId() > 0) {
@@ -58,7 +58,7 @@ public class ProfileController {
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
         User user = (User) session.getAttribute("loggedInPerson");
-        user.setUsername(profile.getName());
+        user.setFullName(profile.getFullName());
         user.setEmail(profile.getEmail());
         user.setMobileNum(profile.getMobileNumber());
         user.setAvatar(profile.getAvatar());
