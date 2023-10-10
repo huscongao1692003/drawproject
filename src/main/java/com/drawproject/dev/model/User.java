@@ -78,18 +78,14 @@ public class User extends BaseEntity {
 
     private String status;
 
+    private String fullName;
+
     @OneToOne( fetch = FetchType.EAGER,
             targetEntity = Skill.class)
     @JoinColumn(name = "skill_id", referencedColumnName = "skillId",nullable = false)
     private Skill skill;
 
-    @JsonManagedReference
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    @JoinTable(name = "user_courses",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "userId")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
+    @Transient
     private Set<Courses> courses = new HashSet<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)

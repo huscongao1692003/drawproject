@@ -10,7 +10,7 @@ public class CoursesToCoursePreviewDTOConverter extends AbstractConverter<Course
         coursePreviewDTO.setCourseId(source.getCourseId());
         coursePreviewDTO.setCourseTitle(source.getCourseTitle());
         coursePreviewDTO.setPrice(source.getPrice());
-        coursePreviewDTO.setStyle(source.getStyle().getRollingStyleName());
+        coursePreviewDTO.setStyle(source.getStyle().getDrawingStyleName());
         coursePreviewDTO.setCategory(source.getCategory().getCategoryName());
         coursePreviewDTO.setSkill(source.getSkill().getSkillName());
         coursePreviewDTO.setImage(source.getImage());
