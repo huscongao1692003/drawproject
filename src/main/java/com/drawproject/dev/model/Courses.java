@@ -54,6 +54,8 @@ public class Courses extends BaseEntity {
 
     private String status;
 
+    private String fullName;
+
     @OneToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, targetEntity = User.class)
     @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
