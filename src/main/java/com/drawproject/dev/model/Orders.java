@@ -18,7 +18,7 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Orders {
+public class Orders extends BaseEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
@@ -37,16 +37,8 @@ public class Orders {
     @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
     private User user;
 
-    private LocalDateTime orderDate;
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId", nullable = false)
+    private Courses course;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "Order_details",
-            joinColumns = {
-                @JoinColumn(name = "orders_id", referencedColumnName = "orderId")},
-            inverseJoinColumns = {
-                @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
-    private Set<Courses> courses = new HashSet<>();
-
-    @OneToMany(mappedBy = "order")
-    private List<OrderDetail> orderDetails;
 }

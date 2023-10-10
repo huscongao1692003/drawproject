@@ -133,24 +133,24 @@ public class CourseService {
     }
 
     public Object getCoursesByUser(int userId, int page, int eachPage) {
-        Page<Courses> course;
-        User user = userRepository.findById(userId).orElseThrow();
-        Pageable pageable = PageRequest.of(page - 1, eachPage);
-        if(user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
-            course = courseRepository.findByInstructorUserId(userId, pageable);
-        } else {
-            course = courseRepository.findByUsersUserId(userId, pageable);
-        }
+//        Page<Courses> course;
+//        User user = userRepository.findById(userId).orElseThrow();
+//        Pageable pageable = PageRequest.of(page - 1, eachPage);
+//        if(user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
+//            course = courseRepository.findByInstructorUserId(userId, pageable);
+//        } else {
+//            course = courseRepository.findByUsersUserId(userId, pageable);
+//        }
+//
+//        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+//                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
+//
+//        if(!course.isEmpty()) {
+//            responsePagingDTO.setMessage("Course found");
+//            responsePagingDTO.setStatus(HttpStatus.OK);
+//        }
 
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapModel.mapListToDTO(course.getContent()));
-
-        if(!course.isEmpty()) {
-            responsePagingDTO.setMessage("Course found");
-            responsePagingDTO.setStatus(HttpStatus.OK);
-        }
-
-        return responsePagingDTO;
+        return "responsePagingDTO";
     }
 
     public ResponseDTO viewAllCourse(int page, int eachPage) {

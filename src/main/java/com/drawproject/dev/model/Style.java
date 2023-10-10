@@ -10,12 +10,12 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "rolling_style")
+@Table(name = "drawing_style")
 public class Style{
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
-    private int rollingStyleId;
+    private int drawingStyleId;
 
-    private String rollingStyleName;
+    private String drawingStyleName;
 }

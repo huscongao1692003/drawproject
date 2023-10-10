@@ -5,14 +5,11 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static org.hibernate.annotations.CascadeType.SAVE_UPDATE;
 
 @Getter
 @Setter
@@ -47,7 +44,7 @@ public class Courses extends BaseEntity {
 
     @OneToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, targetEntity = Style.class)
-    @JoinColumn(name = "rolling_style_id", referencedColumnName = "rollingStyleId", nullable = false)
+    @JoinColumn(name = "drawing_style_id", referencedColumnName = "drawingStyleId", nullable = false)
     private Style style;
 
     @Lob
@@ -57,27 +54,19 @@ public class Courses extends BaseEntity {
 
     private String status;
 
-    private String fullName;
-
     @OneToOne(fetch = FetchType.EAGER,
             cascade = CascadeType.ALL, targetEntity = User.class)
     @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
     private User instructor;
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
-
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Feedback> feedback;
 
-    @OneToMany(mappedBy = "courses", cascade = CascadeType.ALL)
-    private List<Comment> comments;
-
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Topic> topics;
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Orders> orders = new HashSet< Orders>();
 
     @Transient
@@ -85,9 +74,6 @@ public class Courses extends BaseEntity {
 
     @Transient
     private int numLesson;
-
-    @OneToMany(mappedBy = "course")
-    private List<OrderDetail> orderDetails;
 
     public double getAverageStar() {
         if(this.feedback != null && !this.feedback.isEmpty()) {

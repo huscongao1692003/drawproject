@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface StyleRepository extends JpaRepository<Style, Integer> {
-    Style findByRollingStyleId(int id);
+    Style findByDrawingStyleId(int id);
 }
