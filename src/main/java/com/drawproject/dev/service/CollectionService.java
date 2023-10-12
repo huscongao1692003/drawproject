@@ -16,18 +16,6 @@ public class CollectionService {
     @Autowired
     CollectionRepository collectionRepository;
 
-    public ResponseDTO createCollection(HttpSession session, CollectionDTO collectionDTO) {
-        User user = (User) session.getAttribute("loggedInPerson");
-        System.out.println("user: " + user.getUsername());
-        Collection collection = new Collection();
-        //set data to collection and save them first
-        System.out.println(collection.getCollectionId());
-        collection.setUser(user);
-        collection.setBio(collectionDTO.getBio());
-        collection.setExperience(collectionDTO.getExperience());
-        collectionRepository.save(collection);
 
-        return new ResponseDTO(HttpStatus.CREATED, "Collection created successfully", collectionDTO);
-    }
 
 }

@@ -21,9 +21,5 @@ public class CollectionController {
     @Autowired
     CollectionService collectionService;
 
-    @PostMapping(value = "users/collection")
-    public ResponseEntity<ResponseDTO> createCollection(HttpSession session,
-                                @Valid @RequestBody CollectionDTO collectionDTO) {
-        return ResponseEntity.ok().body(collectionService.createCollection(session, collectionDTO));
-    }
+
 }

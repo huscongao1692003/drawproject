@@ -37,4 +37,6 @@ public class Instructor {
     @OneToMany(mappedBy = "instructor")
     private Set<Courses> courses = new LinkedHashSet<>();
 
+    @OneToMany(mappedBy = "instructor")
+    private Set<Certificate> certificates = new LinkedHashSet<>();
 }
