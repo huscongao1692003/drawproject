@@ -35,5 +35,5 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "GROUP BY c.courseId HAVING COALESCE(AVG(f.star), 0) >= :star")
     Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, String search, int star, Pageable pageable);
 
-    Page<Courses> findByInstructorUserId(int userId, Pageable pageable);
+
 }

@@ -9,4 +9,7 @@ public class DrawProjectConstaints {
     public static final String ADMIN_ROLE = "ADMIN";
     public static final String DOC = "PDF";
     public static final String VIDEO = "VIDEO";
+    public static final String UNENROLL = "UnEnroll";
+    public static final String ENROLL = "Enroll";
+    public static final String VIEW = "View";
 }

@@ -7,4 +7,6 @@ public class ImageUtils {
         byte[] decodedBytes = Base64.getDecoder().decode(base64Data);
         return Base64.getUrlEncoder().withoutPadding().encodeToString(decodedBytes);
     }
+
+
 }

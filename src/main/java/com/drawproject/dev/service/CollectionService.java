@@ -21,6 +21,7 @@ public class CollectionService {
         System.out.println("user: " + user.getUsername());
         Collection collection = new Collection();
         //set data to collection and save them first
+        System.out.println(collection.getCollectionId());
         collection.setUser(user);
         collection.setBio(collectionDTO.getBio());
         collection.setExperience(collectionDTO.getExperience());
