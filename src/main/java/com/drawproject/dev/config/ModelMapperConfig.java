@@ -18,25 +18,6 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-
-        // Create a custom mapping for Set<Courses> to List<CoursePreviewDTO>
-        TypeMap<User, InstructorDetailDTO> userToInstructorDetailDTOTypeMap = modelMapper
-                .createTypeMap(User.class, InstructorDetailDTO.class);
-
-        userToInstructorDetailDTOTypeMap.addMappings(mapping -> {
-            mapping.using(ctx -> {
-                Set<Courses> courses = (Set<Courses>) ctx.getSource();
-                List<CoursePreviewDTO> coursePreviewDTOs = courses.stream()
-                        .map(course -> modelMapper.map(course, CoursePreviewDTO.class))
-                        .collect(Collectors.toList());
-                return coursePreviewDTOs;
-            }).map(User::getCourses, InstructorDetailDTO::setCourses);
-        });
-        // Map 'collections' property to 'collections' in InstructorDetailDTO
-        userToInstructorDetailDTOTypeMap.addMappings(mapping -> {
-            mapping.map(User::getCollection, InstructorDetailDTO::setCollections);
-        });
-
         return modelMapper;
     }
 }

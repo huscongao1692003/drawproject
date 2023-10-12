@@ -15,7 +15,5 @@ public class InstructorDetailDTO {
     private String mobileNum;
     private String email;
     private String skillName;
-    private List<CoursePreviewDTO> courses;
-    private List<Collection> collections = new ArrayList<>();
-
+    private int instructorId;
 }

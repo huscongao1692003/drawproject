@@ -56,15 +56,15 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.deleteCourse(id));
     }
 
-    @GetMapping(value = "/{id}/student")
-    public ResponseEntity<Object> getStudentEnroll(@PathVariable("id") int id,
-                                                        @RequestParam(value = "page", defaultValue = "1") int page,
-                                                        @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
-        page = Math.max(page, 1);
-        eachPage = Math.max(eachPage, 1);
-
-        return ResponseEntity.ok().body(userService.getStudentEnrollCourse(id, page, eachPage));
-    }
+//    @GetMapping(value = "/{id}/student")
+//    public ResponseEntity<Object> getStudentEnroll(@PathVariable("id") int id,
+//                                                        @RequestParam(value = "page", defaultValue = "1") int page,
+//                                                        @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
+//        page = Math.max(page, 1);
+//        eachPage = Math.max(eachPage, 1);
+//
+//        return ResponseEntity.ok().body(userService.getStudentEnrollCourse(id, page, eachPage));
+//    }
 
     @GetMapping(value = "/viewcourses")
     public ResponseEntity<ResponseDTO> viewAllCourse(@RequestParam(value = "page", defaultValue = "1") int page,

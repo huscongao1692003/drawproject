@@ -12,25 +12,21 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-public class Enroll {
+public class Enroll extends BaseEntity {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private int enrollId;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @MapsId("courseId")
-    @JoinColumn(name = "course_id")
+    @ManyToOne
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
     private Courses course;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @ManyToOne
+    @JoinColumn(name = "user_id" , referencedColumnName = "userId")
     private User user;
 
     private String status;
 
-//    @OneToMany(mappedBy = "enroll")
-//    private Set<Process> processes = new LinkedHashSet<>();
 
 }

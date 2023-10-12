@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.config.PaypalPaymentIntent;
 import com.drawproject.dev.config.PaypalPaymentMethod;
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
 import com.drawproject.dev.repository.EnrollRepository;
@@ -101,6 +102,7 @@ public class PaypalController {
                     orders.setCourse(item.getCourses());
                     orders.setStatus("Pay Success");
                     enroll.setCourse(item.getCourses());
+                    enroll.setStatus(DrawProjectConstaints.OPEN);
                     enroll.setUser(user);
                     orderService.createEnroll(enroll);
                     orderService.createOrder(orders);

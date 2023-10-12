@@ -58,9 +58,6 @@ public class Courses extends BaseEntity {
     @JoinColumn(name = "instructor_id", referencedColumnName = "instructorId", nullable = false)
     private Instructor instructor;
 
-    @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    private Set<User> users = new HashSet<>();
-
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<Feedback> feedback;
@@ -71,8 +68,6 @@ public class Courses extends BaseEntity {
     @OneToMany(mappedBy = "course", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private Set<Orders> orders = new HashSet< Orders>();
 
-    @OneToMany(mappedBy = "course")
-    private Set<Process> processes = new HashSet<>();
 
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<Enroll> enrolls;
