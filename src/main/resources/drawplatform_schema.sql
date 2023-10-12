@@ -59,7 +59,8 @@ CREATE TABLE instructors (
                              instructor_id INT PRIMARY KEY NOT NULL,
                              bio VARCHAR(255),
                              payment VARCHAR(255) NOT NULL,
-                             education VARCHAR(255) NOT NULL
+                             education VARCHAR(255) NOT NULL,
+                             FOREIGN KEY (`instructor_id`) REFERENCES `users`(`user_id`)
 );
 
 CREATE TABLE `courses` (
@@ -86,6 +87,7 @@ CREATE TABLE `enroll` (
                           `enroll_id` INT PRIMARY KEY AUTO_INCREMENT,
                           `user_id` INT NOT NULL,
                           `course_id` INT NOT NULL,
+                          `status` VARCHAR(255) NOT NULL,
                           FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
                           FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );

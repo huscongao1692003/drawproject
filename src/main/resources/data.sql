@@ -31,16 +31,16 @@ INSERT INTO `drawing_style` (`drawing_style_name`) VALUES
 
 INSERT INTO `users` (`user_id`, `username`, `avatar`, `pwd`, `email`, `mobile_num`, `status`, `skill_id`, `role_id`, `created_at`, `updated_at`, `full_name`)
 VALUES
-    (1, 'newuser1', NULL, '12345', 'user1@example.com', '1234567890', 'OPEN', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00', 'newuser1'),
-    (2, 'newuser2', NULL, '12345', 'user2@example.com', NULL, 'OPEN', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00', 'newuser2'),
-    (3, 'newuser3', 'avatar_blob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00', 'newuser3'),
-    (4, 'admin1', NULL, '12345', 'admin@example.com', '555-123-4567', 'OPEN', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00', 'admin1'),
-    (5, 'newuser4', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser4'),
-    (6, 'newuser6', 'avdawlob_data', 'hashed_password_3', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00', 'newuser6'),
-    (7, 'newuser7', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 3, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser7'),
-    (8, 'newuser8', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser8'),
-    (9, 'newuser9', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser9'),
-    (10, 'newuser10', NULL, '12345', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser101');
+    (1, 'newuser1', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user1@example.com', '1234567890', 'OPEN', 1, 2, '2023-09-19 09:00:00', '2023-09-19 09:00:00', 'newuser1'),
+    (2, 'newuser2', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user2@example.com', NULL, 'OPEN', 2, 2, '2023-09-20 10:15:00', '2023-09-20 10:15:00', 'newuser2'),
+    (3, 'newuser3', 'avatar_blob_data', '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00', 'newuser3'),
+    (4, 'admin1', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'admin@example.com', '555-123-4567', 'OPEN', 4, 1, '2023-09-22 16:45:00', '2023-09-22 16:45:00', 'admin1'),
+    (5, 'newuser4', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser4'),
+    (6, 'newuser6', 'avdawlob_data', '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user3@example.com', '9876543210', 'OPEN', 3, 3, '2023-09-21 14:30:00', '2023-09-21 14:30:00', 'newuser6'),
+    (7, 'newuser7', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user4@example.com', '111-222-3333', 'OPEN', 4, 3, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser7'),
+    (8, 'newuser8', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser8'),
+    (9, 'newuser9', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser9'),
+    (10, 'newuser10', NULL, '$2a$12$9nqFV2QiVWyb3g77yytyiO8.Aniid53nrq2dlKWgGwkObLUKEUKRK', 'user4@example.com', '111-222-3333', 'OPEN', 4, 4, '2023-09-23 18:00:00', '2023-09-23 18:00:00', 'newuser101');
 
 INSERT INTO instructors (instructor_id, bio, payment, education)
 VALUES
@@ -99,18 +99,18 @@ VALUES
   ('Tôi có một thắc mắc về bài tập thực hành. Tôi có thể liên hệ với giảng viên để được giải đáp không?', 'OPEN', 4, '2023-09-21 07:00:00', 4, 2);
 
 
-INSERT INTO `enroll` (`enroll_id`, `user_id`, `course_id`)
+INSERT INTO `enroll` (`enroll_id`, `user_id`, `course_id`, `status`)
 VALUES
-    (1, 5, 1),
-    (2, 8, 2),
-    (3, 9, 3),
-    (4, 10, 4),
-    (5, 5, 5),
-    (6, 8, 1),
-    (7, 9, 2),
-    (8, 10, 3),
-    (9, 5, 4),
-    (10, 8, 5);
+    (1, 5, 1, 'Enroll'),
+    (2, 8, 2, 'Enroll'),
+    (3, 9, 3, 'Enroll'),
+    (4, 10, 4, 'Enroll'),
+    (5, 5, 5, 'Enroll'),
+    (6, 8, 1, 'Enroll'),
+    (7, 9, 2, 'Enroll'),
+    (8, 10, 3, 'Enroll'),
+    (9, 5, 4, 'Enroll'),
+    (10, 8, 5, 'Enroll');
 
 
 INSERT INTO experience (drawing_style_id, instructor_id)
@@ -182,3 +182,5 @@ VALUES
     (16, 120, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Completed'),
     (17, 170, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),
     (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed');
+
+INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`) VALUES ('1', 'a', 'animal', '1', 'Not Complete');

@@ -16,7 +16,7 @@ public class Enroll {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "enroll_id", nullable = false)
-    private Integer enrollId;
+    private int enrollId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -27,6 +27,8 @@ public class Enroll {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "course_id", nullable = false)
     private Courses course;
+
+    private String status;
 
     @OneToMany(mappedBy = "enroll")
     private Set<Process> processes = new LinkedHashSet<>();

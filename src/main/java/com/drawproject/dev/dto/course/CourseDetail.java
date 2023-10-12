@@ -3,22 +3,23 @@ package com.drawproject.dev.dto.course;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-
-@Slf4j
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CoursePreviewDTO {
+public class CourseDetail {
     private int courseId;
     private String courseTitle;
+    private String description;
+    private String information;
+    private String skillName;
     private int price;
-    private String style;
-    private String category;
-    private String skill;
+    private String categoryName;
+    private String drawingStyleName;
     private String image;
+    private String status;//status of student owner this course
     private double averageStar;
     private int numLesson;
-    private String username;
+    private int numStudent;
+    private int numQuiz;
 }

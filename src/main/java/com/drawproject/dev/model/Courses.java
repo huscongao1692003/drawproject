@@ -50,14 +50,13 @@ public class Courses extends BaseEntity {
     @Lob
     @Column(columnDefinition = "LONGBLOB")
     @NotBlank
-    private byte[] image;
+    private String image;
 
     private String status;
 
-    @OneToOne(fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL, targetEntity = User.class)
-    @JoinColumn(name = "instructor_id", referencedColumnName = "userId", nullable = false)
-    private User instructor;
+    @ManyToOne
+    @JoinColumn(name = "instructor_id", referencedColumnName = "instructorId", nullable = false)
+    private Instructor instructor;
 
     @OneToMany(mappedBy ="courses", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
@@ -98,7 +97,7 @@ public class Courses extends BaseEntity {
         return this.numLesson;
     }
 
-    public Courses(String courseTitle, String description, String information, int price, byte[] image, String status) {
+    public Courses(String courseTitle, String description, String information, int price, String image, String status) {
         this.courseTitle = courseTitle;
         this.description = description;
         this.information = information;

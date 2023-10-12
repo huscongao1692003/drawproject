@@ -5,6 +5,7 @@ import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/courses")
 public class CourseController {
 
     @Autowired
@@ -27,7 +28,7 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.getTopCourseByCategory(limit));
     }
 
-    @GetMapping("/courses")
+    @GetMapping("")
     public ResponseEntity<ResponsePagingDTO> searchCourse(@RequestParam(value = "page", defaultValue = "1") int page,
                                                           @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
                                                           @RequestParam(value = "category", required = false) List<Integer> categories,
@@ -40,22 +41,22 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.searchCourse(page, eachPage, star, categories, skills, search));
     }
 
-    @PostMapping(value = "/courses", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO) {
-        return ResponseEntity.ok().body(courseService.saveCourse(courseDTO));
+    @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO, HttpSession session) {
+        return ResponseEntity.ok().body(courseService.saveCourse(session, courseDTO));
     }
 
-    @PutMapping(value = "/courses", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<ResponseDTO> updateCourse(@Valid CourseDTO courseDTO) {
-        return ResponseEntity.ok().body(courseService.saveCourse(courseDTO));
+        return ResponseEntity.ok().body(courseService.updateCourse(courseDTO));
     }
 
-    @DeleteMapping(value = "/courses/{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<ResponseDTO> deleteCourse(@PathVariable("id") int id) {
         return ResponseEntity.ok().body(courseService.deleteCourse(id));
     }
 
-    @GetMapping(value = "/courses/{id}/student")
+    @GetMapping(value = "/{id}/student")
     public ResponseEntity<Object> getStudentEnroll(@PathVariable("id") int id,
                                                         @RequestParam(value = "page", defaultValue = "1") int page,
                                                         @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
@@ -72,5 +73,12 @@ public class CourseController {
         eachPage = Math.max(eachPage, 1);
 
         return ResponseEntity.ok().body(courseService.viewAllCourse(page, eachPage));
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ResponseDTO> viewCourseDetail(@PathVariable("id") int id,
+                                                        HttpSession session) {
+
+        return ResponseEntity.ok().body(courseService.getCourseDetailsById(id, session));
     }
 }

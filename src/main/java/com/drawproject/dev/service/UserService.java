@@ -1,11 +1,8 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
-import com.drawproject.dev.dto.UserDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
-import com.drawproject.dev.map.MapModel;
 import com.drawproject.dev.map.MapUser;
-import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.UserRepository;
@@ -15,8 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {

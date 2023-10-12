@@ -20,12 +20,13 @@ public class TopicController {
     TopicService topicService;
 
     @GetMapping("/courses/{id}/topic")
-    public ResponseEntity<ResponseDTO> getTopicByCourse(@PathVariable("courseId") int courseId) {
+    public ResponseEntity<ResponseDTO> getTopicByCourse(@PathVariable("id") int courseId) {
+        System.out.println(courseId);
         return ResponseEntity.ok().body(topicService.getTopicByCourse(courseId));
     }
 
     @PostMapping("/courses/{id}/topic")
-    public ResponseEntity<ResponseDTO> createTopic(@PathVariable("courseId") int courseId,
+    public ResponseEntity<ResponseDTO> createTopic(@PathVariable("id") int courseId,
                                               @Valid @RequestBody TopicDTO topicDTO) {
 
         return ResponseEntity.ok().body(topicService.createTopic(courseId, topicDTO));
