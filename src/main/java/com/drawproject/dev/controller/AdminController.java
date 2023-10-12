@@ -13,6 +13,8 @@ import com.drawproject.dev.repository.PostRepository;
 import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.PostService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -26,6 +28,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -43,6 +46,9 @@ public class AdminController {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    PostService postService;
 
     @Autowired
     ModelMapper modelMapper;
@@ -114,5 +120,10 @@ public class AdminController {
         response.setData(postDTOList);
 
         return ResponseEntity.ok(response);
+    }
+    @PutMapping("post/{id}")
+    public ResponseEntity<String> closePost(@PathVariable int id){
+            postService.updatePostStatus(id);
+            return new ResponseEntity<>("Close post Successful", HttpStatus.OK);
     }
 }

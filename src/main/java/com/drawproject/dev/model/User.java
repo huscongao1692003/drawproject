@@ -86,7 +86,7 @@ public class User extends BaseEntity {
     private Skill skill;
 
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
     @JoinTable(name = "enroll",
             joinColumns = {
                     @JoinColumn(name = "user_id", referencedColumnName = "userId")},

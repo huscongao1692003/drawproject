@@ -4,6 +4,7 @@ import com.drawproject.dev.config.PaypalPaymentIntent;
 import com.drawproject.dev.config.PaypalPaymentMethod;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
+import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.OrderService;
@@ -12,6 +13,8 @@ import com.drawproject.dev.service.UserService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.Timer;
@@ -49,10 +54,10 @@ public class PaypalController {
 
     @PostMapping
     public ResponseEntity<String> createPayment(@RequestBody PaymentRequestDTO paymentRequest, HttpSession session) {
-        double totalPrice = (double) session.getAttribute("totalPrice");
+        int totalPrice = (int) session.getAttribute("totalPrice");
         try {
             Payment payment = paypalService.createPayment(
-                    (int) totalPrice,
+                    totalPrice,
                     "USD",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.order,
@@ -84,23 +89,20 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             User user = (User) session.getAttribute("loggedInPerson");
+            Enroll enroll = new Enroll();
             if (payment.getState().equals("approved")) {
                 List<Item> cartItems = (List<Item>) session.getAttribute("cart");
                 for (Item item : cartItems) {
-                    double totalPrice = (double) session.getAttribute("totalPrice");
                     Orders orders = new Orders();
-                    orders.setPrice((int) totalPrice);
+                    orders.setPrice(item.getCourses().getPrice());
                     orders.setDescription("test");
                     orders.setUser(user);
                     orders.setMethod("Paypal");
                     orders.setCourse(item.getCourses());
                     orders.setStatus("Pay Success");
-
-                    Enroll userCourses = new Enroll();
-                    userCourses.setCourse(item.getCourses());
-                    userCourses.setUser(user);
-                    userService.saveToEnroll(userCourses);
-
+                    enroll.setCourse(item.getCourses());
+                    enroll.setUser(user);
+                    orderService.createEnroll(enroll);
                     orderService.createOrder(orders);
 
                 }

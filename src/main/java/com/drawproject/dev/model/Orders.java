@@ -9,9 +9,6 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -42,5 +39,7 @@ public class Orders extends BaseEntity {
     private Courses course;
 
     private String status;
+
+    private LocalDateTime createdAt;
 
 }

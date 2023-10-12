@@ -3,9 +3,11 @@ package com.drawproject.dev.controller;
 import com.drawproject.dev.dto.CartResponseDTO;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.Enroll;
 import com.drawproject.dev.model.Item;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,9 @@ public class CartController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    EnrollRepository enrollRepository;
+
     private int exists(int coursesId, List<Item> cart) {
         for (int i = 0; i < cart.size(); i++) {
             if (cart.get(i).getCourses().getCourseId() == coursesId) {
@@ -42,48 +47,26 @@ public class CartController {
     public ResponseEntity<String> addItemToCart(
             @PathVariable int courseId, HttpSession session, Authentication authentication) {
         Optional<Courses> optionalCourses = courseRepository.findById(courseId);
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElse(null);
+//        String username = authentication.getName();
+//        User user = userRepository.findByUsername(username).orElse(null);
         if (optionalCourses.isPresent()) {
-            // Check if the user already has the course
-            if (user.getCourses().contains(optionalCourses.get())) {
-                return new ResponseEntity<>("Course Already Owned", HttpStatus.BAD_REQUEST);
-            }
-            if (session.getAttribute("cart") == null) {
-                List<Item> cart = new ArrayList<Item>();
-                cart.add(new Item(optionalCourses.get()));
+//            if (user.getCourses().contains(optionalCourses.get())) {
+//                return new ResponseEntity<>("Course Already Owned", HttpStatus.BAD_REQUEST);
+//            }
+            Courses courseToAdd = optionalCourses.get();
+            List<Item> cartItems = (List<Item>) session.getAttribute("cart");
+            if (cartItems == null || cartItems.isEmpty()) {
+                List<Item> cart = new ArrayList<>();
+                cart.add(new Item(courseToAdd));
                 session.setAttribute("cart", cart);
+                session.setAttribute("totalPrice", courseToAdd.getPrice());
+                return ResponseEntity.ok("Course added to cart successfully");
             } else {
-                List<Item> cart = (List<Item>) session.getAttribute("cart");
-                int index = this.exists(courseId, cart);
-                if (index == -1) {
-                    cart.add(new Item(optionalCourses.get()));
-                } else {
-                    return new ResponseEntity<>("Course Already Added", HttpStatus.BAD_REQUEST);
-                }
-                session.setAttribute("cart", cart);
+                return new ResponseEntity<>("You can't add more than 1 course", HttpStatus.BAD_REQUEST);
             }
         } else {
             return ResponseEntity.badRequest().body("No Product!!!!");
         }
-
-        List<Item> cartItem = (List<Item>) session.getAttribute("cart");
-        int totalItems = 0;
-
-        // Calculate total cost of items in the cart
-        List<Item> cartItems = (List<Item>) session.getAttribute("cart");
-        double totalPrice = 0;
-
-        if (cartItems != null) {
-            totalPrice = cartItems.stream()
-                    .mapToInt(item -> item.getCourses().getPrice())
-                    .sum();
-        }
-
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("totalItems", totalItems);
-
-        return ResponseEntity.ok("Added item to cart successfully");
     }
 
     @GetMapping

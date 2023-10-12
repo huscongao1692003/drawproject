@@ -12,23 +12,23 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "enroll")
 public class Enroll {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
     @GenericGenerator(name = "native",strategy = "native")
     private int enrollId;
 
-    @ManyToOne
-    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @MapsId("courseId")
+    @JoinColumn(name = "course_id")
     private Courses course;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @MapsId("userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
-    @OneToMany(mappedBy = "enroll")
-    private Set<Process> processes = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "enroll")
+//    private Set<Process> processes = new LinkedHashSet<>();
 
-    private String status;
 }
