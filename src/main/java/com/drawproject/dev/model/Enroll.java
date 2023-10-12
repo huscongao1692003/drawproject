@@ -27,8 +27,8 @@ public class Enroll {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
-    @OneToMany(mappedBy = "enroll")
-    private Set<Process> processes = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "enroll")
+//    private Set<Process> processes = new LinkedHashSet<>();
 
     private String status;
 }

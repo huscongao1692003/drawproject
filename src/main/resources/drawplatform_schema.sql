@@ -203,6 +203,7 @@ CREATE TABLE certificates (
                               image LONGBLOB,
                               drawing_style_id INT,
                               instructor_id INT,
+                              status VARCHAR(255),
                               FOREIGN KEY (drawing_style_id) REFERENCES drawing_style(drawing_style_id),
                               FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
 );
@@ -215,5 +216,4 @@ CREATE TABLE artworks (
                           FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id),
                           FOREIGN KEY (category_id) REFERENCES category(category_id)
 );
-
 

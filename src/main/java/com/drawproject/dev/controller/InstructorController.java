@@ -2,7 +2,9 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
+import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.service.InstructorService;
 import com.drawproject.dev.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -24,6 +26,9 @@ public class InstructorController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    InstructorService instructorService;
 
     @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
@@ -55,5 +60,9 @@ public class InstructorController {
         }
     }
 
+    @GetMapping("/{userId}/certificates")
+    public ResponseEntity<ResponseDTO> getCertificates(@PathVariable("userId") int userId) {
+        return ResponseEntity.ok().body(instructorService.getCertificates(userId));
+    }
 
 }
