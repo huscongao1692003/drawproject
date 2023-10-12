@@ -7,13 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController {
     @Autowired
     CourseService courseService;
 
     @GetMapping("/users/{id}/courses")
-    public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
+    public ResponseEntity<Object> getEnrollCourse(@PathVariable("id") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
 

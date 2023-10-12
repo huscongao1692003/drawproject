@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,5 +30,6 @@ public class Enroll extends BaseEntity {
 
     private String status;
 
-
+    @OneToMany(mappedBy = "enroll")
+    private List<Process> processes = new ArrayList<>();
 }

@@ -4,6 +4,7 @@ import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.InstructorService;
 import com.drawproject.dev.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,9 @@ public class InstructorController {
 
     @Autowired
     InstructorService instructorService;
+
+    @Autowired
+    CourseService courseService;
 
     @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
@@ -65,4 +69,14 @@ public class InstructorController {
         return ResponseEntity.ok().body(instructorService.getCertificates(userId));
     }
 
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<Object> getEnrollCourse(@PathVariable("id") int instructorId,
+                                                  @RequestParam(value = "page", defaultValue = "1") int page,
+                                                  @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
+
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok(courseService.getCoursesByInstructor(instructorId, page, eachPage));
+    }
 }
