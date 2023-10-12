@@ -139,30 +139,30 @@ VALUES
     (9, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 1, 7),
     (10, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 2, 3);
 
-INSERT INTO `process` (`process_id`, `enroll_id`, `course_id`, `created_at`, `progress`, `status`)
+INSERT INTO `process` (`process_id`, `enroll_id`, `lesson_id`, `created_at`, `status`)
 VALUES
-    (1, 1, 1, NOW(), 1, 'In Progress'),
-    (2, 2, 2, NOW(), 2, 'In Progress'),
-    (3, 3, 3, NOW(), 3, 'In Progress'),
-    (4, 4, 4, NOW(), 4, 'In Progress'),
-    (5, 5, 5, NOW(), 5, 'In Progress'),
-    (6, 6, 1, NOW(), 6, 'In Progress'),
-    (7, 7, 2, NOW(), 7, 'In Progress'),
-    (8, 8, 3, NOW(), 8, 'In Progress'),
-    (9, 9, 4, NOW(), 9, 'In Progress'),
-    (10, 10, 5, NOW(), 10, 'Completed'),
-    (11, 1, 1, NOW(), 1, 'In Progress'),
-    (12, 2, 2, NOW(), 2, 'In Progress'),
-    (13, 3, 3, NOW(), 3, 'In Progress'),
-    (14, 4, 4, NOW(), 4, 'In Progress'),
-    (15, 5, 5, NOW(), 5, 'In Progress'),
-    (16, 6, 1, NOW(), 6, 'In Progress'),
-    (17, 7, 2, NOW(), 7, 'In Progress'),
-    (18, 8, 3, NOW(), 8, 'In Progress'),
-    (19, 9, 4, NOW(), 9, 'In Progress'),
-    (20, 10, 5, NOW(), 10, 'Completed');
+    (1, 1, 1, NOW(), 'In Progress'),
+    (2, 2, 2, NOW(), 'In Progress'),
+    (3, 3, 3, NOW(), 'In Progress'),
+    (4, 4, 4, NOW(), 'In Progress'),
+    (5, 5, 5, NOW(), 'In Progress'),
+    (6, 6, 6, NOW(), 'In Progress'),
+    (7, 7, 7, NOW(), 'In Progress'),
+    (8, 8, 8, NOW(), 'In Progress'),
+    (9, 9, 9, NOW(), 'In Progress'),
+    (10, 10, 10, NOW(), 'Completed'),
+    (11, 1, 2, NOW(), 'In Progress'),
+    (12, 2, 12, NOW(), 'In Progress'),
+    (13, 3, 3, NOW(), 'In Progress'),
+    (14, 4, 4, NOW(), 'In Progress'),
+    (15, 5, 5, NOW(), 'In Progress'),
+    (16, 6, 1, NOW(), 'In Progress'),
+    (17, 7, 2, NOW(), 'In Progress'),
+    (18, 8, 3, NOW(), 'In Progress'),
+    (19, 9, 4, NOW(), 'In Progress'),
+    (20, 10, 12, NOW(), 'Completed');
 
-INSERT INTO `orders` (`order_id`, `price`, `method`, `description`, `user_id`, `course_id`, `create_at`, `updated_at`, `status`)
+INSERT INTO `orders` (`order_id`, `price`, `method`, `description`, `user_id`, `course_id`, `created_at`, `updated_at`, `status`)
 VALUES
     (1, 100, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Completed'),
     (2, 150, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),

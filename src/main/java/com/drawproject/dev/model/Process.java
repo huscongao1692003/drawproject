@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.Instant;
 
@@ -14,21 +15,17 @@ import java.time.Instant;
 @Table(name = "process")
 public class Process extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "process_id", nullable = false)
+    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
     private int processId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "enroll_id")
-//    private Enroll enroll;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "enroll_id", referencedColumnName = "enrollId")
+    private Enroll enroll;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private Courses course;
-
-    @NotNull
-    @Column(name = "progress", nullable = false)
-    private int progress;
+    @JoinColumn(name = "lesson_id", referencedColumnName = "lessonId")
+    private Lesson lesson;
 
     @Column(name = "status")
     private String status;

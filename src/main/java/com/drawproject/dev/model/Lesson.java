@@ -7,6 +7,10 @@ import jakarta.validation.constraints.Size;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Set;
+
 @Entity
 @Getter
 @Setter
@@ -31,4 +35,6 @@ public class Lesson extends BaseEntity {
 
     private String typeFile;
 
+    @OneToMany(mappedBy = "lesson")
+    private Set<Process> processes = new LinkedHashSet<>();
 }

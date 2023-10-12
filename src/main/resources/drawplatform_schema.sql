@@ -134,7 +134,7 @@ CREATE TABLE `orders` (
                           `description` VARCHAR(255),
                           `user_id` INT NOT NULL,
                           `course_id` INT NOT NULL,
-                          `create_at` TIMESTAMP,
+                          `created_at` TIMESTAMP,
                           `updated_at` TIMESTAMP,
                           `status` VARCHAR(255) NOT NULL,
                           FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
@@ -175,12 +175,12 @@ CREATE TABLE experience (
 CREATE TABLE process (
                          process_id INT PRIMARY KEY AUTO_INCREMENT,
                          enroll_id INT,
-                         course_id INT,
+                         lesson_id INT,
                          created_at TIMESTAMP,
-                         progress INT NOT NULL,
+                         updated_at TIMESTAMP,
                          status VARCHAR(255),
                          FOREIGN KEY (enroll_id) REFERENCES enroll(enroll_id),
-                         FOREIGN KEY (course_id) REFERENCES courses(course_id)
+                         FOREIGN KEY (lesson_id) REFERENCES lesson(lesson_id)
 );
 
 

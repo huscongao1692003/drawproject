@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -14,20 +15,20 @@ import java.util.Set;
 @Table(name = "enroll")
 public class Enroll {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy= GenerationType.AUTO,generator="native")
+    @GenericGenerator(name = "native",strategy = "native")
     private int enrollId;
 
     @ManyToOne
-    @MapsId("courseId")
-    @JoinColumn(name = "course_id")
+    @JoinColumn(name = "course_id", referencedColumnName = "courseId")
     private Courses course;
 
     @ManyToOne
-    @MapsId("userId")
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private User user;
 
-//    @OneToMany(mappedBy = "enroll")
-//    private Set<Process> processes = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "enroll")
+    private Set<Process> processes = new LinkedHashSet<>();
 
+    private String status;
 }
