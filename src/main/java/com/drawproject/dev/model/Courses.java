@@ -74,6 +74,9 @@ public class Courses extends BaseEntity {
     @OneToMany(mappedBy = "course")
     private Set<Process> processes = new HashSet<>();
 
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    private List<Enroll> enrolls;
+
     @Transient
     private double averageStar;
 

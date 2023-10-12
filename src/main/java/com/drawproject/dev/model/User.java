@@ -86,13 +86,9 @@ public class User extends BaseEntity {
     private Skill skill;
 
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.MERGE)
-    @JoinTable(name = "enroll",
-            joinColumns = {
-                    @JoinColumn(name = "user_id", referencedColumnName = "userId")},
-            inverseJoinColumns = {
-                    @JoinColumn(name = "course_id", referencedColumnName = "courseId")})
-    private Set<Courses> courses = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Enroll> enrolls;
+    
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Posts> posts;

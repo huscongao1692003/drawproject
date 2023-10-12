@@ -28,6 +28,8 @@ public class Enroll {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String status;
+
 //    @OneToMany(mappedBy = "enroll")
 //    private Set<Process> processes = new LinkedHashSet<>();
 
