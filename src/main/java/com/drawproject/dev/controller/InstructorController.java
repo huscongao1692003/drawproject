@@ -38,7 +38,7 @@ public class InstructorController {
             List<InstructorDTO> instructorDTOS = users.stream()
                     .map(instructor -> {
                         InstructorDTO dto = modelMapper.map(instructor, InstructorDTO.class);
-                        dto.setNumberOfCourse(instructor.getCourses().size()); // Set the number of courses
+                        dto.setNumberOfCourse(instructor.getEnrolls().size()); // Set the number of courses
                         return dto;
                     })
                     .collect(Collectors.toList());
