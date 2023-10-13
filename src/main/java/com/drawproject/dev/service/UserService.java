@@ -1,6 +1,7 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.UserCourseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapUser;
 import com.drawproject.dev.model.Enroll;
@@ -23,11 +24,15 @@ public class UserService {
 
     @Autowired
     CourseRepository coursesRepository;
+
     @Autowired
     UserRepository userRepository;
 
     @Autowired
     EnrollRepository enrollRepository;
+
+    @Autowired
+    ProcessService processService;
 
     public Object getStudentEnrollCourse(int courseId, int page, int eachPage) {
 
@@ -39,9 +44,13 @@ public class UserService {
 
         Page<User> users = userRepository.findByEnrollsCourseCourseId(courseId, pageable);
 
+        List<UserCourseDTO> list = MapUser.mapUserCourseToDTOs(users.getContent());
+        //set process
+        list.forEach(userCourseDTO -> userCourseDTO.setProgressDTO(processService.getProcessOfStudent(userCourseDTO.getUserID(), courseId)));
+
         long total = users.getTotalElements();
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                users.getTotalElements(), page, users.getTotalPages(), eachPage, MapUser.mapUsersToDTOs(users.getContent()));
+                users.getTotalElements(), page, users.getTotalPages(), eachPage, list);
 
         if(total > 0) {
             responsePagingDTO.setStatus(HttpStatus.OK);

@@ -20,8 +20,9 @@ public class LessonService {
 
     @Autowired
     LessonRepository lessonRepository;
+
     @Autowired
-    private TopicRepository topicRepository;
+    TopicRepository topicRepository;
 
     @Autowired
     ModelMapper modelMapper;
