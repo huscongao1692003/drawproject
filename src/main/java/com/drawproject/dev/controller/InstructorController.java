@@ -1,5 +1,6 @@
 package com.drawproject.dev.controller;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
 import com.drawproject.dev.dto.OrderAdminDTO;
@@ -49,7 +50,6 @@ public class InstructorController {
     @Autowired
     OrderRepository orderRepository;
 
-    @GetMapping
     @Autowired
     CourseService courseService;
 
@@ -61,7 +61,7 @@ public class InstructorController {
             List<InstructorDTO> instructorDTOS = users.stream()
                     .map(instructor -> {
                         InstructorDTO dto = modelMapper.map(instructor, InstructorDTO.class);
-                        dto.setNumberOfCourse(instructor.getCourses().size()); // Set the number of courses
+                        dto.setNumberOfCourse(instructor.getEnrolls().size()); // Set the number of courses
                         return dto;
                     })
                     .collect(Collectors.toList());

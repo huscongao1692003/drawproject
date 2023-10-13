@@ -1,16 +1,30 @@
 package com.drawproject.dev.controller;
 
+import com.drawproject.dev.dto.OrderAdminDTO;
+import com.drawproject.dev.model.Orders;
+import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.CourseService;
-import com.drawproject.dev.service.UserService;
+import com.drawproject.dev.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
 public class UserController {
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    OrderService orderService;
 
     @GetMapping("/users/{id}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
