@@ -1,13 +1,12 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.PostDTO;
-import com.drawproject.dev.model.Posts;
-import com.drawproject.dev.model.Profile;
-import com.drawproject.dev.model.Skill;
-import com.drawproject.dev.model.User;
+import com.drawproject.dev.model.*;
+import com.drawproject.dev.repository.InstructorRepository;
 import com.drawproject.dev.repository.PostRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.InstructorService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +37,9 @@ public class ProfileController {
 
     @Autowired
     ModelMapper modelMapper;
+
+    @Autowired
+    InstructorService instructorService;
 
     @GetMapping
     public Profile displayProfile(HttpSession session) {
@@ -68,6 +71,22 @@ public class ProfileController {
         User savedUser = userRepository.save(user);
         session.setAttribute("loggedInPerson", savedUser);
         return new ResponseEntity<>("Update Profile Successful", HttpStatus.OK);
+    }
+
+    @PostMapping("instructor")
+    public ResponseEntity<String> updateProfileInstructor(@Valid @RequestBody Instructor instructor, Errors errors, Authentication authentication){
+        if(errors.hasErrors()){
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
+        }
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
+        Instructor instructor1 = new Instructor();
+        instructor1.setInstructorId(user.getUserId());
+        instructor1.setBio(instructor.getBio());
+        instructor1.setPayment(instructor.getPayment());
+        instructor1.setEducation(instructor.getEducation());
+        instructorService.saveInstructorRegister(instructor1);
+        return new ResponseEntity<>("Update Instructor Successful", HttpStatus.OK);
     }
 
     @GetMapping("/posts")

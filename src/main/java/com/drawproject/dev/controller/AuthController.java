@@ -6,6 +6,7 @@ import com.drawproject.dev.dto.DashboardResponseDTO;
 import com.drawproject.dev.dto.LoginDTO;
 import com.drawproject.dev.dto.RegisterDTO;
 import com.drawproject.dev.exceptions.ResourceNotFoundException;
+import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.Roles;
 import com.drawproject.dev.model.Skill;
 import com.drawproject.dev.model.User;
@@ -13,6 +14,7 @@ import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.security.JWTGenerator;
+import com.drawproject.dev.service.InstructorService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -41,6 +43,10 @@ public class AuthController {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private JWTGenerator jwtGenerator;
+
+    @Autowired
+    InstructorService instructorService;
+
 
     @Autowired
     SkillRepository skillRepository;
@@ -105,7 +111,6 @@ public class AuthController {
             user.setMobileNum(registerDto.getMobileNum());
             user.setStatus(DrawProjectConstaints.OPEN);
             user.setSkill(skill);
-
             userRepository.save(user);
 
             return new ResponseEntity<>("User registered success!", HttpStatus.OK);

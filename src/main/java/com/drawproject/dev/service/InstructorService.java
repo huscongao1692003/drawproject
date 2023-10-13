@@ -3,6 +3,7 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.map.MapCertificate;
 import com.drawproject.dev.model.Certificate;
+import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.repository.CertificateRepository;
 import com.drawproject.dev.repository.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,4 +29,7 @@ public class InstructorService {
         return new ResponseDTO(HttpStatus.FOUND, "Certificates found", MapCertificate.mapCertificateToDTOs(certificates));
     }
 
+    public Instructor saveInstructorRegister(Instructor instructor) {
+         return  instructorRepository.save(instructor);
+    }
 }
