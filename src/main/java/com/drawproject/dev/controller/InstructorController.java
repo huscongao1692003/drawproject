@@ -1,9 +1,14 @@
 package com.drawproject.dev.controller;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
+import com.drawproject.dev.dto.OrderAdminDTO;
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.OrderRepository;
+import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.InstructorService;
 import com.drawproject.dev.service.OrderService;
 import com.drawproject.dev.service.ProfileService;
@@ -11,8 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,6 +42,12 @@ public class InstructorController {
 
     @Autowired
     InstructorService instructorService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    OrderRepository orderRepository;
 
     @GetMapping
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
@@ -69,6 +82,33 @@ public class InstructorController {
     @GetMapping("/{userId}/certificates")
     public ResponseEntity<ResponseDTO> getCertificates(@PathVariable("userId") int userId) {
         return ResponseEntity.ok().body(instructorService.getCertificates(userId));
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderAdminDTO>> getOrderHistory(Authentication authentication){
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
+        if (user != null && user.getRoles().equals(DrawProjectConstaints.INSTRUCTOR)) {
+            List<Orders> instructorOrders = orderRepository.findOrdersByCourse_InstructorInstructorId(user.getUserId()); // Retrieve user's orders
+
+            List<OrderAdminDTO> orderAdminDTOs = new ArrayList<>();
+
+            for (Orders order : instructorOrders) {
+                OrderAdminDTO orderAdminDTO = new OrderAdminDTO();
+                orderAdminDTO.setUsername(user.getUsername());
+                orderAdminDTO.setFullName(user.getFullName());
+                orderAdminDTO.setCourseName(order.getCourse().getCourseTitle());
+                orderAdminDTO.setStatus(order.getStatus());
+                orderAdminDTO.setPrice(String.valueOf(order.getPrice())); // Convert price to string or format it as needed
+
+                orderAdminDTOs.add(orderAdminDTO);
+            }
+
+            return ResponseEntity.ok(orderAdminDTOs);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+
     }
 
 

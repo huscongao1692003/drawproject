@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Orders,Integer> {
-    Optional<Orders> findOrdersByCourse_InstructorInstructorId(int instructorId);
+    List<Orders> findOrdersByCourse_InstructorInstructorId(int instructorId);
 
     @Query("SELECT o FROM Orders o JOIN FETCH o.user JOIN FETCH o.course WHERE o.user = :user")
     List<Orders> findOrdersWithUserAndCourse(@Param("user") User user);

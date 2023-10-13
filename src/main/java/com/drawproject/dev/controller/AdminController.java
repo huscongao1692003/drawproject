@@ -3,13 +3,10 @@ package com.drawproject.dev.controller;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.*;
 import com.drawproject.dev.model.*;
-import com.drawproject.dev.repository.PostRepository;
-import com.drawproject.dev.repository.RoleRepository;
-import com.drawproject.dev.repository.SkillRepository;
-import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.repository.*;
 import com.drawproject.dev.service.ContactService;
+import com.drawproject.dev.service.OrderService;
 import com.drawproject.dev.service.PostService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
@@ -22,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -50,6 +48,8 @@ public class AdminController {
 
     @Autowired
     ModelMapper modelMapper;
+    @Autowired
+    private OrderService orderService;
 
     @GetMapping("/user")
     public ResponseEntity<List<UserResponseDTO>> getAllUser() {
@@ -125,10 +125,22 @@ public class AdminController {
             return new ResponseEntity<>("Close post Successful", HttpStatus.OK);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<OrderAdminDTO>> showPaymentHistory(){
-//
-//    }
+    @GetMapping("/orders")
+    public ResponseEntity<List<OrderAdminDTO>> showPaymentHistory(){
+        List<Orders> orders = orderService.getAllOrder();
+        List<OrderAdminDTO> orderAdminDTOs = new ArrayList<>();
+        for(Orders order : orders){
+            OrderAdminDTO orderAdminDTO = new OrderAdminDTO();
+            orderAdminDTO.setUsername(order.getUser().getUsername());
+            orderAdminDTO.setFullName(order.getUser().getFullName());
+            orderAdminDTO.setCourseName(order.getCourse().getCourseTitle());
+            orderAdminDTO.setStatus(order.getStatus());
+            orderAdminDTO.setPrice(String.valueOf(order.getPrice())); // Convert price to string or format it as needed
+
+            orderAdminDTOs.add(orderAdminDTO);
+        }
+        return ResponseEntity.ok(orderAdminDTOs);
+    }
 
 
     @GetMapping("/contact")
