@@ -88,6 +88,8 @@ CREATE TABLE `enroll` (
                           `user_id` INT NOT NULL,
                           `course_id` INT NOT NULL,
                           `status` VARCHAR(255) NOT NULL,
+                          `created_at` TIMESTAMP,
+                          `updated_at` TIMESTAMP,
                           FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
                           FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );
@@ -161,6 +163,7 @@ CREATE TABLE `assignment` (
                               `created_at` TIMESTAMP,
                               `updated_at` TIMESTAMP,
                               `lesson_id` INT NOT NULL,
+                              `force` bit DEFAULT FALSE,
                               `status` VARCHAR(255) NOT NULL,
                               FOREIGN KEY (`lesson_id`) REFERENCES `lesson`(`lesson_id`)
 );

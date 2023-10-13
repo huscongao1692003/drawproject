@@ -22,5 +22,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     Boolean existsByUsername(String username);
 
-//    Page<User> findByCoursesCourseId(int id, Pageable pageable);
+    Page<User> findByEnrollsCourseCourseId(int id, Pageable pageable);
+
 }

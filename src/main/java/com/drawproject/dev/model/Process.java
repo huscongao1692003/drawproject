@@ -19,11 +19,11 @@ public class Process extends BaseEntity {
     @GenericGenerator(name = "native",strategy = "native")
     private int processId;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "enroll_id", referencedColumnName = "enrollId")
-//    private Enroll enroll;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "enroll_id", referencedColumnName = "enrollId")
+    private Enroll enroll;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "lesson_id", referencedColumnName = "lessonId")
     private Lesson lesson;
 

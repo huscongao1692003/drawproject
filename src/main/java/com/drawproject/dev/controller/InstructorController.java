@@ -1,6 +1,5 @@
 package com.drawproject.dev.controller;
 
-import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.InstructorDTO;
 import com.drawproject.dev.dto.InstructorDetailDTO;
 import com.drawproject.dev.dto.OrderAdminDTO;
@@ -9,6 +8,7 @@ import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.InstructorService;
 import com.drawproject.dev.service.OrderService;
 import com.drawproject.dev.service.ProfileService;
@@ -50,6 +50,10 @@ public class InstructorController {
     OrderRepository orderRepository;
 
     @GetMapping
+    @Autowired
+    CourseService courseService;
+
+    @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
         List<User> users = profileService.findInstructor();
 
@@ -57,7 +61,7 @@ public class InstructorController {
             List<InstructorDTO> instructorDTOS = users.stream()
                     .map(instructor -> {
                         InstructorDTO dto = modelMapper.map(instructor, InstructorDTO.class);
-                        dto.setNumberOfCourse(instructor.getEnrolls().size()); // Set the number of courses
+                        dto.setNumberOfCourse(instructor.getCourses().size()); // Set the number of courses
                         return dto;
                     })
                     .collect(Collectors.toList());
@@ -113,4 +117,14 @@ public class InstructorController {
 
 
 
+    @GetMapping("/{id}/courses")
+    public ResponseEntity<Object> getEnrollCourse(@PathVariable("id") int instructorId,
+                                                  @RequestParam(value = "page", defaultValue = "1") int page,
+                                                  @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
+
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok(courseService.getCoursesByInstructor(instructorId, page, eachPage));
+    }
 }
