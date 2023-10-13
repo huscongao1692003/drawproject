@@ -45,14 +45,9 @@ public class CartController {
     }
     @PostMapping("{courseId}")
     public ResponseEntity<String> addItemToCart(
-            @PathVariable int courseId, HttpSession session, Authentication authentication) {
+            @PathVariable int courseId, HttpSession session) {
         Optional<Courses> optionalCourses = courseRepository.findById(courseId);
-//        String username = authentication.getName();
-//        User user = userRepository.findByUsername(username).orElse(null);
         if (optionalCourses.isPresent()) {
-//            if (user.getCourses().contains(optionalCourses.get())) {
-//                return new ResponseEntity<>("Course Already Owned", HttpStatus.BAD_REQUEST);
-//            }
             Courses courseToAdd = optionalCourses.get();
             List<Item> cartItems = (List<Item>) session.getAttribute("cart");
             if (cartItems == null || cartItems.isEmpty()) {

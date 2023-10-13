@@ -5,7 +5,6 @@ import com.drawproject.dev.config.PaypalPaymentMethod;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
-import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.OrderService;
@@ -14,8 +13,6 @@ import com.drawproject.dev.service.UserService;
 import com.paypal.api.payments.Links;
 import com.paypal.api.payments.Payment;
 import com.paypal.base.rest.PayPalRESTException;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +21,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.TimeZone;
-import java.util.Timer;
+
 
 @RestController
 @Slf4j
@@ -102,7 +97,7 @@ public class PaypalController {
                     orders.setCourse(item.getCourses());
                     orders.setStatus("Pay Success");
                     enroll.setCourse(item.getCourses());
-                    enroll.setStatus(DrawProjectConstaints.OPEN);
+                    enroll.setStatus(DrawProjectConstaints.ENROLL);
                     enroll.setUser(user);
                     orderService.createEnroll(enroll);
                     orderService.createOrder(orders);

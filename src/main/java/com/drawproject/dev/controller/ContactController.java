@@ -30,16 +30,6 @@ public class ContactController {
             return new ResponseEntity<>("Save Contact Successful", HttpStatus.OK);
         }
     }
-    @GetMapping
-    public List<Contact> displayMessages(){
-       List<Contact> contactMsgs= contactService.findMsgsWithOpenStatus();
-       return contactMsgs;
-    }
-    @PutMapping("/{id}")
-    public ResponseEntity<String> closeMsg(@PathVariable int id){
-            contactService.updateMsgStatus(id);
-            return new ResponseEntity<>("Close Contact Successful", HttpStatus.OK);
-    }
 
 
 }

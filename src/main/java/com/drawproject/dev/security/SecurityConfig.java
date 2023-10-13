@@ -69,6 +69,7 @@ public class SecurityConfig {
 //                 .requestMatchers(HttpMethod.GET, "/api//users/{id}/courses").hasAnyRole(
 //                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR
 //                 )
+                 .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()
                  .requestMatchers("/api/v1/profile/**").authenticated()
@@ -87,8 +88,6 @@ public class SecurityConfig {
                  .requestMatchers("/api/v1/post/deletePost").hasRole("ADMIN")
                  .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                  .requestMatchers(HttpMethod.POST,"/api/v1/contact").permitAll()
-                 .requestMatchers(HttpMethod.GET,"api/v1/contact").hasRole("ADMIN")
-                 .requestMatchers(HttpMethod.PUT,"/api/v1/contact/{id}").hasRole("ADMIN")
                  .requestMatchers(HttpMethod.POST,"/api/v1/pay").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/pay/cancel").permitAll()
                  .requestMatchers(HttpMethod.GET,"/api/v1/pay/success").authenticated()

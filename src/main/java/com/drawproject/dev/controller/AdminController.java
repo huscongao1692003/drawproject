@@ -1,18 +1,13 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
-import com.drawproject.dev.dto.PostDTO;
-import com.drawproject.dev.dto.PostResponseDTO;
-import com.drawproject.dev.dto.UserDTO;
-import com.drawproject.dev.dto.UserResponseDTO;
-import com.drawproject.dev.model.Posts;
-import com.drawproject.dev.model.Roles;
-import com.drawproject.dev.model.Skill;
-import com.drawproject.dev.model.User;
+import com.drawproject.dev.dto.*;
+import com.drawproject.dev.model.*;
 import com.drawproject.dev.repository.PostRepository;
 import com.drawproject.dev.repository.RoleRepository;
 import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.ContactService;
 import com.drawproject.dev.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -46,6 +41,9 @@ public class AdminController {
 
     @Autowired
     PostRepository postRepository;
+
+    @Autowired
+    ContactService contactService;
 
     @Autowired
     PostService postService;
@@ -125,5 +123,22 @@ public class AdminController {
     public ResponseEntity<String> closePost(@PathVariable int id){
             postService.updatePostStatus(id);
             return new ResponseEntity<>("Close post Successful", HttpStatus.OK);
+    }
+
+//    @GetMapping
+//    public ResponseEntity<List<OrderAdminDTO>> showPaymentHistory(){
+//
+//    }
+
+
+    @GetMapping("/contact")
+    public List<Contact> displayMessages(){
+        List<Contact> contactMsgs= contactService.findMsgsWithOpenStatus();
+        return contactMsgs;
+    }
+    @PutMapping("contact/{id}")
+    public ResponseEntity<String> closeMsg(@PathVariable int id){
+        contactService.updateMsgStatus(id);
+        return new ResponseEntity<>("Close Contact Successful", HttpStatus.OK);
     }
 }
