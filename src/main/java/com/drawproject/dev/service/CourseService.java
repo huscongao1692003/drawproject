@@ -217,4 +217,24 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.FOUND, "Course found", MapCourse.mapListToDTO(courses.getContent()));
     }
 
+    public ResponseDTO reportCourse(int courseId, String message) {
+        Courses course = courseRepository.findById(courseId).orElseThrow();
+
+        course.setStatus(DrawProjectConstaints.CLOSE);
+
+        courseRepository.save(course);
+
+        return new ResponseDTO(HttpStatus.OK, message, true);
+    }
+
+    public ResponseDTO openCourse(int courseId, String message) {
+        Courses course = courseRepository.findById(courseId).orElseThrow();
+
+        course.setStatus(DrawProjectConstaints.OPEN);
+
+        courseRepository.save(course);
+
+        return new ResponseDTO(HttpStatus.OK, message, true);
+    }
+
 }

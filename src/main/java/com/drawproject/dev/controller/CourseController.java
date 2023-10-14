@@ -81,4 +81,17 @@ public class CourseController {
 
         return ResponseEntity.ok().body(courseService.getCourseDetailsById(id, session));
     }
+
+    @PutMapping(value = "/{id}/report")
+    public ResponseEntity<ResponseDTO> reportCourse(@PathVariable("id") int id,
+                                                    @RequestBody(required = false) String message) {
+        return ResponseEntity.ok().body(courseService.reportCourse(id, message));
+    }
+
+    @PutMapping(value = "/{id}/open")
+    public ResponseEntity<ResponseDTO> openCourse(@PathVariable("id") int id,
+                                                    @RequestBody(required = false) String message) {
+        return ResponseEntity.ok().body(courseService.openCourse(id, message));
+    }
+
 }

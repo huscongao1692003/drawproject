@@ -1,18 +1,12 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
-import com.drawproject.dev.dto.InstructorDTO;
-import com.drawproject.dev.dto.InstructorDetailDTO;
-import com.drawproject.dev.dto.OrderAdminDTO;
-import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.*;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
-import com.drawproject.dev.service.CourseService;
-import com.drawproject.dev.service.InstructorService;
-import com.drawproject.dev.service.OrderService;
-import com.drawproject.dev.service.ProfileService;
+import com.drawproject.dev.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +37,9 @@ public class InstructorController {
 
     @Autowired
     InstructorService instructorService;
+
+    @Autowired
+    CertificateService certificateService;
 
     @Autowired
     UserRepository userRepository;
@@ -85,7 +82,14 @@ public class InstructorController {
 
     @GetMapping("/{userId}/certificates")
     public ResponseEntity<ResponseDTO> getCertificates(@PathVariable("userId") int userId) {
-        return ResponseEntity.ok().body(instructorService.getCertificates(userId));
+        return ResponseEntity.ok().body(certificateService.getCertificates(userId));
+    }
+
+    @PostMapping("/{userId}/certificates")
+    public ResponseEntity<String> createCertificates(@PathVariable("userId") int userId,
+                                                     List<CertificateDTO> certificateDTO) {
+
+        return ResponseEntity.ok().body("ok");
     }
 
     @GetMapping("/orders")
