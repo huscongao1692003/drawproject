@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Integer> {
     List<Certificate> findByInstructorInstructorId(int instructionId);
+
+    Certificate findByCertificateIdAndInstructorInstructorId(int certificateId, int instructorId);
+
 }

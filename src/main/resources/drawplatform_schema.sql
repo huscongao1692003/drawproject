@@ -202,12 +202,10 @@ CREATE TABLE `user_assignment` (
 );
 
 CREATE TABLE certificates (
-                              certificate_id INT PRIMARY KEY,
+                              certificate_id INT PRIMARY KEY AUTO_INCREMENT,
                               image LONGBLOB,
-                              drawing_style_id INT,
                               instructor_id INT,
                               status VARCHAR(255),
-                              FOREIGN KEY (drawing_style_id) REFERENCES drawing_style(drawing_style_id),
                               FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
 );
 

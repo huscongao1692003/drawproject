@@ -15,16 +15,13 @@ public class Certificate {
     @GenericGenerator(name = "native",strategy = "native")
     private int certificateId;
 
-    @Column(name = "image")
-    private String image;
+    @Lob
+    @Column(columnDefinition = "LONGBLOB")
+    private byte[] image;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", referencedColumnName = "instructorId", nullable = false)
     private Instructor instructor;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "drawing_style_id", referencedColumnName = "drawingStyleId", nullable = false)
-    private Style style;
 
     private String status;
 }

@@ -2,17 +2,20 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.*;
+import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.*;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,11 +88,24 @@ public class InstructorController {
         return ResponseEntity.ok().body(certificateService.getCertificates(userId));
     }
 
-    @PostMapping("/{userId}/certificates")
-    public ResponseEntity<String> createCertificates(@PathVariable("userId") int userId,
-                                                     List<CertificateDTO> certificateDTO) {
+    @PostMapping("certificates")
+    public ResponseEntity<ResponseDTO> createCertificates(HttpSession session, List<MultipartFile> image) {
+        User instructor = (User) session.getAttribute("loggedInPerson");
 
-        return ResponseEntity.ok().body("ok");
+        return ResponseEntity.ok().body(certificateService.createCertificate(instructor.getUserId(), image));
+    }
+
+    @PutMapping("/certificates/{certificateId}")
+    public ResponseEntity<ResponseDTO> updateCertificates(@PathVariable("certificateId") int certificateId,
+                                                     MultipartFile image, HttpSession session) {
+        User instructor = (User) session.getAttribute("loggedInPerson");
+        return ResponseEntity.ok().body(certificateService.updateCertificate(certificateId, image, instructor.getUserId()));
+    }
+
+    @DeleteMapping("/certificates/{certificateId}")
+    public ResponseEntity<ResponseDTO> deleteCertificates(@PathVariable("certificateId") int certificateId) {
+
+        return ResponseEntity.ok().body(certificateService.deleteCertificate(certificateId));
     }
 
     @GetMapping("/orders")
