@@ -27,13 +27,7 @@ public class LessonService {
     @Autowired
     ModelMapper modelMapper;
 
-    public ResponseDTO getLessonByTopic(int topicId) {
-        List<Lesson> lessons = lessonRepository.findByTopicTopicId(topicId);
-        if(lessons.isEmpty()) {
-            return new ResponseDTO(HttpStatus.NO_CONTENT, "No lessons found", lessons);
-        }
-        return new ResponseDTO(HttpStatus.OK, "Lesson found", lessons);
-    }
+
 
     public ResponseDTO createLessons(Topic topic, List<LessonDTO> lessonDTOs) {
         MapLesson.mapDTOtoLessons(lessonDTOs).forEach(lesson -> {

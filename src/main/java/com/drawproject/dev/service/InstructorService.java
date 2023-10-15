@@ -18,17 +18,6 @@ public class InstructorService {
     @Autowired
     InstructorRepository instructorRepository;
 
-    @Autowired
-    CertificateRepository certificateRepository;
-
-    public ResponseDTO getCertificates(int instructorId) {
-        List<Certificate> certificates = certificateRepository.findByInstructorInstructorId(instructorId);
-        if(certificates.isEmpty()) {
-            return new ResponseDTO(HttpStatus.NO_CONTENT, "No certificates found", certificates);
-        }
-        return new ResponseDTO(HttpStatus.FOUND, "Certificates found", MapCertificate.mapCertificateToDTOs(certificates));
-    }
-
     public Instructor saveInstructorRegister(Instructor instructor) {
          return  instructorRepository.save(instructor);
     }

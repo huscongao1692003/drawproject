@@ -5,6 +5,7 @@ import com.drawproject.dev.dto.TopicDTO;
 import com.drawproject.dev.map.MapTopic;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Topic;
+import com.drawproject.dev.repository.AssignmentRepository;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,16 @@ public class TopicService {
 
     @Autowired
     TopicRepository topicRepository;
+
     @Autowired
     CourseRepository courseRepository;
 
     @Autowired
     LessonService lessonService;
+
+    @Autowired
+    AssignmentService assignmentService;
+
 
     public ResponseDTO getTopicByCourse(int courseId) {
         if(!courseRepository.existsById(courseId)) {
@@ -32,7 +38,15 @@ public class TopicService {
         if(topics.isEmpty()) {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "Topic not found", MapTopic.mapTopicpsToDTOs(topics));
         }
-        return new ResponseDTO(HttpStatus.OK, "Topic found", MapTopic.mapTopicpsToDTOs(topics));
+
+        List<TopicDTO> topicsDTOs = MapTopic.mapTopicpsToDTOs(topics);
+        topicsDTOs.forEach(topicDTO -> {
+            topicDTO.getLessons().forEach(lessonDTO -> {
+                lessonDTO.setListAssignment(assignmentService.getAssignmentDTOs(lessonDTO.getLessonId()));
+            });
+        });
+
+        return new ResponseDTO(HttpStatus.OK, "Topic found", topicsDTOs);
     }
 
     public ResponseDTO createTopic(int courseId, TopicDTO topicDTO) {
