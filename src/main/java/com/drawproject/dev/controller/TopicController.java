@@ -21,7 +21,6 @@ public class TopicController {
 
     @GetMapping("/courses/{id}/topic")
     public ResponseEntity<ResponseDTO> getTopicByCourse(@PathVariable("id") int courseId) {
-        System.out.println(courseId);
         return ResponseEntity.ok().body(topicService.getTopicByCourse(courseId));
     }
 

@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Integer> {
     int countByLessonTopicCourseCourseId(int courseId);
+
+    List<Assignment> findByLessonLessonIdAndStatusIs(int lessonId, String status);
+
 }

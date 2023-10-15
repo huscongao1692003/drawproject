@@ -39,6 +39,6 @@ public class Assignment extends BaseEntity {
     @OneToMany(mappedBy = "assignment")
     private Set<UserAssignment> userAssignments = new LinkedHashSet<>();
 
-    private boolean force;
+    private boolean compulsory;
 
 }

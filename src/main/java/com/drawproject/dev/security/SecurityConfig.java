@@ -45,30 +45,40 @@ public class SecurityConfig {
                          "/webjars/**"
                  ).permitAll()
                 .requestMatchers("/api/auth/**").permitAll()
-//                 .requestMatchers("/api/top-courses/**").permitAll()
-//                 .requestMatchers(HttpMethod.GET, "/api/courses").permitAll()
-//                 .requestMatchers(HttpMethod.POST, "/api/courses").hasRole("INSTRUCTOR")
-//                 .requestMatchers(HttpMethod.PUT, "/api/courses").hasRole("INSTRUCTOR")
-//                 .requestMatchers(HttpMethod.DELETE, "/api/courses/{id}").hasAnyRole(
-//                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.INSTRUCTOR
-//                 )
-//                 .requestMatchers(HttpMethod.GET, "/api/viewcourses").hasAnyRole(
-//                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE
-//                 )
-//                 .requestMatchers(HttpMethod.GET, "/api/courses/{id}/student").hasAnyRole(
-//                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.INSTRUCTOR
-//                 )
-//                 .requestMatchers(HttpMethod.GET, "/api/courses/{id}/feedback").permitAll()
-//                 .requestMatchers(HttpMethod.PUT, "/api/courses/{id}/feedback").hasRole(DrawProjectConstaints.USER_ROLE)
-//                 .requestMatchers(HttpMethod.POST, "/api/courses/{id}/feedback").hasRole(DrawProjectConstaints.USER_ROLE)
-//                 .requestMatchers(HttpMethod.DELETE, "/api/courses/{id}/feedback/{feedbackId}").hasAnyRole(
-//                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE
-//                 )
-//                 .requestMatchers(HttpMethod.GET, "/api/courses/{id}/topic").permitAll()
-//                 .requestMatchers(HttpMethod.POST, "/api/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)
-//                 .requestMatchers(HttpMethod.GET, "/api//users/{id}/courses").hasAnyRole(
-//                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR
-//                 )
+                 .requestMatchers("/api/v1/courses/top-courses/**").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/v1/courses").hasRole("INSTRUCTOR")
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/courses").hasRole("INSTRUCTOR")
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}").hasAnyRole(
+                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.INSTRUCTOR
+                 )
+                 .requestMatchers(HttpMethod.GET, "/api/v1/viewcourses").hasAnyRole(
+                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE
+                 )
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/student").hasAnyRole(
+                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.INSTRUCTOR
+                 )
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/feedback").permitAll()
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/courses/{id}/feedback").hasRole(DrawProjectConstaints.USER_ROLE)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/courses/{id}/feedback").hasRole(DrawProjectConstaints.USER_ROLE)
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}/feedback/{feedbackId}").hasAnyRole(
+                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE
+                 )
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/topic").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/v1/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/users/{id}/courses").hasAnyRole(
+                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR
+                 )
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}/report").hasAnyRole(
+                         DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/users/{id}/open").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/assignments").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/assignments").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/assignments").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/courses").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/certificates").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/v1/instructor/{userId}/certificates").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()

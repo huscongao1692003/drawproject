@@ -121,7 +121,7 @@ public class InstructorController {
 
 
 
-    @GetMapping("/{id}/courses")
+    @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("id") int instructorId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
