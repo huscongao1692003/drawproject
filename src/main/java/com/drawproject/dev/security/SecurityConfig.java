@@ -37,6 +37,8 @@ public class SecurityConfig {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                 .cors()
+                 .and()
                 .authorizeRequests()
                  .requestMatchers(
                          "/swagger-resources/**",
