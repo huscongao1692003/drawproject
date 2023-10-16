@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Allow all origins, headers, and methods for simplicity.
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000", "https://react-fontend.vercel.app")
+                        .allowedOrigins("*")
                         .allowedHeaders("*")
                         .allowedMethods("*")
                         .allowCredentials(true);
