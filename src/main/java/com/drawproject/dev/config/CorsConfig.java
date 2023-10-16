@@ -15,9 +15,9 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Allow all origins, headers, and methods for simplicity.
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000" ,"https://drawproject-production.up.railway.app")
-                        .allowedHeaders("http://localhost:3000" ,"https://drawproject-production.up.railway.app")
-                        .allowedMethods("http://localhost:3000" ,"https://drawproject-production.up.railway.app");
+                        .allowedOrigins("*")
+                        .allowedHeaders("*")
+                        .allowedMethods("*");
             }
         };
     }
