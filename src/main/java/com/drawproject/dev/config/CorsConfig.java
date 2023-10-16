@@ -3,9 +3,11 @@ package com.drawproject.dev.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@EnableWebMvc
 public class CorsConfig {
 
     @Bean
@@ -18,7 +20,8 @@ public class CorsConfig {
                         .allowedOrigins("*")
                         .allowedHeaders("*")
                         .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Methods","Access-Control-Allow-Headers")
-                        .allowedMethods("*");
+                        .allowedMethods("*")
+                        .maxAge(1440000);
             }
         };
     }
