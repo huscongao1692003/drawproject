@@ -15,9 +15,10 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 // Allow all origins, headers, and methods for simplicity.
                 registry.addMapping("/**")
-                        .allowedOrigins("*")
+                        .allowedOrigins("http://localhost:3000", "https://react-fontend.vercel.app")
                         .allowedHeaders("*")
-                        .allowedMethods("*");
+                        .allowedMethods("*")
+                        .allowCredentials(true);
             }
         };
     }
