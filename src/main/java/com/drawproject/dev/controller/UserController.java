@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class UserController {
     @Autowired
     CourseService courseService;
@@ -26,14 +26,14 @@ public class UserController {
     @Autowired
     OrderService orderService;
 
-    @GetMapping("/users/{id}/courses")
+    @GetMapping("/users/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
-
+        System.out.println("okkookkokookookokokok1");
         return ResponseEntity.ok(courseService.getCoursesByUser(userId, page, eachPage));
     }
 

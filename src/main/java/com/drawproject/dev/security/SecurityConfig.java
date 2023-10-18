@@ -67,8 +67,8 @@ public class SecurityConfig {
                  )
                  .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/topic").permitAll()
                  .requestMatchers(HttpMethod.POST, "/api/v1/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)
-                 .requestMatchers(HttpMethod.GET, "/api/v1/users/{id}/courses").hasAnyRole(
-                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR
+                 .requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}/courses").hasAnyRole(
+                         DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF
                  )
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}/report").hasAnyRole(
                          DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
@@ -78,7 +78,9 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/assignments").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/courses").permitAll()
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/certificates").permitAll()
-                 //.requestMatchers(HttpMethod.POST, "/api/v1/instructor/{userId}/certificates").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/instructor/{userId}/certificates").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/instruct/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/instruct/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()
