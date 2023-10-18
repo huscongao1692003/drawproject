@@ -4,17 +4,17 @@ use drawcourses;
 
 CREATE TABLE `skills` (
                           `skill_id` INT PRIMARY KEY AUTO_INCREMENT,
-                          `skill_name` VARCHAR(255) NOT NULL
+                          `skill_name` VARCHAR(60) NOT NULL
 );
 
 CREATE TABLE `roles` (
                          `role_id` INT PRIMARY KEY AUTO_INCREMENT,
-                         `role_name` VARCHAR(255) NOT NULL
+                         `role_name` VARCHAR(20) NOT NULL
 );
 
 CREATE TABLE `category` (
                             `category_id` INT AUTO_INCREMENT PRIMARY KEY,
-                            `category_name` VARCHAR(100) NOT NULL
+                            `category_name` VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE `drawing_style` (
@@ -24,13 +24,13 @@ CREATE TABLE `drawing_style` (
 
 CREATE TABLE `users` (
                          `user_id` INT PRIMARY KEY AUTO_INCREMENT,
-                         `username` VARCHAR(255) NOT NULL,
+                         `username` VARCHAR(50) NOT NULL,
                          `full_name` VARCHAR(255) NOT NULL,
-                         `avatar` LONGBLOB,
+                         `avatar` VARCHAR(255),
                          `pwd` VARCHAR(255) NOT NULL,
-                         `email` VARCHAR(255) NOT NULL,
-                         `mobile_num` VARCHAR(255),
-                         `status` VARCHAR(255) NOT NULL,
+                         `email` VARCHAR(80) NOT NULL,
+                         `mobile_num` VARCHAR(15),
+                         `status` VARCHAR(30) NOT NULL,
                          `skill_id` INT NOT NULL,
                          `role_id` INT NOT NULL,
                          `created_at` TIMESTAMP,
@@ -45,10 +45,10 @@ CREATE TABLE `posts` (
                          `category_id` INT NOT NULL,
                          `description` VARCHAR(255) NOT NULL,
                          `reading_time` INT NOT NULL,
-                         `image` LONGBLOB,
+                         `image` VARCHAR(255),
                          `body` TEXT NOT NULL,
                          `user_id` INT NOT NULL,
-                         `status` VARCHAR(255) NOT NULL,
+                         `status` VARCHAR(30) NOT NULL,
                          `created_at` TIMESTAMP,
                          `updated_at` TIMESTAMP,
                          FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
@@ -71,8 +71,8 @@ CREATE TABLE `courses` (
                            `skill_id` INT NOT NULL,
                            `price` INT NOT NULL,
                            `category_id` INT NOT NULL,
-                           `image` LONGBLOB NOT NULL,
-                           `status` VARCHAR(255) NOT NULL,
+                           `image` VARCHAR(255) NOT NULL,
+                           `status` VARCHAR(30) NOT NULL,
                            `drawing_style_id` INT NOT NULL,
                            `instructor_id` INT NOT NULL,
                            `created_at` TIMESTAMP,
@@ -87,7 +87,7 @@ CREATE TABLE `enroll` (
                           `enroll_id` INT PRIMARY KEY AUTO_INCREMENT,
                           `user_id` INT NOT NULL,
                           `course_id` INT NOT NULL,
-                          `status` VARCHAR(255) NOT NULL,
+                          `status` VARCHAR(30) NOT NULL,
                           `created_at` TIMESTAMP,
                           `updated_at` TIMESTAMP,
                           FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
@@ -116,10 +116,10 @@ CREATE TABLE `lesson` (
 CREATE TABLE `contact_msg` (
                                `contact_id` INT PRIMARY KEY AUTO_INCREMENT,
                                `name` VARCHAR(255) NOT NULL,
-                               `mobile_num` VARCHAR(255) NOT NULL,
+                               `mobile_num` VARCHAR(15) NOT NULL,
                                `email` VARCHAR(255) NOT NULL,
                                `message` VARCHAR(255) NOT NULL,
-                               `status` VARCHAR(255) NOT NULL,
+                               `status` VARCHAR(30) NOT NULL,
                                `created_at` TIMESTAMP,
                                `updated_at` TIMESTAMP
 );
@@ -132,13 +132,13 @@ CREATE TABLE `subscribe` (
 CREATE TABLE `orders` (
                           `order_id` INT PRIMARY KEY AUTO_INCREMENT,
                           `price` INT NOT NULL,
-                          `method` VARCHAR(255) NOT NULL,
+                          `method` VARCHAR(60) NOT NULL,
                           `description` VARCHAR(255),
                           `user_id` INT NOT NULL,
                           `course_id` INT NOT NULL,
                           `created_at` TIMESTAMP,
                           `updated_at` TIMESTAMP,
-                          `status` VARCHAR(255) NOT NULL,
+                          `status` VARCHAR(30) NOT NULL,
                           FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
                           FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );
@@ -146,7 +146,7 @@ CREATE TABLE `orders` (
 CREATE TABLE `feedback` (
                             `feedback_id` INT PRIMARY KEY AUTO_INCREMENT,
                             `feedback_information` VARCHAR(255) NOT NULL,
-                            `status` VARCHAR(255) NOT NULL,
+                            `status` VARCHAR(30) NOT NULL,
                             `star` INT NOT NULL,
                             `created_at` TIMESTAMP,
                             `updated_at` TIMESTAMP,
@@ -181,7 +181,7 @@ CREATE TABLE process (
                          lesson_id INT,
                          created_at TIMESTAMP,
                          updated_at TIMESTAMP,
-                         status VARCHAR(255),
+                         status VARCHAR(30),
                          FOREIGN KEY (enroll_id) REFERENCES enroll(enroll_id),
                          FOREIGN KEY (lesson_id) REFERENCES lesson(lesson_id)
 );
@@ -193,7 +193,7 @@ CREATE TABLE `user_assignment` (
                                    `user_id` INT NOT NULL,
                                    `task_title` VARCHAR(255) NOT NULL,
                                    `description` VARCHAR(255),
-                                   `image` LONGBLOB NOT NULL,
+                                   `image` VARCHAR(255) NOT NULL,
                                    `created_at` TIMESTAMP,
                                    `updated_at` TIMESTAMP,
                                    `assignment_id` INT NOT NULL,
@@ -203,15 +203,15 @@ CREATE TABLE `user_assignment` (
 
 CREATE TABLE certificates (
                               certificate_id INT PRIMARY KEY AUTO_INCREMENT,
-                              image LONGBLOB,
+                              image VARCHAR(255),
                               instructor_id INT,
-                              status VARCHAR(255),
+                              status VARCHAR(30),
                               FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id)
 );
 
 CREATE TABLE artworks (
                           artwork_id INT PRIMARY KEY,
-                          image LONGBLOB,
+                          image VARCHAR(255),
                           category_id INT,
                           instructor_id INT,
                           FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id),
