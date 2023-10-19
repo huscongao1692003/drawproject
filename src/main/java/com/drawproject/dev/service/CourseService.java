@@ -9,6 +9,7 @@ import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.*;
 import com.drawproject.dev.repository.*;
+import com.drawproject.dev.ultils.IdUtils;
 import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,6 +56,9 @@ public class CourseService {
 
     @Autowired
     AssignmentRepository assignmentRepository;
+
+    @Autowired
+    FileService fileService;
 
     /**
      * Gets top course by category.
@@ -103,10 +107,15 @@ public class CourseService {
         User user = (User) session.getAttribute("loggedInPerson");
         //set instructor
         Instructor instructor = instructorRepository.findById(user.getUserId()).orElseThrow();
+
         course.setInstructor(instructor);
         course = setProperties(course, courseDTO);
         //set status course
         course.setStatus(DrawProjectConstaints.CLOSE);
+        course = courseRepository.save(course);
+        //save image
+        course.setImage(fileService.uploadFile(courseDTO.getImage(), course.getCourseId(),
+                DrawProjectConstaints.IMAGE, "courses"));
         courseRepository.save(course);
 
         return new ResponseDTO(HttpStatus.CREATED, "Course created successfully", courseDTO);
@@ -132,32 +141,18 @@ public class CourseService {
         Skill skill = skillRepository.findById(courseDTO.getSkill()).orElseThrow();
         course.setSkill(skill);
         //set image
-        try {
-            course.setImage(Base64.getEncoder().encodeToString(courseDTO.getImage().getBytes()));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String fileName = IdUtils.generateCode(courseDTO.getCourseId(), "COURSE");
+        course.setImage(fileName);
 
         return course;
     }
 
-    public ResponseDTO getCourseDetailsById(int courseId, HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseDTO getCourseDetailsById(int courseId) {
+
         CourseDetail courseDetail = new CourseDetail();
         Courses course = courseRepository.findById(courseId).orElseThrow();
         modelMapper.map(course, courseDetail);
 
-        //set status buy/enroll
-        if(user.getRoles().equals(DrawProjectConstaints.USER_ROLE)) {
-            Boolean enroll = enrollRepository.existsByUserUserIdAndCourseCourseId(courseId, user.getUserId());
-            if(enroll) {
-                courseDetail.setStatus(DrawProjectConstaints.ENROLL);
-            } else {
-                courseDetail.setStatus(DrawProjectConstaints.UNENROLL);
-            }
-        } else {
-            courseDetail.setStatus(DrawProjectConstaints.VIEW);
-        }
         //set number of student on course
         courseDetail.setNumStudent(enrollRepository.countByCourseCourseIdAndStatus(courseId, DrawProjectConstaints.ENROLL));
         //set number of topic
@@ -166,6 +161,23 @@ public class CourseService {
         ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
 
         return responseDTO;
+    }
+
+    public ResponseDTO checkEnroll(int courseId, HttpSession session) {
+        User user = (User) session.getAttribute("loggedInPerson");
+
+        //set status buy/enroll
+        if(user.getRoles().equals(DrawProjectConstaints.USER_ROLE)) {
+            Boolean enroll = enrollRepository.existsByUserUserIdAndCourseCourseId(courseId, user.getUserId());
+            if(enroll) {
+                return new ResponseDTO(HttpStatus.ACCEPTED, "You have enrolled this course", DrawProjectConstaints.ENROLL);
+            } else {
+                return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have not enrolled this course", DrawProjectConstaints.UNENROLL);
+            }
+        } else {
+            return new ResponseDTO(HttpStatus.LOCKED, "You just see course at this role", DrawProjectConstaints.VIEW);
+        }
+
     }
 
     public ResponseDTO deleteCourse(int courseId) {

@@ -128,16 +128,16 @@ VALUES
 
 INSERT INTO certificates (certificate_id, image, instructor_id, status)
 VALUES
-    (1, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, "ACCEPT"),
-    (2, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 6, "ACCEPT"),
-    (3, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 7, "ACCEPT"),
-    (4, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, "ACCEPT"),
-    (5, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 6, "ACCEPT"),
-    (6, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 7, "ACCEPT"),
-    (7, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, "ACCEPT"),
-    (8, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 6, "ACCEPT"),
-    (9, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 7, "ACCEPT"),
-    (10, 0x4D5A90000300000004000000FFFF0000B8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000, 3, "ACCEPT");
+    (1, "image", 3, "ACCEPT"),
+    (2, "image", 6, "ACCEPT"),
+    (3, "image", 7, "ACCEPT"),
+    (4, "image", 3, "ACCEPT"),
+    (5, "image", 6, "ACCEPT"),
+    (6, "image", 7, "ACCEPT"),
+    (7, "image", 3, "ACCEPT"),
+    (8, "image", 6, "ACCEPT"),
+    (9, "image", 7, "ACCEPT"),
+    (10, "image", 3, "ACCEPT");
 
 INSERT INTO `process` (`process_id`, `enroll_id`, `lesson_id`, `created_at`, `status`)
 VALUES
@@ -184,3 +184,32 @@ VALUES
     (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed');
 
 INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`) VALUES ('1', 'a', 'animal', '1', 'Not Complete');
+
+
+INSERT INTO `assignment` (`assignment_id`, `assignment_title`, `topic`, `created_at`, `updated_at`, `lesson_id`, `status`)
+VALUES
+    (11, 'Assignment 1', 'Introduction to SQL', NOW(), NOW(), 1, 'Active'),
+    (2, 'Assignment 2', 'Data Types', NOW(), NOW(), 2, 'Active'),
+    (3, 'Assignment 3', 'SQL Queries', NOW(), NOW(), 3, 'Active'),
+    (4, 'Assignment 4', 'Database Design', NOW(), NOW(), 4, 'Active'),
+    (5, 'Assignment 5', 'Joins and Subqueries', NOW(), NOW(), 5, 'Active'),
+    (6, 'Assignment 6', 'Indexes and Optimization', NOW(), NOW(), 6, 'Active'),
+    (7, 'Assignment 7', 'Transactions', NOW(), NOW(), 7, 'Active'),
+    (8, 'Assignment 8', 'Stored Procedures', NOW(), NOW(), 8, 'Active'),
+    (9, 'Assignment 9', 'Triggers', NOW(), NOW(), 9, 'Active'),
+    (10, 'Assignment 10', 'Normalization', NOW(), NOW(), 10, 'Active');
+
+
+INSERT INTO `user_assignment` (`enroll_id`, `assignment_id`, `task_title`, `description`, `image`, `status`, `grade`, `created_at`, `updated_at`)
+VALUES
+    (1, 11, 'Task 11', 'Write complex SQL queries', 'task11.jpg', 'Pending', NULL, NOW(), NOW()),
+    (2, 1, 'Task 12', 'Optimize SQL performance', 'task12.jpg', 'Pending', NULL, NOW(), NOW()),
+    (3, 1, 'Task 13', 'Complete the SQL assignment', 'task13.jpg', 'Pending', NULL, NOW(), NOW()),
+    (4, 2, 'Task 14', 'Design a database schema', 'task14.jpg', 'Pending', NULL, NOW(), NOW()),
+    (5, 3, 'Task 15', 'Write complex SQL queries', 'task15.jpg', 'Pending', NULL, NOW(), NOW()),
+    (6, 4, 'Task 16', 'Optimize SQL performance', 'task16.jpg', 'Pending', NULL, NOW(), NOW()),
+    (7, 5, 'Task 17', 'Create SQL joins and subqueries', 'task17.jpg', 'Pending', NULL, NOW(), NOW()),
+    (8, 6, 'Task 18', 'Implement database indexes', 'task18.jpg', 'Pending', NULL, NOW(), NOW()),
+    (9, 7, 'Task 19', 'Manage SQL transactions', 'task19.jpg', 'Pending', NULL, NOW(), NOW()),
+    (10, 8, 'Task 20', 'Write stored procedures', 'task20.jpg', 'Pending', NULL, NOW(), NOW());
+

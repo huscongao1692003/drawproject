@@ -1,11 +1,13 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.OrderAdminDTO;
+import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.OrderService;
+import com.drawproject.dev.service.UserAssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,6 +28,9 @@ public class UserController {
     @Autowired
     OrderService orderService;
 
+    @Autowired
+    UserAssignmentService userAssignmentService;
+
     @GetMapping("/users/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
@@ -35,6 +40,11 @@ public class UserController {
         eachPage = Math.max(eachPage, 1);
         System.out.println("okkookkokookookokokok1");
         return ResponseEntity.ok(courseService.getCoursesByUser(userId, page, eachPage));
+    }
+
+    @GetMapping("/users/studentwork")
+    public ResponseEntity<ResponseDTO> getStudentWork(@RequestParam("taskId") int taskId) {
+        return ResponseEntity.ok().body(userAssignmentService.getStudentWork(taskId));
     }
 
     @GetMapping("/orders")

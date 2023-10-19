@@ -17,7 +17,8 @@ public class CourseDetail {
     private String categoryName;
     private String drawingStyleName;
     private String image;
-    private String status;//status of student owner this course
+    private String videoIntro;
+    private int instructorId;
     private double averageStar;
     private int numLesson;
     private int numStudent;

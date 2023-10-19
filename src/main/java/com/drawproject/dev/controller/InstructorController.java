@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.*;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
@@ -31,12 +32,10 @@ public class InstructorController {
     ProfileService profileService;
 
     @Autowired
-
     ModelMapper modelMapper;
 
     @Autowired
     OrderService orderService;
-
 
     @Autowired
     InstructorService instructorService;
@@ -52,6 +51,9 @@ public class InstructorController {
 
     @Autowired
     CourseService courseService;
+
+    @Autowired
+    UserAssignmentService userAssignmentService;
 
     @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
@@ -135,8 +137,6 @@ public class InstructorController {
 
     }
 
-
-
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int instructorId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
@@ -147,4 +147,25 @@ public class InstructorController {
 
         return ResponseEntity.ok(courseService.getCoursesByInstructor(instructorId, page, eachPage));
     }
+
+    @GetMapping("/{userId}/submissions")
+    public ResponseEntity<ResponsePagingDTO> getSubmissions(@PathVariable("userId") int instructorId,
+                                                            @RequestParam(value = "page", defaultValue = "1") int page,
+                                                            @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
+                                                            @RequestParam(value = "status") String status) {
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok().body(userAssignmentService.getSubmissions(page, eachPage, status, instructorId));
+    }
+
+    @PutMapping("/submissions/{taskId}")
+    public ResponseEntity<ResponseDTO> gradeStudentWork(@PathVariable("taskId") int taskId,
+                                                        @RequestParam(value = "grade") int grade,
+                                                        @RequestParam(value = "comment") String comment) {
+
+        return ResponseEntity.ok().body(userAssignmentService.gradeHomeWork(taskId, grade, comment));
+
+    }
+
 }

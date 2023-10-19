@@ -10,5 +10,5 @@ public interface FileRepository {
     List<String> listOfFiles(String path);
     ByteArrayResource downloadFile(String fileName);
     boolean deleteFile(String fileName);
-    void uploadFile(MultipartFile file, String path, String fileName) throws IOException;
+    String uploadFile(MultipartFile file, int id, String typeFile, String categoryFile);
 }

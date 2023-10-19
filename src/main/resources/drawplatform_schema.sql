@@ -163,7 +163,7 @@ CREATE TABLE `assignment` (
                               `created_at` TIMESTAMP,
                               `updated_at` TIMESTAMP,
                               `lesson_id` INT NOT NULL,
-                              `force` bit DEFAULT FALSE,
+                              `compulsory` bit DEFAULT FALSE,
                               `status` VARCHAR(255) NOT NULL,
                               FOREIGN KEY (`lesson_id`) REFERENCES `lesson`(`lesson_id`)
 );
@@ -190,14 +190,17 @@ CREATE TABLE process (
 
 CREATE TABLE `user_assignment` (
                                    `task_id` INT PRIMARY KEY AUTO_INCREMENT,
-                                   `user_id` INT NOT NULL,
+                                   `enroll_id` INT NOT NULL,
+                                   `assignment_id` INT NOT NULL,
                                    `task_title` VARCHAR(255) NOT NULL,
                                    `description` VARCHAR(255),
                                    `image` VARCHAR(255) NOT NULL,
+                                   `status` VARCHAR(30) NOT NULL,
+                                    `grade` INT,
+                                    `comment` VARCHAR(255),
                                    `created_at` TIMESTAMP,
                                    `updated_at` TIMESTAMP,
-                                   `assignment_id` INT NOT NULL,
-                                   FOREIGN KEY (`user_id`) REFERENCES `users`(`user_id`),
+                                   FOREIGN KEY (`enroll_id`) REFERENCES `enroll`(`enroll_id`),
                                    FOREIGN KEY (`assignment_id`) REFERENCES `assignment`(`assignment_id`)
 );
 

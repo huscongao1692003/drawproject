@@ -20,8 +20,8 @@ public class UserAssignment extends BaseEntity {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "user_id", referencedColumnName = "userId", nullable = false)
-    private User user;
+    @JoinColumn(name = "enroll_id", referencedColumnName = "enrollId", nullable = false)
+    private Enroll enroll;
 
     @Size(max = 255)
     @NotNull
@@ -35,6 +35,12 @@ public class UserAssignment extends BaseEntity {
     @NotNull
     @Column(name = "image", nullable = false)
     private String image;
+
+    private String status;
+
+    private Integer grade;
+
+    private String comment;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

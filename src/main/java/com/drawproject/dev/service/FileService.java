@@ -1,6 +1,7 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.repository.FileRepository;
+import com.drawproject.dev.ultils.IdUtils;
 import com.google.api.gax.paging.Page;
 import com.google.cloud.storage.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class FileService implements FileRepository {
     public List<String> listOfFiles(String path) {
 
         List<String> list = new ArrayList<>();
-        Page<Blob> blobs = storage.list(bucketName, Storage.BlobListOption.prefix("image/artworks/"));
-        //Page<Blob> blobs = storage.list(bucketName, Storage.BlobListOption.prefix(path));
+        //Page<Blob> blobs = storage.list(bucketName, Storage.BlobListOption.prefix("image/artworks/"));
+        Page<Blob> blobs = storage.list(bucketName, Storage.BlobListOption.prefix(path));
         for (Blob blob : blobs.iterateAll()) {
             list.add(blob.getMediaLink());
         }
@@ -53,14 +54,24 @@ public class FileService implements FileRepository {
     }
 
     @Override
-    public void uploadFile(MultipartFile file, String path, String fileName) throws IOException {
+    public String uploadFile(MultipartFile file, int id, String typeFile, String categoryFile) {
 
-        BlobId blobId = BlobId.of(bucketName, "image/artworks/" + file.getOriginalFilename());
-        //BlobId blobId = BlobId.of(bucketName, path + fileName);
+        //BlobId blobId = BlobId.of(bucketName, "image/artworks/" + file.getOriginalFilename());
+        //set up enviroment
+        String fileName = IdUtils.generateCode(id, categoryFile);
+        String path = typeFile + "/" + categoryFile + "/";
+        //upload to bucket
+        BlobId blobId = BlobId.of(bucketName, path + fileName);
         BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
                 .setContentType(file.getContentType())
                 .setAcl(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))
                 .build();
-        Blob blob = storage.create(blobInfo, file.getBytes());
+        try {
+            Blob blob = storage.create(blobInfo, file.getBytes());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return path + fileName;
     }
 }

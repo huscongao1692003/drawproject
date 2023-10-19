@@ -76,10 +76,9 @@ public class CourseController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<ResponseDTO> viewCourseDetail(@PathVariable("id") int id,
-                                                        HttpSession session) {
+    public ResponseEntity<ResponseDTO> viewCourseDetail(@PathVariable("id") int id) {
 
-        return ResponseEntity.ok().body(courseService.getCourseDetailsById(id, session));
+        return ResponseEntity.ok().body(courseService.getCourseDetailsById(id));
     }
 
     @DeleteMapping(value = "/{id}/report")
@@ -92,6 +91,11 @@ public class CourseController {
     public ResponseEntity<ResponseDTO> openCourse(@PathVariable("id") int id,
                                                     @RequestBody(required = false) String message) {
         return ResponseEntity.ok().body(courseService.openCourse(id, message));
+    }
+
+    @GetMapping("/{id}/check-enroll")
+    public ResponseEntity<ResponseDTO> checkEnrollCourse(@PathVariable("id") int id, HttpSession session) {
+        return ResponseEntity.ok().body(courseService.checkEnroll(id, session));
     }
 
 }

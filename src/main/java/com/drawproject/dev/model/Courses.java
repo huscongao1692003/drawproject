@@ -18,12 +18,10 @@ import java.util.Set;
 @Entity
 public class Courses extends BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "native")
     @GenericGenerator(name = "native", strategy = "native")
     private int courseId;
 
-    @NotBlank(message = "Title can not be blank")
-    @Size(min = 6, message = "Title must be at least 6 characters long")
     private String courseTitle;
 
     private String description;
@@ -47,9 +45,6 @@ public class Courses extends BaseEntity {
     @JoinColumn(name = "drawing_style_id", referencedColumnName = "drawingStyleId", nullable = false)
     private Style style;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    @NotBlank
     private String image;
 
     private String status;

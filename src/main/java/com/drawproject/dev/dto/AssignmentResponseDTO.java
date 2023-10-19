@@ -12,7 +12,7 @@ public class AssignmentResponseDTO {
     private int assignmentId;
     private String assignmentTitle;
     private String topic;
-    private boolean force;
+    private boolean compulsory;
 
 
 }
