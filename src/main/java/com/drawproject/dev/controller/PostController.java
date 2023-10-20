@@ -9,6 +9,7 @@ import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.PostRepository;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.FileService;
 import com.drawproject.dev.service.PostService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -19,9 +20,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,15 +47,13 @@ public class PostController {
     CategoryRepository categoryRepository;
 
     @Autowired
-    private ModelMapper modelMapper;
+    ModelMapper modelMapper;
 
-//    @Autowired
-//    CommentController commentController;
+    @Autowired
+    FileService fileService;
 
-
-
-    @PostMapping
-    public ResponseEntity<String> savePost(@Valid @RequestBody PostDTO postDTO, Errors errors, HttpSession session){
+    @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> savePost(MultipartFile requestImage, @Valid PostDTO postDTO, Errors errors, HttpSession session){
         User user = (User) session.getAttribute("loggedInPerson");
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
@@ -67,7 +68,7 @@ public class PostController {
             category.setCategoryId(postDTO.getCategoryId());
             Posts posts = new Posts();
             posts.setCategory(category);
-            posts.setImage(postDTO.getImage());
+            posts.setImage(fileService.uploadFile(requestImage, user.getUserId(), "image", "posts"));
             posts.setDescription(postDTO.getDescription());
             posts.setReadingTime(postDTO.getReadingTime());
             posts.setStatus(DrawProjectConstaints.OPEN);

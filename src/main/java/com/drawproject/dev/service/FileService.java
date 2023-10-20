@@ -66,12 +66,13 @@ public class FileService implements FileRepository {
                 .setContentType(file.getContentType())
                 .setAcl(Collections.singletonList(Acl.of(Acl.User.ofAllUsers(), Acl.Role.READER)))
                 .build();
+        Blob blob;
         try {
-            Blob blob = storage.create(blobInfo, file.getBytes());
+            blob = storage.create(blobInfo, file.getBytes());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return path + fileName;
+        return "https://storage.googleapis.com/" + bucketName + "/"  + path + fileName;
     }
 }

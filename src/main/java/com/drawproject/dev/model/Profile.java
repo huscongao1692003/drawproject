@@ -20,10 +20,7 @@ public class Profile {
     @Email(message = "Please provide a valid email address" )
     private String email;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
     private String avatar;
-
 
     private Skill skill;
 

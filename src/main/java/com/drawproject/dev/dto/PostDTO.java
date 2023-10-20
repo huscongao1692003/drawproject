@@ -28,8 +28,6 @@ public class PostDTO {
     @NotNull
     private int readingTime;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
     private String image;
 
     @NotBlank(message="body must not be blank")
