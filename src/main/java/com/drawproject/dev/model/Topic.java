@@ -21,6 +21,10 @@ public class Topic {
 
     private String topicTitle;
 
+    private int index;
+
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "course_id", referencedColumnName = "courseId", nullable = false)
     private Courses course;

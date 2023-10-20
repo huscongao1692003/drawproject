@@ -30,7 +30,7 @@ public class AssignmentService {
 
     public List<AssignmentResponseDTO> getAssignmentDTOs(int lessonId) {
         return MapAssignment.mapAssignmentToDTOs(assignmentRepository.findByLessonLessonIdAndStatusIs(lessonId,
-                DrawProjectConstaints.OPEN));
+                DrawProjectConstaints.PENDING));
     }
 
     public ResponseDTO createAssignment(AssignmentDTO assignmentDTO) {

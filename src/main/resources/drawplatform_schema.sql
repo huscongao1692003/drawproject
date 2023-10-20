@@ -98,6 +98,8 @@ CREATE TABLE `topic` (
                          `topic_id` INT PRIMARY KEY AUTO_INCREMENT,
                          `topic_title` VARCHAR(255),
                          `course_id` INT,
+                         `index` INT NOT NULL,
+                         `status` VARCHAR(30) NOT NULL,
                          FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );
 
@@ -107,6 +109,8 @@ CREATE TABLE `lesson` (
                           `topic_id` INT,
                           `name` VARCHAR(255),
                           `type_file` VARCHAR(255),
+                          `index` int NOT NULL,
+                           `status` VARCHAR(30) NOT NULL,
                           `created_at` TIMESTAMP,
                           `updated_at` TIMESTAMP,
                           FOREIGN KEY (`topic_id`) REFERENCES `topic`(`topic_id`)
@@ -163,6 +167,7 @@ CREATE TABLE `assignment` (
                               `created_at` TIMESTAMP,
                               `updated_at` TIMESTAMP,
                               `lesson_id` INT NOT NULL,
+                              `index` INT NOT NULL,
                               `compulsory` bit DEFAULT FALSE,
                               `status` VARCHAR(255) NOT NULL,
                               FOREIGN KEY (`lesson_id`) REFERENCES `lesson`(`lesson_id`)
@@ -213,10 +218,11 @@ CREATE TABLE certificates (
 );
 
 CREATE TABLE artworks (
-                          artwork_id INT PRIMARY KEY,
+                          artwork_id INT PRIMARY KEY AUTO_INCREMENT,
                           image VARCHAR(255),
                           category_id INT,
                           instructor_id INT,
+                          status VARCHAR(30) NOT NULL ,
                           FOREIGN KEY (instructor_id) REFERENCES instructors(instructor_id),
                           FOREIGN KEY (category_id) REFERENCES category(category_id)
 );

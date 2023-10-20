@@ -15,9 +15,7 @@ public class Certificate {
     @GenericGenerator(name = "native",strategy = "native")
     private int certificateId;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] image;
+    private String image;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "instructor_id", referencedColumnName = "instructorId", nullable = false)

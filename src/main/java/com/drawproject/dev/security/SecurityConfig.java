@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/auth/**").permitAll()
                  .requestMatchers("/api/v1/courses/top-courses/**").permitAll()
                  .requestMatchers(HttpMethod.GET, "/api/v1/courses").permitAll()
-                 //.requestMatchers(HttpMethod.POST, "/api/v1/courses").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/courses").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/courses").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}").hasAnyRole(
                          DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.INSTRUCTOR
@@ -83,6 +83,14 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.POST, "/api/v1/instructor/{userId}/certificates").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/instruct/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/instruct/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/artworks").permitAll()
+                 .requestMatchers(HttpMethod.POST, "/api/v1/instructor/{userId}/artworks").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/instructor/{userId}/artworks/{artworkId}").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.DELETE, "/api/v1/instructor/{userId}/artworks/{artworkId}").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.GET, "api/v1/staff/artworks").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
+                 .requestMatchers(HttpMethod.GET, "api/v1/instructor/{userId}/submissions").hasAnyRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.POST, "api/v1/instructor/submissions").hasAnyRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "api/v1/users/studentwork").hasAnyRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()

@@ -13,7 +13,7 @@ public class IdUtils {
     }
 
     public static String generateCode(int id, String object) {
-        return object.substring(0, 2) + id + generateNumId();
+        return object.substring(0, 2).toUpperCase() + id + generateNumId();
     }
 
 }

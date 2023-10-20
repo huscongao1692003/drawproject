@@ -26,6 +26,10 @@ public class Lesson extends BaseEntity {
 
     private String url;
 
+    private int index;
+
+    private String status;
+
     @ManyToOne
     @JoinColumn(name = "topic_id", referencedColumnName = "topicId", nullable = false)
     private Topic topic;

@@ -48,12 +48,12 @@ public class CertificateService {
         for(MultipartFile image : listImages) {
             Certificate certificate = new Certificate();
             //How to save image MultipartFile to database
-            certificate.setImage(image.getBytes());
+            certificate.setImage(fileService.uploadFile(image, instructorId, "image", "certificates"));
             certificate.setInstructor(instructor);
             certificate.setStatus(DrawProjectConstaints.CLOSE);
             certificateRepository.save(certificate);
         }
-        return new ResponseDTO(HttpStatus.CREATED, "Certificate created", null);
+        return new ResponseDTO(HttpStatus.CREATED, "Certificate created", "Your certificate will be reviewed before updating!");
     }
 
     public ResponseDTO deleteCertificate(int certificateId) {
@@ -69,9 +69,9 @@ public class CertificateService {
         if(certificate == null) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Not existed", null);
         }
-         certificate.setImage(image.getBytes());
+         certificate.setImage(fileService.uploadFile(image, instructorId, "image", "certificates"));
         certificateRepository.save(certificate);
-        return new ResponseDTO(HttpStatus.OK, "Certificate updated", null);
+        return new ResponseDTO(HttpStatus.OK, "Certificate updated", "Your certificate will be reviewed before updating!");
     }
 
 }

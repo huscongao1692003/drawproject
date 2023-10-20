@@ -55,6 +55,9 @@ public class InstructorController {
     @Autowired
     UserAssignmentService userAssignmentService;
 
+    @Autowired
+    ArtWorkService artWorkService;
+
     @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
         List<User> users = profileService.findInstructor();
@@ -166,6 +169,41 @@ public class InstructorController {
 
         return ResponseEntity.ok().body(userAssignmentService.gradeHomeWork(taskId, grade, comment));
 
+    }
+
+    @GetMapping("/{userId}/artworks")
+    public ResponseEntity<Object> getArtWorks(@PathVariable("userId") int instructorId,
+                                                  @RequestParam(value = "page", defaultValue = "1") int page,
+                                                  @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
+                                                  @RequestParam(value = "categoryId", defaultValue = "0") int categoryId) {
+
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok(artWorkService.getArtworks(page, eachPage, instructorId, categoryId));
+    }
+
+    @PostMapping("/artworks")
+    public ResponseEntity<Object> craeteArtWork(MultipartFile requestImage, ArtWorkDTO artWorkDTO, HttpSession session) {
+
+
+        return ResponseEntity.ok(artWorkService.createArtwork(requestImage, artWorkDTO, session));
+    }
+
+    @PutMapping("/artworks/{artworkId}")
+    public ResponseEntity<Object> openArtWork(@PathVariable("artworkId") int artworkId,
+                                               @RequestParam(value = "message", defaultValue = "") String message) {
+
+
+        return ResponseEntity.ok(artWorkService.openArtWork(message, artworkId));
+    }
+
+    @DeleteMapping("/artworks/{artworkId}")
+    public ResponseEntity<Object> deleteArtWork(@PathVariable("artworkId") int artworkId,
+                                                @RequestParam(value = "message", defaultValue = "") String message) {
+
+
+        return ResponseEntity.ok(artWorkService.deleteArtWork(message, artworkId));
     }
 
 }

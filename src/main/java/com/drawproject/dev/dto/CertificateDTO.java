@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CertificateDTO {
     private int certificateId;
-    private byte[] image;
+    private String image;
     private String status;
 }

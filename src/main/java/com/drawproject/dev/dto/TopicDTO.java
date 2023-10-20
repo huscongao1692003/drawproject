@@ -19,5 +19,7 @@ public class TopicDTO {
     @Size(min = 4, message = "Topic title must be at least 4 characters")
     private String topicTitle;
 
+    private int index;
+
     private List<LessonDTO> lessons;
 }

@@ -24,10 +24,10 @@ INSERT INTO `drawing_style` (`drawing_style_name`) VALUES
 
    INSERT INTO `roles` (`role_name`)
   VALUES
-    ("Admin"),
-    ("Staff"),
-    ("Instructor"),
-    ("Customer");
+    ("ADMIN"),
+    ("STAFF"),
+    ("INSTRUCTOR"),
+    ("CUSTOMER");
 
 INSERT INTO `users` (`user_id`, `username`, `avatar`, `pwd`, `email`, `mobile_num`, `status`, `skill_id`, `role_id`, `created_at`, `updated_at`, `full_name`)
 VALUES
@@ -51,39 +51,39 @@ VALUES
 -- Thêm dữ liệu vào bảng 'courses' liên quan đến học vẽ
 INSERT INTO `courses` (`course_id`, `course_title`, `description`, `information`, `skill_id`, `price`, `category_id`, `status`, `image`, `drawing_style_id`, `instructor_id`)
 VALUES
-    (1, 'Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Open', 'beach.jpg', 1, 3),
-    (2, 'Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Open', 'tulip.jpg', 2, 6),
-    (3, 'Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Open', 'night.jpg', 3, 7),
-    (4, 'Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Open', 'portrait.jpg', 4, 3),
-    (5, 'Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Open', 'graffiti.jpg', 5, 7);
+    (1, 'Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 1, 3),
+    (2, 'Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 2, 6),
+    (3, 'Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 3, 7),
+    (4, 'Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 4, 3),
+    (5, 'Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 5, 7);
 
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson'
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson' liên quan đến học vẽ
-INSERT INTO `topic` (`topic_id`, `topic_title`, `course_id`)
+INSERT INTO `topic` (`topic_id`, `topic_title`, `course_id`, `index`, `status`)
 VALUES
-    (1, 'Vẽ bãi biển', 1),
-    (2, 'Vẽ cảnh người đánh cá', 1),
-    (3, 'Vẽ sóng', 1),
-    (4, 'Vẽ hoa tulip', 2),
-    (5, 'Vẽ cảnh phụ', 2),
-    (6, 'Vẽ tranh sơn dầu cảnh đêm', 3),
-    (7, 'Chân dung người mẫu', 4),
-    (8, 'Vẽ graffiti phố đêm', 5);
+    (1, 'Vẽ bãi biển', 1, 1, 'Open'),
+    (2, 'Vẽ cảnh người đánh cá', 1, 2, 'Open'),
+    (3, 'Vẽ sóng', 1, 3, 'Open'),
+    (4, 'Vẽ hoa tulip', 2, 2, 'Open'),
+    (5, 'Vẽ cảnh phụ', 2, 1, 'Open'),
+    (6, 'Vẽ tranh sơn dầu cảnh đêm', 3, 1, 'Open'),
+    (7, 'Chân dung người mẫu', 4, 1, 'Open'),
+    (8, 'Vẽ graffiti phố đêm', 5, 1, 'Open');
 
-INSERT INTO `lesson` (`lesson_id`, `url`, `topic_id`, `name`, `type_file`, `created_at`, `updated_at`)
+INSERT INTO `lesson` (`lesson_id`, `url`, `topic_id`, `name`, `type_file`, `created_at`, `updated_at`, `index`, `status`)
 VALUES
-    (1, 'lesson1.mp4', 1, 'Vẽ biển và cát', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00'),
-    (2, 'lesson2.mp4', 1, 'Vẽ trời và chi tiết phụ', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00'),
-    (3, 'lesson1.mp4', 2, 'Sử dụng pastel màu nước', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00'),
-    (4, 'lesson2.mp4', 2, 'Vẽ người và thuyền', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00'),
-    (5, 'lesson1.pdf', 3, 'Sử dụng kết hợp các cách đã học', 'pdf', '2023-09-20 09:30:00', '2023-09-20 10:00:00'),
-    (6, 'lesson1.mp4', 4, 'Chân dung và biểu cảm', 'video', '2023-09-21 14:00:00', '2023-09-21 14:30:00'),
-    (7, 'lesson2.docx', 5, 'Các công cụ và kỹ thuật graffiti', 'document', '2023-09-22 11:00:00', '2023-09-22 11:45:00'),
-    (8, 'lesson1.mp4', 6, 'Vẽ cảnh trời', 'video', '2023-09-23 15:00:00', '2023-09-23 15:45:00'),
-    (9, 'lesson2.pdf', 6, 'Vẽ cây cỏ bằng bút chì', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00'),
-    (10, 'lesson1.pdf', 7, 'Kĩ thuật phác họa hình ảnh', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00'),
-    (11, 'lesson2.mp4', 7, 'Vẽ chi tiết trên khuôn mặt', 'video', '2023-09-24 10:30:00', '2023-09-24 11:15:00'),
-    (12, 'lesson1.pdf', 8, 'Vẽ phong cảnh và phác hoạt dòng người', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00');
+    (1, 'lesson1.mp4', 1, 'Vẽ biển và cát', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 1, 'Open'),
+    (2, 'lesson2.mp4', 1, 'Vẽ trời và chi tiết phụ', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 2, 'Open'),
+    (3, 'lesson1.mp4', 2, 'Sử dụng pastel màu nước', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1, 'Open'),
+    (4, 'lesson2.mp4', 2, 'Vẽ người và thuyền', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1, 'Open'),
+    (5, 'lesson1.pdf', 3, 'Sử dụng kết hợp các cách đã học', 'pdf', '2023-09-20 09:30:00', '2023-09-20 10:00:00', 1, 'Open'),
+    (6, 'lesson1.mp4', 4, 'Chân dung và biểu cảm', 'video', '2023-09-21 14:00:00', '2023-09-21 14:30:00', 1, 'Open'),
+    (7, 'lesson2.docx', 5, 'Các công cụ và kỹ thuật graffiti', 'document', '2023-09-22 11:00:00', '2023-09-22 11:45:00', 1, 'Open'),
+    (8, 'lesson1.mp4', 6, 'Vẽ cảnh trời', 'video', '2023-09-23 15:00:00', '2023-09-23 15:45:00', 1, 'Open'),
+    (9, 'lesson2.pdf', 6, 'Vẽ cây cỏ bằng bút chì', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 2, 'Open'),
+    (10, 'lesson1.pdf', 7, 'Kĩ thuật phác họa hình ảnh', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
+    (11, 'lesson2.mp4', 7, 'Vẽ chi tiết trên khuôn mặt', 'video', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
+    (12, 'lesson1.pdf', 8, 'Vẽ phong cảnh và phác hoạt dòng người', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open');
 
 # Tạo 10 bản ghi
 INSERT INTO feedback (feedback_information, status, star, created_at, course_id, user_id)
@@ -183,21 +183,21 @@ VALUES
     (17, 170, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),
     (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed');
 
-INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`) VALUES ('1', 'a', 'animal', '1', 'Not Complete');
+INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`, `index`) VALUES ('1', 'a', 'animal', '1', 'Pending', 1);
 
 
-INSERT INTO `assignment` (`assignment_id`, `assignment_title`, `topic`, `created_at`, `updated_at`, `lesson_id`, `status`)
+INSERT INTO `assignment` (`assignment_id`, `assignment_title`, `topic`, `created_at`, `updated_at`, `lesson_id`, `status`, `index`)
 VALUES
-    (11, 'Assignment 1', 'Introduction to SQL', NOW(), NOW(), 1, 'Active'),
-    (2, 'Assignment 2', 'Data Types', NOW(), NOW(), 2, 'Active'),
-    (3, 'Assignment 3', 'SQL Queries', NOW(), NOW(), 3, 'Active'),
-    (4, 'Assignment 4', 'Database Design', NOW(), NOW(), 4, 'Active'),
-    (5, 'Assignment 5', 'Joins and Subqueries', NOW(), NOW(), 5, 'Active'),
-    (6, 'Assignment 6', 'Indexes and Optimization', NOW(), NOW(), 6, 'Active'),
-    (7, 'Assignment 7', 'Transactions', NOW(), NOW(), 7, 'Active'),
-    (8, 'Assignment 8', 'Stored Procedures', NOW(), NOW(), 8, 'Active'),
-    (9, 'Assignment 9', 'Triggers', NOW(), NOW(), 9, 'Active'),
-    (10, 'Assignment 10', 'Normalization', NOW(), NOW(), 10, 'Active');
+    (11, 'Assignment 1', 'Introduction to SQL', NOW(), NOW(), 1, 'Pending', 2),
+    (2, 'Assignment 2', 'Data Types', NOW(), NOW(), 2, 'Pending', 1),
+    (3, 'Assignment 3', 'SQL Queries', NOW(), NOW(), 3, 'Pending', 1),
+    (4, 'Assignment 4', 'Database Design', NOW(), NOW(), 4, 'Pending', 1),
+    (5, 'Assignment 5', 'Joins and Subqueries', NOW(), NOW(), 5, 'Pending', 1),
+    (6, 'Assignment 6', 'Indexes and Optimization', NOW(), NOW(), 6, 'Pending', 1),
+    (7, 'Assignment 7', 'Transactions', NOW(), NOW(), 7, 'Pending', 1),
+    (8, 'Assignment 8', 'Stored Procedures', NOW(), NOW(), 8, 'Pending', 1),
+    (9, 'Assignment 9', 'Triggers', NOW(), NOW(), 9, 'Pending', 1),
+    (10, 'Assignment 10', 'Normalization', NOW(), NOW(), 10, 'Pending', 1);
 
 
 INSERT INTO `user_assignment` (`enroll_id`, `assignment_id`, `task_title`, `description`, `image`, `status`, `grade`, `created_at`, `updated_at`)

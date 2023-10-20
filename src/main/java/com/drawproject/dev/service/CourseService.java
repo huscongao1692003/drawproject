@@ -73,7 +73,7 @@ public class CourseService {
                         courseRepository.findTopCourseByCategory
                                 (category.getCategoryId(), limit))));
 
-        return new ResponseDTO(HttpStatus.OK, "Request Successfully!", list);
+        return new ResponseDTO(HttpStatus.OK, "Course found!", list);
     }
 
     public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,
@@ -118,7 +118,7 @@ public class CourseService {
                 DrawProjectConstaints.IMAGE, "courses"));
         courseRepository.save(course);
 
-        return new ResponseDTO(HttpStatus.CREATED, "Course created successfully", courseDTO);
+        return new ResponseDTO(HttpStatus.CREATED, "Course created successfully", "Your course will be reviewed by us! Please wait for a while.");
     }
 
     public ResponseDTO updateCourse(CourseDTO courseDTO) {
@@ -126,7 +126,7 @@ public class CourseService {
         course = setProperties(course, courseDTO);
         course.setStatus(courseDTO.getStatus());
         courseRepository.save(course);
-        return new ResponseDTO(HttpStatus.OK, "Update Course Successfully", courseDTO);
+        return new ResponseDTO(HttpStatus.OK, "Update Course Successfully", null);
     }
 
     public Courses setProperties(Courses course, CourseDTO courseDTO) {
@@ -187,7 +187,7 @@ public class CourseService {
 
         courseRepository.save(course);
 
-        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", true);
+        return new ResponseDTO(HttpStatus.OK, "Delete course successfully", "Your course have been removed!");
     }
 
     public Object getCoursesByUser(int userId, int page, int eachPage) {
@@ -236,7 +236,7 @@ public class CourseService {
 
         courseRepository.save(course);
 
-        return new ResponseDTO(HttpStatus.OK, message, true);
+        return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.CLOSE);
     }
 
     public ResponseDTO openCourse(int courseId, String message) {
@@ -246,7 +246,7 @@ public class CourseService {
 
         courseRepository.save(course);
 
-        return new ResponseDTO(HttpStatus.OK, message, true);
+        return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.OPEN);
     }
 
 }

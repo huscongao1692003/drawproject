@@ -23,6 +23,8 @@ public class Assignment extends BaseEntity {
     @Column(name = "assignment_title", nullable = false)
     private String assignmentTitle;
 
+    private int index;
+
     @NotNull
     @Column(name = "topic", nullable = false)
     private String topic;
