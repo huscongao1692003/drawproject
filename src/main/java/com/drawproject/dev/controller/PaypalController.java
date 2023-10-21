@@ -5,6 +5,7 @@ import com.drawproject.dev.config.PaypalPaymentMethod;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PaymentRequestDTO;
 import com.drawproject.dev.model.*;
+import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.OrderService;
@@ -22,12 +23,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @RestController
 @Slf4j
 @RequestMapping("/api/v1/pay")
 public class PaypalController {
+    @Autowired
+    private CourseRepository courseRepository;
 
     @Autowired
     OrderRepository orderRepository;
@@ -50,10 +54,9 @@ public class PaypalController {
 
     @PostMapping
     public ResponseEntity<String> createPayment(@RequestBody PaymentRequestDTO paymentRequest, HttpSession session) {
-        int totalPrice = (int) session.getAttribute("totalPrice");
         try {
             Payment payment = paypalService.createPayment(
-                    totalPrice,
+                    paymentRequest.getTotalPrice(),
                     "USD",
                     PaypalPaymentMethod.paypal,
                     PaypalPaymentIntent.order,
@@ -81,29 +84,27 @@ public class PaypalController {
     @GetMapping(SUCCESS_URL)
     public ResponseEntity<String> successPayment(
             @RequestParam("paymentId") String paymentId,
-            @RequestParam("PayerID") String payerId, HttpSession session,Authentication authentication) {
+            @RequestParam("PayerID") String payerId,Authentication authentication, PaymentRequestDTO paymentRequestDTO) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
-            User user = (User) session.getAttribute("loggedInPerson");
+            String username = authentication.getName();
+            Optional<Courses> courses = courseRepository.findById(paymentRequestDTO.getCourseId());
+            User user = userRepository.findByUsername(username).orElse(null);
             Enroll enroll = new Enroll();
             if (payment.getState().equals("approved")) {
-                List<Item> cartItems = (List<Item>) session.getAttribute("cart");
-                for (Item item : cartItems) {
                     Orders orders = new Orders();
-                    orders.setPrice(item.getCourses().getPrice());
+                    orders.setPrice(paymentRequestDTO.getTotalPrice());
                     orders.setDescription("test");
                     orders.setUser(user);
                     orders.setMethod("Paypal");
-                    orders.setCourse(item.getCourses());
+                    orders.setCourse(courses.get());
                     orders.setStatus("Pay Success");
-                    enroll.setCourse(item.getCourses());
+                    enroll.setCourse(courses.get());
                     enroll.setStatus(DrawProjectConstaints.ENROLL);
                     enroll.setUser(user);
                     orderService.createEnroll(enroll);
                     orderService.createOrder(orders);
 
-                }
-                session.invalidate(); // Invalidate the session after successful payment
 
 
                 return ResponseEntity.ok("Payment successful");
