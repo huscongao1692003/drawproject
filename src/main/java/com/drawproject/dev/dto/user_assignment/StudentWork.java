@@ -15,4 +15,6 @@ public class StudentWork {
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private int enrollId;
+    private int assignmentId;
 }

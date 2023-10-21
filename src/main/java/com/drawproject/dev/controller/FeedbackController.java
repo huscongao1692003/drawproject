@@ -17,8 +17,8 @@ public class FeedbackController {
 
     @GetMapping("/courses/{id}/feedback")
     public ResponseEntity<ResponsePagingDTO> getFeedback(@PathVariable("id") int courseId,
-                                                         @RequestParam(value = "page") int page,
-                                                         @RequestParam(value = "eachPage") int eachPage) {
+                                                         @RequestParam(value = "page", defaultValue = "1") int page,
+                                                         @RequestParam(value = "eachPage", defaultValue = "3") int eachPage) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);

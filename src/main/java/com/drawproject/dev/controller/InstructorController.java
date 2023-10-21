@@ -93,7 +93,7 @@ public class InstructorController {
         return ResponseEntity.ok().body(certificateService.getCertificates(userId));
     }
 
-    @PostMapping("certificates")
+    @PostMapping("/certificates")
     public ResponseEntity<ResponseDTO> createCertificates(HttpSession session, List<MultipartFile> image) {
         User instructor = (User) session.getAttribute("loggedInPerson");
 

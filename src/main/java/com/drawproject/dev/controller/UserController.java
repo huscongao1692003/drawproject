@@ -2,6 +2,7 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.OrderAdminDTO;
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.user_assignment.StudentWork;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.UserRepository;
@@ -12,12 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/users")
 public class UserController {
     @Autowired
     CourseService courseService;
@@ -31,20 +33,32 @@ public class UserController {
     @Autowired
     UserAssignmentService userAssignmentService;
 
-    @GetMapping("/users/{userId}/courses")
+    @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
-        System.out.println("okkookkokookookokokok1");
+
         return ResponseEntity.ok(courseService.getCoursesByUser(userId, page, eachPage));
     }
 
-    @GetMapping("/users/studentwork")
+    @GetMapping("/studentwork")
     public ResponseEntity<ResponseDTO> getStudentWork(@RequestParam("taskId") int taskId) {
         return ResponseEntity.ok().body(userAssignmentService.getStudentWork(taskId));
+    }
+
+    @PostMapping("/studentwork")
+    public ResponseEntity<ResponseDTO> createStudentWork(MultipartFile requestImage, StudentWork studentWork) {
+        return ResponseEntity.ok().body(userAssignmentService.createStudentWork(requestImage, studentWork));
+    }
+
+    @PutMapping("/studentwork")
+    public ResponseEntity<ResponseDTO> updateStudentWork(@PathVariable("taskID") int taskId,
+                                                        MultipartFile requestImage, StudentWork studentWork) {
+
+        return ResponseEntity.ok().body(userAssignmentService.updateStudentWork(requestImage, studentWork));
     }
 
     @GetMapping("/orders")
