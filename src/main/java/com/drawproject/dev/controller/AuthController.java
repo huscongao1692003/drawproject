@@ -62,18 +62,13 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto, HttpSession session){
+    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto){
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginDto.getUsername(),
                         loginDto.getPwd()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElse(null);
-        if (user != null) {
-            session.setAttribute("loggedInPerson",user);
-        }
         return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
     }
 

@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -102,9 +103,10 @@ public class CourseService {
         return responsePagingDTO;
     }
 
-    public ResponseDTO saveCourse(HttpSession session, CourseDTO courseDTO) {
+    public ResponseDTO saveCourse(Authentication authentication, CourseDTO courseDTO) {
         Courses course = new Courses();
-        User user = (User) session.getAttribute("loggedInPerson");
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         //set instructor
         Instructor instructor = instructorRepository.findById(user.getUserId()).orElseThrow();
 
@@ -163,8 +165,9 @@ public class CourseService {
         return responseDTO;
     }
 
-    public ResponseDTO checkEnroll(int courseId, HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseDTO checkEnroll(int courseId, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
 
         //set status buy/enroll
         if(user.getRoles().equals(DrawProjectConstaints.USER_ROLE)) {

@@ -28,13 +28,12 @@ public class DashboardController {
     }
 
     @GetMapping
-    public ResponseEntity<DashboardResponseDTO> displayDashboard(Authentication authentication, HttpSession session) {
+    public ResponseEntity<DashboardResponseDTO> displayDashboard(Authentication authentication) {
         String username = authentication.getName();
 
         // Try to find the user by username, and provide a default value if not found
         User user = userRepository.findByUsername(username).orElse(null);
         if (user != null) {
-            session.setAttribute("loggedInPerson",user);
             DashboardResponseDTO response = new DashboardResponseDTO(user.getUsername(), authentication.getAuthorities());
             return ResponseEntity.ok(response);
         }

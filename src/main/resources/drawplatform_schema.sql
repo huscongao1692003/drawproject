@@ -24,7 +24,7 @@ CREATE TABLE `drawing_style` (
 
 CREATE TABLE `users` (
                          `user_id` INT PRIMARY KEY AUTO_INCREMENT,
-                         `username` VARCHAR(50) NOT NULL,
+                         `username` VARCHAR(50) UNIQUE NOT NULL,
                          `full_name` VARCHAR(255) NOT NULL,
                          `avatar` VARCHAR(255),
                          `pwd` VARCHAR(255) NOT NULL,

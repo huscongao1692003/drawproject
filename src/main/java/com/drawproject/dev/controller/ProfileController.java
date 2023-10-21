@@ -48,8 +48,9 @@ public class ProfileController {
     FileService fileService;
 
     @GetMapping
-    public Profile displayProfile(HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
+    public Profile displayProfile(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         Profile profile = new Profile();
         profile.setFullName(user.getFullName());
         profile.setMobileNumber(user.getMobileNum());
@@ -63,11 +64,12 @@ public class ProfileController {
     }
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateProfile(MultipartFile image, @Valid Profile profile, Errors errors, HttpSession session){
+    public ResponseEntity<String> updateProfile(MultipartFile image, @Valid Profile profile, Errors errors, Authentication authentication){
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
-        User user = (User) session.getAttribute("loggedInPerson");
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         user.setFullName(profile.getFullName());
         user.setEmail(profile.getEmail());
         user.setMobileNum(profile.getMobileNumber());
@@ -76,7 +78,6 @@ public class ProfileController {
             user.setSkill(new Skill());
         }
         User savedUser = userRepository.save(user);
-        session.setAttribute("loggedInPerson", savedUser);
         return new ResponseEntity<>("Update Profile Successful", HttpStatus.OK);
     }
 
@@ -97,8 +98,9 @@ public class ProfileController {
     }
 
     @GetMapping("/posts")
-    public ResponseEntity<List<PostDTO>> showPostUser(HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseEntity<List<PostDTO>> showPostUser(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
 
         // Retrieve posts by user ID from the database
         List<Posts> userPosts = postRepository.findPostsByUserUserId(user.getUserId());
