@@ -22,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -53,8 +54,9 @@ public class PostController {
     FileService fileService;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> savePost(MultipartFile requestImage, @Valid PostDTO postDTO, Errors errors, HttpSession session){
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseEntity<String> savePost(MultipartFile requestImage, @Valid PostDTO postDTO, Errors errors, Authentication authentication){
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
 
@@ -105,8 +107,9 @@ public class PostController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<String> closePost(@PathVariable int id, HttpSession session){
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseEntity<String> closePost(@PathVariable int id, Authentication authentication){
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         Optional<Posts> posts = postRepository.findById(id);
         if (posts != null && posts.get().getUser().getUserId() == user.getUserId() || user.getRoles().getName().equals("ADMIN") || user.getRoles().getName().equals("STAFF")) {
             postService.updatePostStatus(id);

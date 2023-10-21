@@ -94,16 +94,18 @@ public class InstructorController {
     }
 
     @PostMapping("/certificates")
-    public ResponseEntity<ResponseDTO> createCertificates(HttpSession session, List<MultipartFile> image) {
-        User instructor = (User) session.getAttribute("loggedInPerson");
+    public ResponseEntity<ResponseDTO> createCertificates(Authentication authentication, List<MultipartFile> image) {
+        String username = authentication.getName();
+        User instructor = userRepository.findByUsername(username).orElse(null);
 
         return ResponseEntity.ok().body(certificateService.createCertificate(instructor.getUserId(), image));
     }
 
     @PutMapping("/certificates/{certificateId}")
     public ResponseEntity<ResponseDTO> updateCertificates(@PathVariable("certificateId") int certificateId,
-                                                     MultipartFile image, HttpSession session) {
-        User instructor = (User) session.getAttribute("loggedInPerson");
+                                                     MultipartFile image, Authentication authentication) {
+        String username = authentication.getName();
+        User instructor = userRepository.findByUsername(username).orElse(null);
         return ResponseEntity.ok().body(certificateService.updateCertificate(certificateId, image, instructor.getUserId()));
     }
 

@@ -10,6 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class CourseController {
     }
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO, HttpSession session) {
-        return ResponseEntity.ok().body(courseService.saveCourse(session, courseDTO));
+    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO, Authentication authentication) {
+        return ResponseEntity.ok().body(courseService.saveCourse(authentication, courseDTO));
     }
 
     @PutMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -94,8 +95,8 @@ public class CourseController {
     }
 
     @GetMapping("/{id}/check-enroll")
-    public ResponseEntity<ResponseDTO> checkEnrollCourse(@PathVariable("id") int id, HttpSession session) {
-        return ResponseEntity.ok().body(courseService.checkEnroll(id, session));
+    public ResponseEntity<ResponseDTO> checkEnrollCourse(@PathVariable("id") int id, Authentication authentication) {
+        return ResponseEntity.ok().body(courseService.checkEnroll(id, authentication));
     }
 
 }
