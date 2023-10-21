@@ -49,8 +49,8 @@ public class PaypalController {
     UserService userService;
 
 
-    public static final String SUCCESS_URL = "success";
-    public static final String CANCEL_URL = "cancel";
+    public static final String SUCCESS_URL = "/success";
+    public static final String CANCEL_URL = "/cancel";
 
     @PostMapping
     public ResponseEntity<String> createPayment(@RequestBody PaymentRequestDTO paymentRequest, HttpSession session) {
