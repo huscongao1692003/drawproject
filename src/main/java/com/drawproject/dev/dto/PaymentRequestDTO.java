@@ -13,5 +13,5 @@ public class PaymentRequestDTO {
 
     private int totalPrice;
 
-    private String url = "https://drawproject-production.up.railway.app/api/v1/pay";
+    private String url;
 }
