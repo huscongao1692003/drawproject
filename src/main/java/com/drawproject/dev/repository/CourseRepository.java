@@ -37,7 +37,7 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
 
     Page<Courses> findByInstructorInstructorId(int instructionId, Pageable pageable);
 
-    Courses getCoursesByCourseId(int courseId);
+    Courses findCoursesByCourseId(int courseId);
 
     Page<Courses> findByEnrollsUserUserId(int userId, Pageable pageable);
 }

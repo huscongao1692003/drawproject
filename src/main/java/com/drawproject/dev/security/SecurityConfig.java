@@ -114,7 +114,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.POST,"/api/v1/contact").permitAll()
                  .requestMatchers(HttpMethod.POST,"/api/v1/pay").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/pay/cancel").permitAll()
-                 .requestMatchers(HttpMethod.GET,"/api/v1/pay/success").authenticated()
+                 .requestMatchers("/api/v1/pay/success").authenticated()
                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

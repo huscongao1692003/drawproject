@@ -84,14 +84,15 @@ public class PaypalController {
     @GetMapping(SUCCESS_URL)
     public ResponseEntity<String> successPayment(
             @RequestParam("paymentId") String paymentId,
-            @RequestParam("PayerID") String payerId,Authentication authentication, PaymentRequestDTO paymentRequestDTO) {
+            @RequestParam("PayerID") String payerId,Authentication authentication, @RequestBody PaymentRequestDTO paymentRequestDTO) {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             String username = authentication.getName();
-            Courses courses = courseRepository.getCoursesByCourseId(paymentRequestDTO.getCourseId());
+            Courses courses = courseRepository.findCoursesByCourseId(paymentRequestDTO.getCourseId());
+            System.out.println(courses);
             User user = userRepository.findByUsername(username).orElse(null);
-            Enroll enroll = new Enroll();
             if (payment.getState().equals("approved")) {
+                    Enroll enroll = new Enroll();
                     Orders orders = new Orders();
                     orders.setPrice(paymentRequestDTO.getTotalPrice());
                     orders.setDescription("test");
