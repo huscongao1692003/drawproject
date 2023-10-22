@@ -81,7 +81,7 @@ public class PaypalController {
         return ResponseEntity.ok("Payment canceled");
     }
 
-    @GetMapping(SUCCESS_URL)
+    @PostMapping(SUCCESS_URL)
     public ResponseEntity<String> successPayment(
             @RequestParam("paymentId") String paymentId,
             @RequestParam("PayerID") String payerId,Authentication authentication, @RequestBody PaymentRequestDTO paymentRequestDTO) {
