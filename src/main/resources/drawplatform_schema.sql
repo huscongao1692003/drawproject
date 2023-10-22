@@ -227,3 +227,15 @@ CREATE TABLE artworks (
                           FOREIGN KEY (category_id) REFERENCES category(category_id)
 );
 
+CREATE TABLE report_students(
+    student_id INT,
+    course_id INT,
+    message VARCHAR(255),
+    image VARCHAR(255),
+    status VARCHAR(30),
+    created_at TIMESTAMP,
+    updated_at TIMESTAMP,
+    PRIMARY KEY (student_id, course_id),
+    FOREIGN KEY (student_id) REFERENCES users(user_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);

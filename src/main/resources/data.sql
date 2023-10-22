@@ -213,3 +213,8 @@ VALUES
     (9, 7, 'Task 19', 'Manage SQL transactions', 'task19.jpg', 'Pending', NULL, NOW(), NOW()),
     (10, 8, 'Task 20', 'Write stored procedures', 'task20.jpg', 'Pending', NULL, NOW(), NOW());
 
+INSERT INTO report_students (student_id, course_id, message, image)
+VALUES
+    (8, 1, 'Example report for student 8, course 1', 'image8_1.jpg'),
+    (9, 3, 'Example report for student 9, course 3', 'image9_3.jpg'),
+    (10, 5, 'Example report for student 10, course 5', 'image10_5.jpg');

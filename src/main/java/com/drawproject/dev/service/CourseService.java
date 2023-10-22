@@ -160,9 +160,7 @@ public class CourseService {
         //set number of topic
         courseDetail.setNumQuiz(assignmentRepository.countByLessonTopicCourseCourseId(courseId));
 
-        ResponseDTO responseDTO = new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
-
-        return responseDTO;
+        return new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
     }
 
     public ResponseDTO checkEnroll(int courseId, Authentication authentication) {

@@ -1,17 +1,20 @@
 package com.drawproject.dev.controller;
 
+import com.drawproject.dev.dto.report.ReportStudentDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.service.CourseService;
+import com.drawproject.dev.service.ReportStudentService;
 import com.drawproject.dev.service.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -23,6 +26,9 @@ public class CourseController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    ReportStudentService reportStudentService;
 
     @GetMapping("/top-courses")
     public ResponseEntity<ResponseDTO> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
@@ -97,6 +103,12 @@ public class CourseController {
     @GetMapping("/{id}/check-enroll")
     public ResponseEntity<ResponseDTO> checkEnrollCourse(@PathVariable("id") int id, Authentication authentication) {
         return ResponseEntity.ok().body(courseService.checkEnroll(id, authentication));
+    }
+
+    @PostMapping(value = "/student/report")
+    public ResponseEntity<Object> reportStudent(ReportStudentDTO reportStudentDTO) {
+
+        return ResponseEntity.ok().body(reportStudentService.createReport(reportStudentDTO));
     }
 
 }
