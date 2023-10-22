@@ -3,7 +3,9 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.CertificateDTO;
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapCertificate;
+import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.Certificate;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.repository.CertificateRepository;
@@ -11,6 +13,9 @@ import com.drawproject.dev.repository.InstructorRepository;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -72,6 +77,27 @@ public class CertificateService {
          certificate.setImage(fileService.uploadFile(image, instructorId, "image", "certificates"));
         certificateRepository.save(certificate);
         return new ResponseDTO(HttpStatus.OK, "Certificate updated", "Your certificate will be reviewed before updating!");
+    }
+
+    public ResponsePagingDTO viewCertificate(int page, int eachPage, String status) {
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+
+        Page<Certificate> certificates;
+        if(status == null) {
+            certificates = certificateRepository.findAll(pageable);
+        } else {
+            certificates = certificateRepository.findByStatus(status, pageable);
+        }
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.FOUND, "Certificate found",
+                certificates.getTotalElements(), page, certificates.getTotalPages(), eachPage, MapCertificate.mapCertificateToDTOs(certificates.getContent()));
+
+        if(certificates.isEmpty()) {
+            responsePagingDTO.setMessage("Certificate not found");
+            responsePagingDTO.setStatus(HttpStatus.NO_CONTENT);
+        }
+
+        return responsePagingDTO;
     }
 
 }
