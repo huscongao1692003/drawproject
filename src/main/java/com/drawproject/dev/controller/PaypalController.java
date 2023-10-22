@@ -53,7 +53,7 @@ public class PaypalController {
     public static final String CANCEL_URL = "/cancel";
 
     @PostMapping
-    public ResponseEntity<String> createPayment(@RequestBody PaymentRequestDTO paymentRequest, HttpSession session) {
+    public ResponseEntity<String> createPayment(@RequestBody PaymentRequestDTO paymentRequest) {
         try {
             Payment payment = paypalService.createPayment(
                     paymentRequest.getTotalPrice(),
@@ -88,7 +88,7 @@ public class PaypalController {
         try {
             Payment payment = paypalService.executePayment(paymentId, payerId);
             String username = authentication.getName();
-            Optional<Courses> courses = courseRepository.findById(paymentRequestDTO.getCourseId());
+            Courses courses = courseRepository.getCoursesByCourseId(paymentRequestDTO.getCourseId());
             User user = userRepository.findByUsername(username).orElse(null);
             Enroll enroll = new Enroll();
             if (payment.getState().equals("approved")) {
@@ -97,9 +97,9 @@ public class PaypalController {
                     orders.setDescription("test");
                     orders.setUser(user);
                     orders.setMethod("Paypal");
-                    orders.setCourse(courses.get());
+                    orders.setCourse(courses);
                     orders.setStatus("Pay Success");
-                    enroll.setCourse(courses.get());
+                    enroll.setCourse(courses);
                     enroll.setStatus(DrawProjectConstaints.ENROLL);
                     enroll.setUser(user);
                     orderService.createEnroll(enroll);
