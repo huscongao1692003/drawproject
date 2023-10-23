@@ -130,7 +130,7 @@ public class PostController {
         postDTO.setCategoryName(post.getCategory().getCategoryName());
         postDTO.setImage(post.getImage());
         postDTO.setReadingTime(post.getReadingTime());
-        postDTO.setCreated_at(post.getCreatedAt());
+        postDTO.setCreatedAt(post.getCreatedAt());
         postDTO.setUserId(post.getUser().getUserId());
         postDTO.setPostId(post.getPostId());
         postDTO.setUserName(post.getUser().getUsername());

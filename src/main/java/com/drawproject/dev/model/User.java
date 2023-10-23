@@ -53,8 +53,6 @@ public class User extends BaseEntity {
     @Email(message = "Please provide a valid email address" )
     private String email;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
     private String avatar;
 
     @NotBlank(message="Confirm Email must not be blank")
