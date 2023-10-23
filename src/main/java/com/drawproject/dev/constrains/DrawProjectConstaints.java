@@ -16,5 +16,7 @@ public class DrawProjectConstaints {
     public static final String COMPELETED = "Completed";
     public static final String IN_PROGRESS = "In Progress";
     public static final String PENDING = "Pending";
+    public static final String TEMPLATE_REPORT_STUDENT = "report_student.ftl";
+    public static final String TEMPLATE_REPORT_COURSE = "report_course.ftl";
 
 }
