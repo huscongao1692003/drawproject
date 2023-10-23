@@ -3,6 +3,7 @@ package com.drawproject.dev.controller;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PostDTO;
 import com.drawproject.dev.dto.PostResponseDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.model.Category;
 import com.drawproject.dev.model.Posts;
 import com.drawproject.dev.model.User;

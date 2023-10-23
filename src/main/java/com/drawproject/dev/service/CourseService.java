@@ -236,7 +236,12 @@ public class CourseService {
         if(courses.isEmpty()) {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "Course not found", null);
         }
-        return new ResponseDTO(HttpStatus.FOUND, "Course found", MapCourse.mapListToDTO(courses.getContent()));
+        List<CoursePreviewDTO> list = MapCourse.mapListToDTO(courses.getContent());
+        list.forEach(coursePreviewDTO -> {
+            coursePreviewDTO.setUsername(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getFullName());
+        });
+
+        return new ResponseDTO(HttpStatus.FOUND, "Course found", list);
     }
 
     public ResponseDTO reportCourse(int courseId, String message) {

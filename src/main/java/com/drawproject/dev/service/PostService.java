@@ -3,14 +3,21 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.PostDTO;
 import com.drawproject.dev.dto.PostResponseDTO;
+import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
+import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.Posts;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.PostRepository;
+import com.drawproject.dev.repository.UserRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +32,9 @@ public class PostService {
 
     @Autowired
     private ModelMapper modelMapper;
+
+    @Autowired
+    UserRepository  userRepository;
 
     public List<Posts> findPostWithOpenStatus(){
         List<Posts> posts = postRepository.findByStatus(DrawProjectConstaints.OPEN);
@@ -62,4 +72,27 @@ public class PostService {
         }
         return isUpdated;
     }
+
+    public ResponsePagingDTO getPostByUserId(int page, int eachPage, Authentication authentication){
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+        String username = authentication.getName();
+
+        User user = userRepository.findByUsername(username).orElse(null);
+        Page<Posts> posts = postRepository.findByUserUserIdAndStatus(user.getUserId(), DrawProjectConstaints.OPEN, pageable);
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                posts.getTotalElements(), page, posts.getTotalPages(), eachPage, null);
+
+        if(!posts.isEmpty()) {
+            List<PostDTO> postDTOList = posts.getContent().stream()
+                    .map(post -> modelMapper.map(post, PostDTO.class))
+                    .toList();
+            responsePagingDTO.setData(postDTOList);
+            responsePagingDTO.setMessage("Found posts of you");
+            responsePagingDTO.setStatus(HttpStatus.FOUND);
+        }
+
+        return responsePagingDTO;
+    }
+
 }

@@ -2,12 +2,14 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.OrderAdminDTO;
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.dto.user_assignment.StudentWork;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.OrderService;
+import com.drawproject.dev.service.PostService;
 import com.drawproject.dev.service.UserAssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +34,9 @@ public class UserController {
 
     @Autowired
     UserAssignmentService userAssignmentService;
+
+    @Autowired
+    PostService postService;
 
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
@@ -92,6 +97,17 @@ public class UserController {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElseThrow();
         return ResponseEntity.ok(user.getUserId());
+    }
+
+    @GetMapping("/posts")
+    public ResponseEntity<ResponsePagingDTO> getPostsOfUser(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                            @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
+                                                            Authentication authentication) {
+
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok().body(postService.getPostByUserId(page, eachPage, authentication));
     }
 
 }
