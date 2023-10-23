@@ -40,7 +40,7 @@ public class PostDTO {
 
     private String userName;
 
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     private String avatar;
 }
