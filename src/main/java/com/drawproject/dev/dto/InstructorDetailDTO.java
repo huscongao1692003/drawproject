@@ -15,5 +15,8 @@ public class InstructorDetailDTO {
     private String mobileNum;
     private String email;
     private String skillName;
-    private int instructorId;
+    private int userId;
+    private String bio;
+    private String payment;
+    private String education;
 }

@@ -6,6 +6,7 @@ import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.InstructorRepository;
 import com.drawproject.dev.repository.OrderRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.service.*;
@@ -58,6 +59,9 @@ public class InstructorController {
     @Autowired
     ArtWorkService artWorkService;
 
+    @Autowired
+    InstructorRepository instructorRepository;
+
     @GetMapping("")
     public ResponseEntity<List<InstructorDTO>> showInstructor() {
         List<User> users = profileService.findInstructor();
@@ -78,10 +82,14 @@ public class InstructorController {
 
     @GetMapping("/{userId}")
     public ResponseEntity<InstructorDetailDTO> showInstructorDetail(@PathVariable int userId) {
-        User instructor = profileService.findInstructorById(userId);
+        User user = profileService.findInstructorById(userId);
+        Instructor instructor = instructorRepository.findById(userId).orElseThrow();
 
-        if (instructor != null) {
-            InstructorDetailDTO instructorDetailDTO = modelMapper.map(instructor, InstructorDetailDTO.class);
+        if (user != null) {
+            InstructorDetailDTO instructorDetailDTO = modelMapper.map(user, InstructorDetailDTO.class);
+            instructorDetailDTO.setBio(instructor.getBio());
+            instructorDetailDTO.setEducation(instructor.getEducation());
+            instructorDetailDTO.setPayment(instructor.getPayment());
             return ResponseEntity.ok(instructorDetailDTO);
         } else {
             return ResponseEntity.notFound().build();
