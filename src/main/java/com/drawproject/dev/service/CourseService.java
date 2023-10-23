@@ -29,6 +29,7 @@ import java.util.*;
  */
 @Service
 public class CourseService {
+
     @Autowired
     CourseRepository courseRepository;
 
@@ -65,6 +66,9 @@ public class CourseService {
     @Autowired
     MailService mailService;
 
+    @Autowired
+    LessonService lessonService;
+
     /**
      * Gets top course by category.
      *
@@ -94,7 +98,6 @@ public class CourseService {
             skills = skillRepository.findAll().stream().map(Skill::getSkillId).toList();
         }
         Page<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
-        int totalPage = courses.getTotalPages();
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
                 courses.getTotalElements(), page, courses.getTotalPages(), eachPage, MapCourse.mapListToDTO(courses.getContent()));
@@ -163,6 +166,8 @@ public class CourseService {
         courseDetail.setNumStudent(enrollRepository.countByCourseCourseIdAndStatus(courseId, DrawProjectConstaints.ENROLL));
         //set number of topic
         courseDetail.setNumQuiz(assignmentRepository.countByLessonTopicCourseCourseId(courseId));
+        //set videoIntro
+        courseDetail.setVideoIntro(lessonService.getTrailler(courseId));
 
         return new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
     }

@@ -1,5 +1,6 @@
 package com.drawproject.dev.service;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.LessonDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.map.MapLesson;
@@ -45,4 +46,8 @@ public class LessonService {
         lessonRepository.save(newLesson);
     }
 
+    public String getTrailler(int courseId) {
+        Lesson lesson= lessonRepository.findByIndexAndTopicIndexAndTopicCourseCourseIdAndStatus(1, 1, courseId, DrawProjectConstaints.OPEN);
+        return lesson.getUrl();
+    }
 }

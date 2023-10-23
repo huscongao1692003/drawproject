@@ -127,7 +127,7 @@ public class InstructorController {
     public ResponseEntity<List<OrderAdminDTO>> getOrderHistory(Authentication authentication){
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
-        if (user != null && user.getRoles().equals(DrawProjectConstaints.INSTRUCTOR)) {
+        if (user != null && user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
             List<Orders> instructorOrders = orderRepository.findOrdersByCourse_InstructorInstructorId(user.getUserId()); // Retrieve user's orders
 
             List<OrderAdminDTO> orderAdminDTOs = new ArrayList<>();
