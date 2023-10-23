@@ -87,4 +87,11 @@ public class UserController {
 
     }
 
+    @GetMapping("/id")
+    public ResponseEntity<Integer> getUserId(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return ResponseEntity.ok(user.getUserId());
+    }
+
 }
