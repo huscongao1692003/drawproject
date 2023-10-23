@@ -95,6 +95,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.PUT, "/api/v1/users/studentwork").hasRole(DrawProjectConstaints.USER_ROLE)
                  .requestMatchers(HttpMethod.GET, "api/v1/users/id").hasAnyRole(DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR,
                                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/users/posts").hasAnyRole(DrawProjectConstaints.INSTRUCTOR, DrawProjectConstaints.USER_ROLE)
                  .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()
