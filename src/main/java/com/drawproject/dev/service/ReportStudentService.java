@@ -1,12 +1,14 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
+import com.drawproject.dev.dto.Mail;
 import com.drawproject.dev.dto.report.ReportStudentDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapReport;
 import com.drawproject.dev.model.ReportStudent;
 import com.drawproject.dev.model.ReportStudentId;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.ReportStudentRepository;
@@ -19,6 +21,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.HashMap;
 
 @Service
 public class ReportStudentService {
@@ -37,6 +41,9 @@ public class ReportStudentService {
 
     @Autowired
     EnrollService enrollService;
+
+    @Autowired
+    MailService mailService;
 
     public ResponseDTO createReport(ReportStudentDTO reportStudentDTO) {
         ReportStudent reportStudent = new ReportStudent();
@@ -84,6 +91,16 @@ public class ReportStudentService {
         enrollService.deleteEnroll(studentId, courseId);
         reportStudent.setStatus(DrawProjectConstaints.COMPELETED);
         reportStudentRepository.save(reportStudent);
+        //send an email notification
+        Mail mail = new Mail(reportStudent.getStudent().getEmail(), DrawProjectConstaints.TEMPLATE_REPORT_STUDENT);
+        mailService.sendMessage(mail, new HashMap<String, Object>() {
+            {
+                put("fullName", reportStudent.getStudent().getFullName());
+                put("nameCourse", reportStudent.getCourse().getCourseTitle());
+                put("message", reportStudent.getMessage());
+                put("courseId", reportStudent.getCourse().getCourseId());
+            }
+        });
 
         return new ResponseDTO(HttpStatus.OK, "Report accepted", "Report accepted");
     }

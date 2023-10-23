@@ -1,6 +1,7 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
+import com.drawproject.dev.dto.Mail;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.CourseDetail;
@@ -60,6 +61,9 @@ public class CourseService {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    MailService mailService;
 
     /**
      * Gets top course by category.
@@ -236,6 +240,20 @@ public class CourseService {
         course.setStatus(DrawProjectConstaints.CLOSE);
 
         courseRepository.save(course);
+
+        //notificaiton email
+        User user = userRepository.findById(course.getInstructor().getInstructorId()).orElseThrow();
+        Mail mail = new Mail(user.getEmail(), DrawProjectConstaints.TEMPLATE_REPORT_COURSE);
+        mailService.sendMessage(mail, new HashMap<String, Object>() {
+            {
+                put("courseId", course.getCourseId());
+                put("message", message);
+                put("courseName", course.getCourseTitle());
+                put("fullName", user.getFullName());
+                put("createAt", course.getCreatedAt());
+                put("image", course.getImage());
+            }
+        });
 
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.CLOSE);
     }
