@@ -54,16 +54,16 @@ public class PostController {
     FileService fileService;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> savePost(MultipartFile requestImage, @Valid PostDTO postDTO, Errors errors, Authentication authentication){
+    public ResponseEntity<String> savePost(@RequestParam("image") MultipartFile requestImage, @Valid PostDTO postDTO, Errors errors, Authentication authentication) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
-        if(errors.hasErrors()){
-            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
 
+        if (errors.hasErrors()) {
+            return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
+
         Optional<Category> optionalCategory = categoryRepository.findById(postDTO.getCategoryId());
-        if (optionalCategory.isPresent())
-        {
+        if (optionalCategory.isPresent()) {
             Category category = new Category();
             User user1 = new User();
             user1.setUserId(user.getUserId());
@@ -82,7 +82,6 @@ public class PostController {
         } else {
             return ResponseEntity.badRequest().body("Invalid category ID");
         }
-
     }
     @GetMapping
     public ResponseEntity<PostResponseDTO<PostDTO>> getPosts(
