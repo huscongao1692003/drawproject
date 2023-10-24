@@ -13,10 +13,11 @@ public class DrawProjectConstaints {
     public static final String UNENROLL = "UnEnroll";
     public static final String ENROLL = "Enroll";
     public static final String VIEW = "View";
-    public static final String COMPELETED = "Completed";
+    public static final String COMPLETED = "Completed";
     public static final String IN_PROGRESS = "In Progress";
     public static final String PENDING = "Pending";
     public static final String TEMPLATE_REPORT_STUDENT = "report_student.ftl";
     public static final String TEMPLATE_REPORT_COURSE = "report_course.ftl";
+    public static final String TEMPLATE_CHECK_COMPLETE = "check_complete.ftl";
 
 }

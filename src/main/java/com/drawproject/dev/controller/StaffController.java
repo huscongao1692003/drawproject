@@ -72,4 +72,16 @@ public class StaffController {
 
     }
 
+    @PutMapping("/artworks/complete-check")
+    public ResponseEntity<ResponseDTO> completeCheckArtWork(@RequestParam(value = "message", defaultValue = "", required = false) String message,
+                                                     @RequestParam(value = "instructorId") int instructorId) {
+        return ResponseEntity.ok().body(artworkService.completeCheckArtWorks(instructorId, message));
+    }
+
+    @PutMapping("/certificates/complete-check")
+    public ResponseEntity<ResponseDTO> completeCheckCertificate(@RequestParam(value = "message", defaultValue = "", required = false) String message,
+                                                            @RequestParam(value = "instructorId") int instructorId) {
+        return ResponseEntity.ok().body(certificateService.completeCheckCertificates(instructorId, message));
+    }
+
 }

@@ -2,14 +2,17 @@ package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.CertificateDTO;
+import com.drawproject.dev.dto.Mail;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapCertificate;
 import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.Certificate;
 import com.drawproject.dev.model.Instructor;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CertificateRepository;
 import com.drawproject.dev.repository.InstructorRepository;
+import com.drawproject.dev.repository.UserRepository;
 import lombok.SneakyThrows;
 import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -36,6 +40,12 @@ public class CertificateService {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    MailService mailService;
 
     public ResponseDTO getCertificates(int instructorId) {
         List<Certificate> certificates = certificateRepository.findByInstructorInstructorId(instructorId);
@@ -98,6 +108,22 @@ public class CertificateService {
         }
 
         return responsePagingDTO;
+    }
+
+    public ResponseDTO completeCheckCertificates(int instructorId, String message) {
+        User user = userRepository.findById(instructorId).orElseThrow();
+        Mail mail = new Mail(user.getEmail(), DrawProjectConstaints.TEMPLATE_CHECK_COMPLETE);
+        if(!user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.INSTRUCTOR)) {
+            return new ResponseDTO(HttpStatus.METHOD_NOT_ALLOWED, "You are not an instructor", "Email not sent");
+        }
+        mailService.sendMessage(mail, new HashMap<String, Object>() {
+            {
+                put("fullName", user.getFullName());
+                put("typeNotification", "Certificates");
+                put("message", message);
+            }
+        });
+        return new ResponseDTO(HttpStatus.OK, "Artwork checked", "Send email to " + user.getEmail() + " Successfully");
     }
 
 }

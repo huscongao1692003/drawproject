@@ -8,9 +8,7 @@ import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapReport;
 import com.drawproject.dev.model.ReportStudent;
 import com.drawproject.dev.model.ReportStudentId;
-import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
-import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.ReportStudentRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 
@@ -89,7 +86,7 @@ public class ReportStudentService {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Report not found", null);
         }
         enrollService.deleteEnroll(studentId, courseId);
-        reportStudent.setStatus(DrawProjectConstaints.COMPELETED);
+        reportStudent.setStatus(DrawProjectConstaints.COMPLETED);
         reportStudentRepository.save(reportStudent);
         //send an email notification
         Mail mail = new Mail(reportStudent.getStudent().getEmail(), DrawProjectConstaints.TEMPLATE_REPORT_STUDENT);

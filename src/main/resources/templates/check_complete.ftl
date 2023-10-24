@@ -43,7 +43,7 @@
                               <tbody>
                                 <tr>
                                   <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
-                                    <img class="w-24" src="https://assets.bootstrapemail.com/logos/light/square.png" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 96px; border-style: none; border-width: 0;" width="96">
+                                    <img class="w-24" src="https://react-fontend.vercel.app/assets/img/logo/logo-black.png" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 96px; border-style: none; border-width: 0;" width="96">
                                   </td>
                                 </tr>
                               </tbody>
@@ -62,7 +62,7 @@
                                 <tr>
                                   <td style="line-height: 24px; font-size: 16px; width: 100%; margin: 0; padding: 40px;" align="left" bgcolor="#ffffff">
                                     <h1 class="h3 fw-700" style="padding-top: 0; padding-bottom: 0; font-weight: 700 !important; vertical-align: baseline; font-size: 28px; line-height: 33.6px; margin: 0;" align="left">
-                                      Simple Card
+                                      Congratulations.
                                     </h1>
                                     <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                       <tbody>
@@ -74,8 +74,18 @@
                                       </tbody>
                                     </table>
                                     <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 0;" align="left">
-                                      Here is a very simple card. It has responsive padding so it gets less padding on mobile to fill the screen more.
-                                      Hopefully it can be useful to you. It is very simple and basic but can be used for a lot of simple emails.
+                                      Hi ${fullName}, your ${typeNotification} have been reviewed by our team.
+                                    </p>
+                                    <#if messsage ??>
+                                      <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 1rem 0 0 0;" align="left">
+                                        ${message}
+                                      </p>
+                                    </#if>
+                                    <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 1rem 0 0 0;" align="left">
+                                      Please, access your account and check the status of your ${typeNotification}.
+                                    </p>
+                                    <p class="" style="line-height: 24px; font-size: 16px; width: 100%; margin: 1rem 0 0 0;" align="left">
+                                      If you have any questions, please contact us at this email address.
                                     </p>
                                     <table class="s-4 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
                                       <tbody>
@@ -90,7 +100,7 @@
                                       <tbody>
                                         <tr>
                                           <td style="line-height: 24px; font-size: 16px; border-radius: 6px; font-weight: 700 !important; margin: 0;" align="center" bgcolor="#0d6efd">
-                                            <a href="https://app.bootstrapemail.com/templates" style="color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: 700 !important; white-space: nowrap; background-color: #0d6efd; padding: 12px; border: 1px solid #0d6efd;">Visit Website</a>
+                                            <a href="https://react-fontend.vercel.app/instructor" style="color: #ffffff; font-size: 16px; font-family: Helvetica, Arial, sans-serif; text-decoration: none; border-radius: 6px; line-height: 20px; display: block; font-weight: 700 !important; white-space: nowrap; background-color: #245d51; padding: 12px; border: 1px solid #245d51;">Visit Website</a>
                                           </td>
                                         </tr>
                                       </tbody>
@@ -99,47 +109,15 @@
                                 </tr>
                               </tbody>
                             </table>
-                            <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
-                              <tbody>
-                                <tr>
-                                  <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;" align="left" width="100%" height="40">
-                                    &#160;
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <table class="ax-center" role="presentation" align="center" border="0" cellpadding="0" cellspacing="0" style="margin: 0 auto;">
-                              <tbody>
-                                <tr>
-                                  <td style="line-height: 24px; font-size: 16px; margin: 0;" align="left">
-                                    <img class="w-40" src="https://assets.bootstrapemail.com/logos/light/text.png" style="height: auto; line-height: 100%; outline: none; text-decoration: none; display: block; width: 160px; border-style: none; border-width: 0;" width="160">
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
-                              <tbody>
-                                <tr>
-                                  <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;" align="left" width="100%" height="24">
-                                    &#160;
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
-                            <div class="text-muted text-center" style="color: #718096;" align="center">
-                              Sent with &lt;3 from Hip Corp. <br>
-                              Hip Corp. 1 Hip Street<br>
-                              Gnarly State, 01234 USA <br>
-                            </div>
-                            <table class="s-6 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">
-                              <tbody>
-                                <tr>
-                                  <td style="line-height: 24px; font-size: 24px; width: 100%; height: 24px; margin: 0;" align="left" width="100%" height="24">
-                                    &#160;
-                                  </td>
-                                </tr>
-                              </tbody>
-                            </table>
+<!--                            <table class="s-10 w-full" role="presentation" border="0" cellpadding="0" cellspacing="0" style="width: 100%;" width="100%">-->
+<!--                              <tbody>-->
+<!--                                <tr>-->
+<!--                                  <td style="line-height: 40px; font-size: 40px; width: 100%; height: 40px; margin: 0;" align="left" width="100%" height="40">-->
+<!--                                    &#160;-->
+<!--                                  </td>-->
+<!--                                </tr>-->
+<!--                              </tbody>-->
+<!--                            </table>-->
                           </td>
                         </tr>
                       </tbody>

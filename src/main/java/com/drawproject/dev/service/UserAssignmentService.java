@@ -5,7 +5,6 @@ import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.dto.user_assignment.StudentWork;
-import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.map.MapUserAssignment;
 import com.drawproject.dev.model.UserAssignment;
 import com.drawproject.dev.repository.AssignmentRepository;
@@ -66,7 +65,7 @@ public class UserAssignmentService {
             UserAssignment userAssignment = userAssignmentRepository.findById(taskId).orElseThrow();
             userAssignment.setGrade(grade);
             userAssignment.setComment(comment);
-            userAssignment.setStatus(DrawProjectConstaints.COMPELETED);
+            userAssignment.setStatus(DrawProjectConstaints.COMPLETED);
             userAssignmentRepository.save(userAssignment);
 
             return new ResponseDTO(HttpStatus.OK, "Success grading homework", null);

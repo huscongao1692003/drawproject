@@ -2,17 +2,17 @@ package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.ArtWorkDTO;
+import com.drawproject.dev.dto.Mail;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapArtWork;
-import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.Artwork;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.ArtworkRepository;
 import com.drawproject.dev.repository.CategoryRepository;
 import com.drawproject.dev.repository.InstructorRepository;
+import com.drawproject.dev.repository.UserRepository;
 import jakarta.servlet.http.HttpSession;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.HashMap;
 
 @Service
 public class ArtWorkService {
@@ -38,15 +38,21 @@ public class ArtWorkService {
     @Autowired
     CategoryRepository categoryRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    MailService mailService;
+
     public ResponsePagingDTO getArtworks(int page, int eachPage, int instructorId, int categoryId) {
 
         Pageable pageable = PageRequest.of(page - 1, eachPage);
         Page<Artwork> artworks;
 
         if(categoryId != 0) {
-            artworks = artworkRepository.findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(instructorId, categoryId, DrawProjectConstaints.COMPELETED, pageable);
+            artworks = artworkRepository.findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(instructorId, categoryId, DrawProjectConstaints.COMPLETED, pageable);
         } else {
-            artworks = artworkRepository.findByInstructorInstructorIdAndStatus(instructorId, DrawProjectConstaints.COMPELETED, pageable);
+            artworks = artworkRepository.findByInstructorInstructorIdAndStatus(instructorId, DrawProjectConstaints.COMPLETED, pageable);
         }
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.FOUND, "Artwork found",
                 artworks.getTotalElements(), page, artworks.getTotalPages(), eachPage, MapArtWork.mapArtWorkToDTOs(artworks.getContent()));
@@ -75,7 +81,7 @@ public class ArtWorkService {
 
     public ResponseDTO openArtWork(String message, int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
-        artwork.setStatus(DrawProjectConstaints.COMPELETED);
+        artwork.setStatus(DrawProjectConstaints.COMPLETED);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.OK, "Artwork checked", message);
@@ -107,6 +113,22 @@ public class ArtWorkService {
         }
 
         return responsePagingDTO;
+    }
+
+    public ResponseDTO completeCheckArtWorks(int instructorId, String message) {
+        User user = userRepository.findById(instructorId).orElseThrow();
+        Mail mail = new Mail(user.getEmail(), DrawProjectConstaints.TEMPLATE_CHECK_COMPLETE);
+        if(!user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.INSTRUCTOR)) {
+            return new ResponseDTO(HttpStatus.METHOD_NOT_ALLOWED, "You are not an instructor", "Email not sent");
+        }
+        mailService.sendMessage(mail, new HashMap<String, Object>() {
+            {
+                put("fullName", user.getFullName());
+                put("typeNotification", "Artworks");
+                put("message", message);
+            }
+        });
+        return new ResponseDTO(HttpStatus.OK, "Artwork checked", "Send email to " + user.getEmail() + " Successfully");
     }
 
 }
