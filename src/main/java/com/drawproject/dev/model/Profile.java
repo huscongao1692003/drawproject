@@ -22,6 +22,6 @@ public class Profile {
 
     private String avatar;
 
-    private Skill skill;
+    private int skill;
 
 }

@@ -58,7 +58,7 @@ public class ProfileController {
         profile.setAvatar(user.getAvatar());
         if (user.getSkill() != null && user.getSkill().getSkillId() > 0) {
             Skill skill = skillRepository.findBySkillId(user.getSkill().getSkillId());
-            profile.setSkill(skill);
+            profile.setSkill(skill.getSkillId());
         }
         return profile;
     }
@@ -68,15 +68,14 @@ public class ProfileController {
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
+        Skill skill = skillRepository.findBySkillId(profile.getSkill());
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
         user.setFullName(profile.getFullName());
         user.setEmail(profile.getEmail());
         user.setMobileNum(profile.getMobileNumber());
         user.setAvatar(fileService.uploadFile(image, user.getUserId(), "image", "avatars"));
-        if(user.getSkill() ==null || !(user.getSkill().getSkillId()>0)){
-            user.setSkill(new Skill());
-        }
+        user.setSkill(skill);
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>("Update Profile Successful", HttpStatus.OK);
     }
