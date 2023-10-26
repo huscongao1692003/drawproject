@@ -95,4 +95,25 @@ public class PostService {
         return responsePagingDTO;
     }
 
+    public ResponsePagingDTO searchPosts(int page, int eachPage, String search, int categoryId){
+        Pageable pageable = PageRequest.of(page - 1, eachPage);
+
+        Page<Posts> posts = postRepository.searchPosts(search, search, search, categoryId, pageable);
+
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
+                posts.getTotalElements(), page, posts.getTotalPages(), eachPage, null);
+
+        if(!posts.isEmpty()) {
+            List<PostDTO> postDTOList = posts.getContent().stream()
+                    .map(post -> modelMapper.map(post, PostDTO.class))
+                    .toList();
+            responsePagingDTO.setData(postDTOList);
+            responsePagingDTO.setMessage("Found posts of you");
+            responsePagingDTO.setStatus(HttpStatus.FOUND);
+        }
+
+        return responsePagingDTO;
+
+    }
+
 }

@@ -138,4 +138,17 @@ public class PostController {
         return ResponseEntity.ok(postDTO);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<ResponsePagingDTO> searchResponse(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                            @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
+                                                            @RequestParam(value = "search", defaultValue = "") String search,
+                                                            @RequestParam(value = "categoryId", defaultValue = "0") int categoryId) {
+
+        page = Math.max(page, 1);
+        eachPage = Math.max(eachPage, 1);
+
+        return ResponseEntity.ok().body(postService.searchPosts(page, eachPage, search, categoryId));
+
+    }
+
 }

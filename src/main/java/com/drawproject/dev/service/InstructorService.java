@@ -1,11 +1,14 @@
 package com.drawproject.dev.service;
 
 import com.drawproject.dev.dto.ResponseDTO;
+import com.drawproject.dev.dto.instructor.InstructorProfile;
 import com.drawproject.dev.map.MapCertificate;
 import com.drawproject.dev.model.Certificate;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.repository.CertificateRepository;
 import com.drawproject.dev.repository.InstructorRepository;
+import com.drawproject.dev.repository.StyleRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -18,7 +21,27 @@ public class InstructorService {
     @Autowired
     InstructorRepository instructorRepository;
 
+    @Autowired
+    ModelMapper modelMapper;
+
+    @Autowired
+    StyleRepository styleRepository;
+
     public Instructor saveInstructorRegister(Instructor instructor) {
          return  instructorRepository.save(instructor);
     }
+
+    public ResponseDTO updateInstructor(InstructorProfile instructorProfile) {
+        Instructor instructor = instructorRepository.findById(instructorProfile.getInstructorId()).orElseThrow();
+        modelMapper.map(instructorProfile, instructor);
+        instructor.setExperiences(styleRepository.findByDrawingStyleIdIn(instructorProfile.getStyles()));
+        instructorRepository.save(instructor);
+        return new ResponseDTO(HttpStatus.OK, "Instructor updated successfully", null);
+    }
+
+    public ResponseDTO getExperiences(int instructorId) {
+        Instructor instructor = instructorRepository.findById(instructorId).orElseThrow();
+        return new ResponseDTO(HttpStatus.OK, "Instructor updated successfully", instructor.getExperiences());
+    }
+
 }

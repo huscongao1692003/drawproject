@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,4 +41,11 @@ public class Instructor {
 
     @OneToMany(mappedBy = "instructor")
     private Set<Certificate> certificates = new LinkedHashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @JoinTable(name = "Experience",
+            joinColumns = @JoinColumn(name = "instructorId"),
+            inverseJoinColumns = @JoinColumn(name = "drawingStyleId"))
+    private List<Style> experiences = new ArrayList<>();
+
 }
