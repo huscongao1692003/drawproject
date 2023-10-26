@@ -3,6 +3,9 @@ package com.drawproject.dev.controller;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.*;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
+import com.drawproject.dev.dto.instructor.InstructorDTO;
+import com.drawproject.dev.dto.instructor.InstructorDetailDTO;
+import com.drawproject.dev.dto.instructor.InstructorProfile;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
@@ -94,6 +97,18 @@ public class InstructorController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<ResponseDTO> updateInstructor(@PathVariable("userId") int userId,
+                                                        @RequestBody InstructorProfile instructorProfile) {
+        instructorProfile.setInstructorId(userId);
+        return ResponseEntity.ok().body(instructorService.updateInstructor(instructorProfile));
+    }
+
+    @GetMapping("/{userId}/experiences")
+    public ResponseEntity<ResponseDTO> getExperiences(@PathVariable("userId") int userId) {
+        return ResponseEntity.ok().body(instructorService.getExperiences(userId));
     }
 
     @GetMapping("/{userId}/certificates")

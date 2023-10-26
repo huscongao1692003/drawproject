@@ -1,4 +1,4 @@
-package com.drawproject.dev.dto;
+package com.drawproject.dev.dto.instructor;
 
 import lombok.Data;
 

@@ -218,3 +218,18 @@ VALUES
     (8, 1, 'Example report for student 8, course 1', 'image8_1.jpg'),
     (9, 3, 'Example report for student 9, course 3', 'image9_3.jpg'),
     (10, 5, 'Example report for student 10, course 5', 'image10_5.jpg');
+
+INSERT INTO `posts` (`title`, `category_id`, `description`, `reading_time`, `image`, `body`, `user_id`, `status`, `created_at`, `updated_at`)
+VALUES
+    ('Introduction to Programming', 1, 'Learn the basics of programming.', 30, 'programming_intro.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 1, 'published', '2023-10-26 10:15:00', '2023-10-26 10:20:00'),
+    ('Data Structures and Algorithms', 2, 'Explore various data structures and algorithms.', 45, 'data_structures.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 2, 'published', '2023-10-26 11:30:00', '2023-10-26 11:35:00'),
+    ('Web Development Basics', 3, 'Get started with web development.', 60, 'web_dev_basics.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 3, 'draft', '2023-10-26 14:45:00', '2023-10-26 14:50:00'),
+    ('Machine Learning Fundamentals', 4, 'Learn the basics of machine learning.', 55, 'ml_fundamentals.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 4, 'published', '2023-10-26 16:00:00', '2023-10-26 16:05:00'),
+    ('Mobile App Development', 5, 'Build mobile apps for iOS and Android.', 40, 'mobile_app_dev.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 5, 'published', '2023-10-26 18:15:00', '2023-10-26 18:20:00'),
+    ('Python Tips and Tricks', 1, 'Discover useful tips and tricks for Python programming.', 20, 'python_tips.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 6, 'published', '2023-10-26 20:30:00', '2023-10-26 20:35:00'),
+    ('Database Design Best Practices', 2, 'Learn about best practices for designing efficient databases.', 35, 'db_design_best_practices.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 7, 'published', '2023-10-26 22:45:00', '2023-10-26 22:50:00'),
+    ('Responsive Web Design', 3, 'Create websites that adapt to different screen sizes.', 50, 'responsive_web_design.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 8, 'draft', '2023-10-27 08:00:00', '2023-10-27 08:05:00'),
+    ('Introduction to Natural Language Processing', 4, 'Explore the basics of Natural Language Processing (NLP).', 60, 'nlp_intro.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 9, 'published', '2023-10-27 10:15:00', '2023-10-27 10:20:00'),
+    ('Mobile App UI Design', 5, 'Design visually appealing user interfaces for mobile apps.', 30, 'mobile_app_ui_design.jpg', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', 10, 'published', '2023-10-27 12:30:00', '2023-10-27 12:35:00');
+
+
