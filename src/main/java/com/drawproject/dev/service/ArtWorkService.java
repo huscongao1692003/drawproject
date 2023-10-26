@@ -76,6 +76,7 @@ public class ArtWorkService {
         artwork.setInstructor(instructorRepository.findById(user.getUserId()).orElseThrow());
         artwork.setImage(fileService.uploadFile(requestImage, user.getUserId(), "image", "artworks"));
         artwork.setCategory(categoryRepository.findById(artWorkDTO.getCategoryId()).orElseThrow());
+        artwork.setStatus(DrawProjectConstaints.OPEN);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.CREATED, "Artwork created", "Your artwork will be reviewed by our");
