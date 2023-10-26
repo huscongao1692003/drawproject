@@ -96,6 +96,17 @@ public class LessonService {
         });
     }
 
+    public void deleteLesson(int topicId, List<Integer> lessonIds) {
+        List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatusAndLessonIdNotIn(topicId, DrawProjectConstaints.OPEN, lessonIds);
+        System.out.println("================================================");
+        System.out.println(lessons.size());
+        lessons.forEach(lesson -> {
+            lesson.setStatus(DrawProjectConstaints.CLOSE);
+            lessonRepository.save(lesson);
+        });
+
+    }
+
     @Transactional
     public ResponseDTO updateLessons(List<MultipartFile> listFile, Topic topic, List<LessonDTO> lessonDTOs) {
         List<Lesson> lessonErrors = new ArrayList<>();
@@ -117,42 +128,36 @@ public class LessonService {
         } catch (Exception e) {
             topicRepository.delete(topic);
         }
+        deleteLesson(topic.getTopicId(), lessonDTOs.stream().map(LessonDTO::getLessonId).toList());
         if(lessonErrors.isEmpty()) {
             return new ResponseDTO(HttpStatus.OK, "Lesson updated", lessonErrors);
         }
+
+
         return new ResponseDTO(HttpStatus.BAD_REQUEST, "Existed error", lessonErrors);
 
     }
 
     @Transactional
     public void updateLesson(Topic topic, Lesson lesson) {
-        Lesson newLesson = lessonRepository.findByLessonId(lesson.getLessonId());
-        if(newLesson == null) {
-            newLesson.setStatus(DrawProjectConstaints.CLOSE);
-            lessonRepository.save(lesson);
-        } else {
-            modelMapper.map(lesson, newLesson);
-            newLesson.setTopic(topic);
-            newLesson.setStatus(DrawProjectConstaints.OPEN);
-            lessonRepository.save(newLesson);
-        }
+        Lesson newLesson = lessonRepository.findById(lesson.getLessonId()).orElseThrow();
+        modelMapper.map(lesson, newLesson);
+        newLesson.setTopic(topic);
+        newLesson.setStatus(DrawProjectConstaints.OPEN);
+        lessonRepository.save(newLesson);
     }
 
     @Transactional
     public void updateLesson(MultipartFile file, String typeFile, Topic topic, Lesson lesson) {
-        Lesson newLesson = lessonRepository.findByLessonId(lesson.getLessonId());
-        if(newLesson == null) {
-            lesson.setStatus(DrawProjectConstaints.CLOSE);
-            lessonRepository.save(lesson);
-        } else {
-            modelMapper.map(lesson, newLesson);
-            newLesson.setTopic(topic);
-            newLesson.setStatus(DrawProjectConstaints.OPEN);
-            newLesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), typeFile, "lessons"));
-            lessonRepository.save(newLesson);
-        }
+        Lesson newLesson = lessonRepository.findById(lesson.getLessonId()).orElseThrow();
+        modelMapper.map(lesson, newLesson);
+        newLesson.setTopic(topic);
+        newLesson.setStatus(DrawProjectConstaints.OPEN);
+        newLesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), typeFile, "lessons"));
+        lessonRepository.save(newLesson);
 
     }
+
 
 
 }

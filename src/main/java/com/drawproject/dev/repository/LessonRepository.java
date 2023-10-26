@@ -14,5 +14,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
     Lesson findByNumberAndTopicNumberAndTopicCourseCourseIdAndStatus(int indexLesson, int indexTopic, int courseId, String status);
 
-    Lesson findByLessonId(int lessonId);
+    List<Lesson> findByTopicTopicIdAndStatusAndLessonIdNotIn(int topicId, String status, List<Integer> lessonIds);
 }
