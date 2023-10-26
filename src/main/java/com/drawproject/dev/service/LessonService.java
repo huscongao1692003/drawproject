@@ -68,6 +68,7 @@ public class LessonService {
         Lesson newLesson = new Lesson();
         modelMapper.map(lesson, newLesson);
         newLesson.setTopic(topic);
+        newLesson.setStatus(DrawProjectConstaints.OPEN);
         lessonRepository.save(newLesson);
     }
 
@@ -77,7 +78,7 @@ public class LessonService {
         modelMapper.map(lesson, newLesson);
         newLesson.setTopic(topic);
         newLesson.setStatus(DrawProjectConstaints.OPEN);
-        newLesson.setUrl(fileService.uploadFile(file, 1, typeFile, "lessons"));
+        newLesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), typeFile, "lessons"));
         lessonRepository.save(newLesson);
     }
 
@@ -85,4 +86,73 @@ public class LessonService {
         Lesson lesson= lessonRepository.findByNumberAndTopicNumberAndTopicCourseCourseIdAndStatus(1, 1, courseId, DrawProjectConstaints.OPEN);
         return lesson.getUrl();
     }
+
+    @Transactional
+    public void deleteLesson(int topicId) {
+        List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatus(topicId, DrawProjectConstaints.OPEN);
+        lessons.forEach(lesson -> {
+            lesson.setStatus(DrawProjectConstaints.CLOSE);
+            lessonRepository.save(lesson);
+        });
+    }
+
+    @Transactional
+    public ResponseDTO updateLessons(List<MultipartFile> listFile, Topic topic, List<LessonDTO> lessonDTOs) {
+        List<Lesson> lessonErrors = new ArrayList<>();
+        try {
+
+            MapLesson.mapDTOtoLessons(lessonDTOs).forEach(lesson -> {
+                try {
+                    if (lesson.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) {
+                        updateLesson(topic, lesson);
+                    } else {
+                        MultipartFile file = listFile.stream().filter(f -> f.getOriginalFilename().equalsIgnoreCase(lesson.getUrl())).findFirst().orElseThrow();
+                        updateLesson(file, lesson.getTypeFile(), topic, lesson);
+                    }
+                } catch (Exception e) {
+                    lessonErrors.add(lesson);
+                }
+            });
+
+        } catch (Exception e) {
+            topicRepository.delete(topic);
+        }
+        if(lessonErrors.isEmpty()) {
+            return new ResponseDTO(HttpStatus.OK, "Lesson updated", lessonErrors);
+        }
+        return new ResponseDTO(HttpStatus.BAD_REQUEST, "Existed error", lessonErrors);
+
+    }
+
+    @Transactional
+    public void updateLesson(Topic topic, Lesson lesson) {
+        Lesson newLesson = lessonRepository.findByLessonId(lesson.getLessonId());
+        if(newLesson == null) {
+            newLesson.setStatus(DrawProjectConstaints.CLOSE);
+            lessonRepository.save(lesson);
+        } else {
+            modelMapper.map(lesson, newLesson);
+            newLesson.setTopic(topic);
+            newLesson.setStatus(DrawProjectConstaints.OPEN);
+            lessonRepository.save(newLesson);
+        }
+    }
+
+    @Transactional
+    public void updateLesson(MultipartFile file, String typeFile, Topic topic, Lesson lesson) {
+        Lesson newLesson = lessonRepository.findByLessonId(lesson.getLessonId());
+        if(newLesson == null) {
+            lesson.setStatus(DrawProjectConstaints.CLOSE);
+            lessonRepository.save(lesson);
+        } else {
+            modelMapper.map(lesson, newLesson);
+            newLesson.setTopic(topic);
+            newLesson.setStatus(DrawProjectConstaints.OPEN);
+            newLesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), typeFile, "lessons"));
+            lessonRepository.save(newLesson);
+        }
+
+    }
+
+
 }

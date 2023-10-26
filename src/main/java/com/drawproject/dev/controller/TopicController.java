@@ -16,22 +16,34 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/courses")
 public class TopicController {
 
     @Autowired
     TopicService topicService;
 
-    @GetMapping("/courses/{id}/topic")
+    @GetMapping("/{id}/topic")
     public ResponseEntity<ResponseDTO> getTopicByCourse(@PathVariable("id") int courseId) {
         return ResponseEntity.ok().body(topicService.getTopicByCourse(courseId));
     }
 
-    @PostMapping(value = "/courses/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<ResponseDTO> createTopic(@RequestPart("files") List<MultipartFile> files, @PathVariable("id") int courseId,
                                                    @Valid @RequestPart("topic") String topic) {
         TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
         return ResponseEntity.ok().body(topicService.createTopic(files, courseId, topicDTO));
+    }
+
+    @PutMapping("/topic/{topicId}/close")
+    public ResponseEntity<ResponseDTO> updateTopic(@PathVariable("topicId") int topicId) {
+        return ResponseEntity.ok().body(topicService.deleteTopic(topicId));
+    }
+
+    @PutMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<ResponseDTO> updateTopic(@RequestPart(value = "files", required = false) List<MultipartFile> files, @PathVariable("id") int courseId,
+                                                   @Valid @RequestPart("topic") String topic) {
+        TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
+        return ResponseEntity.ok().body(topicService.updateTopic(files, courseId, topicDTO));
     }
 
 }

@@ -23,7 +23,7 @@ public class ProcessService {
 
         int progress = processRepository.countByEnrollUserUserIdAndEnrollCourseCourseId(userId, courseId);
         progressDTO.setProgress(progress);
-        int numLesson = lessonRepository.countByTopicCourseCourseId(courseId);
+        int numLesson = lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN);
         progressDTO.setStatus((progress % numLesson == 0) ? DrawProjectConstaints.COMPLETED : DrawProjectConstaints.IN_PROGRESS);
         return progressDTO;
 

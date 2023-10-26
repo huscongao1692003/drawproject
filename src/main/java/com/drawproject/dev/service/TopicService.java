@@ -37,7 +37,7 @@ public class TopicService {
         if(!courseRepository.existsById(courseId)) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", null);
         }
-        List<Topic> topics = topicRepository.findByCourseCourseId(courseId);
+        List<Topic> topics = topicRepository.findByCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN);
         if(topics.isEmpty()) {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "Topic not found", MapTopic.mapTopicpsToDTOs(topics));
         }
@@ -70,5 +70,28 @@ public class TopicService {
 
         return new ResponseDTO(HttpStatus.CREATED, "Topic created", "ok");
     }
+
+    public ResponseDTO deleteTopic(int topicId) {
+        Topic topic = topicRepository.findById(topicId).orElseThrow();
+        topic.setStatus(DrawProjectConstaints.CLOSE);
+        lessonService.deleteLesson(topicId);
+        topicRepository.save(topic);
+        return new ResponseDTO(HttpStatus.OK, "Topic deleted", "Topic and lessons deleted");
+    }
+
+    public ResponseDTO updateTopic(List<MultipartFile> listFile, int courseId, TopicDTO topicDTO) {
+        Topic topic = topicRepository.findById(topicDTO.getTopicId()).orElseThrow();
+        topic.setTopicTitle(topicDTO.getTopicTitle());
+        topic.setNumber(topicDTO.getNumber());
+        topic.setStatus(DrawProjectConstaints.OPEN);
+        //save lesson
+        ResponseDTO responseDTO = lessonService.updateLessons(listFile, topicRepository.save(topic), topicDTO.getLessons());
+        if(responseDTO.getStatus().isError()) {
+            return new ResponseDTO(HttpStatus.CREATED, "Topic updated! Some lessons is error", responseDTO.getData());
+        }
+
+        return new ResponseDTO(HttpStatus.CREATED, "Topic updated", "ok");
+    }
+
 
 }

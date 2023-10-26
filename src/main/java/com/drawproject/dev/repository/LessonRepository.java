@@ -8,9 +8,11 @@ import java.util.List;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Integer> {
-    List<Lesson> findByTopicTopicId(int topicId);
+    List<Lesson> findByTopicTopicIdAndStatus(int topicId, String status);
 
-    int countByTopicCourseCourseId(int courseId);
+    int countByTopicCourseCourseIdAndStatus(int courseId, String status);
 
     Lesson findByNumberAndTopicNumberAndTopicCourseCourseIdAndStatus(int indexLesson, int indexTopic, int courseId, String status);
+
+    Lesson findByLessonId(int lessonId);
 }
