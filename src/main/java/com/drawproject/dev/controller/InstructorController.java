@@ -209,10 +209,10 @@ public class InstructorController {
     }
 
     @PostMapping("/artworks")
-    public ResponseEntity<Object> craeteArtWork(MultipartFile requestImage, ArtWorkDTO artWorkDTO, HttpSession session) {
+    public ResponseEntity<Object> createArtwork(MultipartFile requestImage, ArtWorkDTO artWorkDTO, Authentication authentication) {
 
 
-        return ResponseEntity.ok(artWorkService.createArtwork(requestImage, artWorkDTO, session));
+        return ResponseEntity.ok(artWorkService.createArtwork(requestImage, artWorkDTO, authentication));
     }
 
     @PutMapping("/artworks/{artworkId}")
