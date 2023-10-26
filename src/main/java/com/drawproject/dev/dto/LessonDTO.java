@@ -14,6 +14,6 @@ public class LessonDTO {
     private String url;
     private String name;
     private String typeFile;
-    private int index;
+    private int number;
     private List<AssignmentResponseDTO> listAssignment;
 }

@@ -12,5 +12,5 @@ public interface LessonRepository extends JpaRepository<Lesson, Integer> {
 
     int countByTopicCourseCourseId(int courseId);
 
-    Lesson findByIndexAndTopicIndexAndTopicCourseCourseIdAndStatus(int indexLesson, int indexTopic, int courseId, String status);
+    Lesson findByNumberAndTopicNumberAndTopicCourseCourseIdAndStatus(int indexLesson, int indexTopic, int courseId, String status);
 }

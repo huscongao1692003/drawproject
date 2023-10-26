@@ -18,8 +18,8 @@ public class ProcessService {
 
     public ProgressDTO getProcessOfStudent(int userId, int courseId) {
         ProgressDTO progressDTO = new ProgressDTO();
-        progressDTO.setCreatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonIndex(userId, courseId).getCreatedAt());
-        progressDTO.setUpdatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonIndexDesc(userId, courseId).getCreatedAt());
+        progressDTO.setCreatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumber(userId, courseId).getCreatedAt());
+        progressDTO.setUpdatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumberDesc(userId, courseId).getCreatedAt());
 
         int progress = processRepository.countByEnrollUserUserIdAndEnrollCourseCourseId(userId, courseId);
         progressDTO.setProgress(progress);

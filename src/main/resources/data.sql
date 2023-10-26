@@ -59,7 +59,7 @@ VALUES
 
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson'
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson' liên quan đến học vẽ
-INSERT INTO `topic` (`topic_id`, `topic_title`, `course_id`, `index`, `status`)
+INSERT INTO `topic` (`topic_id`, `topic_title`, `course_id`, `number`, `status`)
 VALUES
     (1, 'Vẽ bãi biển', 1, 1, 'Open'),
     (2, 'Vẽ cảnh người đánh cá', 1, 2, 'Open'),
@@ -70,7 +70,7 @@ VALUES
     (7, 'Chân dung người mẫu', 4, 1, 'Open'),
     (8, 'Vẽ graffiti phố đêm', 5, 1, 'Open');
 
-INSERT INTO `lesson` (`lesson_id`, `url`, `topic_id`, `name`, `type_file`, `created_at`, `updated_at`, `index`, `status`)
+INSERT INTO `lesson` (`lesson_id`, `url`, `topic_id`, `name`, `type_file`, `created_at`, `updated_at`, `number`, `status`)
 VALUES
     (1, 'lesson1.mp4', 1, 'Vẽ biển và cát', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 1, 'Open'),
     (2, 'lesson2.mp4', 1, 'Vẽ trời và chi tiết phụ', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 2, 'Open'),
@@ -183,17 +183,17 @@ VALUES
     (17, 170, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),
     (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed');
 
-INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`, `index`) VALUES ('1', 'a', 'animal', '1', 'Pending', 1);
+INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`, `number`) VALUES ('1', 'a', 'animal', '1', 'Pending', 1);
 
 
-INSERT INTO `assignment` (`assignment_id`, `assignment_title`, `topic`, `created_at`, `updated_at`, `lesson_id`, `status`, `index`)
+INSERT INTO `assignment` (`assignment_id`, `assignment_title`, `topic`, `created_at`, `updated_at`, `lesson_id`, `status`, `number`)
 VALUES
     (11, 'Assignment 1', 'Introduction to SQL', NOW(), NOW(), 1, 'Pending', 2),
     (2, 'Assignment 2', 'Data Types', NOW(), NOW(), 2, 'Pending', 1),
     (3, 'Assignment 3', 'SQL Queries', NOW(), NOW(), 3, 'Pending', 1),
     (4, 'Assignment 4', 'Database Design', NOW(), NOW(), 4, 'Pending', 1),
     (5, 'Assignment 5', 'Joins and Subqueries', NOW(), NOW(), 5, 'Pending', 1),
-    (6, 'Assignment 6', 'Indexes and Optimization', NOW(), NOW(), 6, 'Pending', 1),
+    (6, 'Assignment 6', 'numberes and Optimization', NOW(), NOW(), 6, 'Pending', 1),
     (7, 'Assignment 7', 'Transactions', NOW(), NOW(), 7, 'Pending', 1),
     (8, 'Assignment 8', 'Stored Procedures', NOW(), NOW(), 8, 'Pending', 1),
     (9, 'Assignment 9', 'Triggers', NOW(), NOW(), 9, 'Pending', 1),
@@ -209,7 +209,7 @@ VALUES
     (5, 3, 'Task 15', 'Write complex SQL queries', 'task15.jpg', 'Pending', NULL, NOW(), NOW()),
     (6, 4, 'Task 16', 'Optimize SQL performance', 'task16.jpg', 'Pending', NULL, NOW(), NOW()),
     (7, 5, 'Task 17', 'Create SQL joins and subqueries', 'task17.jpg', 'Pending', NULL, NOW(), NOW()),
-    (8, 6, 'Task 18', 'Implement database indexes', 'task18.jpg', 'Pending', NULL, NOW(), NOW()),
+    (8, 6, 'Task 18', 'Implement database numberes', 'task18.jpg', 'Pending', NULL, NOW(), NOW()),
     (9, 7, 'Task 19', 'Manage SQL transactions', 'task19.jpg', 'Pending', NULL, NOW(), NOW()),
     (10, 8, 'Task 20', 'Write stored procedures', 'task20.jpg', 'Pending', NULL, NOW(), NOW());
 

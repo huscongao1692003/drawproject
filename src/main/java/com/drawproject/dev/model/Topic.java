@@ -21,7 +21,7 @@ public class Topic {
 
     private String topicTitle;
 
-    private int index;
+    private int number;
 
     private String status;
 

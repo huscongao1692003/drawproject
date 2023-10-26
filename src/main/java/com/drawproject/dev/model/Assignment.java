@@ -23,7 +23,7 @@ public class Assignment extends BaseEntity {
     @Column(name = "assignment_title", nullable = false)
     private String assignmentTitle;
 
-    private int index;
+    private int number;
 
     @NotNull
     @Column(name = "topic", nullable = false)

@@ -1,5 +1,6 @@
 package com.drawproject.dev.service;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.TopicDTO;
 import com.drawproject.dev.map.MapTopic;
@@ -11,6 +12,8 @@ import com.drawproject.dev.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -49,15 +52,21 @@ public class TopicService {
         return new ResponseDTO(HttpStatus.OK, "Topic found", topicsDTOs);
     }
 
-    public ResponseDTO createTopic(int courseId, TopicDTO topicDTO) {
+    @Transactional
+    public ResponseDTO createTopic(List<MultipartFile> listFile, int courseId, TopicDTO topicDTO) {
 
         Courses course = courseRepository.findById(courseId).orElseThrow();
 
         Topic topic = new Topic();
         topic.setTopicTitle(topicDTO.getTopicTitle());
         topic.setCourse(course);
+        topic.setNumber(topicDTO.getNumber());
+        topic.setStatus(DrawProjectConstaints.OPEN);
         //save lesson
-        lessonService.createLessons(topicRepository.save(topic), topicDTO.getLessons());
+        ResponseDTO responseDTO = lessonService.createLessons(listFile, topicRepository.save(topic), topicDTO.getLessons());
+        if(responseDTO.getStatus().isError()) {
+            return new ResponseDTO(HttpStatus.CREATED, "Topic created! Some lessons is error", responseDTO.getData());
+        }
 
         return new ResponseDTO(HttpStatus.CREATED, "Topic created", "ok");
     }
