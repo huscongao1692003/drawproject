@@ -98,7 +98,7 @@ CREATE TABLE `topic` (
                          `topic_id` INT PRIMARY KEY AUTO_INCREMENT,
                          `topic_title` VARCHAR(255),
                          `course_id` INT,
-                         `index` INT NOT NULL,
+                         `number` INT NOT NULL,
                          `status` VARCHAR(30) NOT NULL,
                          FOREIGN KEY (`course_id`) REFERENCES `courses`(`course_id`)
 );
@@ -109,7 +109,7 @@ CREATE TABLE `lesson` (
                           `topic_id` INT,
                           `name` VARCHAR(255),
                           `type_file` VARCHAR(255),
-                          `index` int NOT NULL,
+                          `number` int NOT NULL,
                            `status` VARCHAR(30) NOT NULL,
                           `created_at` TIMESTAMP,
                           `updated_at` TIMESTAMP,
@@ -167,7 +167,7 @@ CREATE TABLE `assignment` (
                               `created_at` TIMESTAMP,
                               `updated_at` TIMESTAMP,
                               `lesson_id` INT NOT NULL,
-                              `index` INT NOT NULL,
+                              `number` INT NOT NULL,
                               `compulsory` bit DEFAULT FALSE,
                               `status` VARCHAR(255) NOT NULL,
                               FOREIGN KEY (`lesson_id`) REFERENCES `lesson`(`lesson_id`)

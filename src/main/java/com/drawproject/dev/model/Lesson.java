@@ -26,7 +26,7 @@ public class Lesson extends BaseEntity {
 
     private String url;
 
-    private int index;
+    private int number;
 
     private String status;
 

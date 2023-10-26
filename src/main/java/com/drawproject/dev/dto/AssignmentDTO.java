@@ -23,7 +23,7 @@ public class AssignmentDTO {
 
     private boolean compulsory;
 
-    private int index;
+    private int number;
 
     @NotNull(message = "The lessson must not be null")
     private int lessonId;
