@@ -103,7 +103,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.GET, "/api/v1/users/posts").hasAnyRole(DrawProjectConstaints.INSTRUCTOR, DrawProjectConstaints.USER_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/artworks/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/certificates/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
-                 .requestMatchers(HttpMethod.GET, "api/v1/style")
+                 .requestMatchers(HttpMethod.GET, "api/v1/style").permitAll()
                  .requestMatchers("/api/v1/users/orders").authenticated()
                  .requestMatchers("/api/v1/dashboard").authenticated()
                  .requestMatchers("/api/v1/instructor/**").permitAll()
