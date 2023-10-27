@@ -61,4 +61,8 @@ public class UserService {
 
     }
 
+    public String getAvatar(int userId) {
+        return userRepository.findById(userId).orElseThrow().getAvatar();
+    }
+
 }
