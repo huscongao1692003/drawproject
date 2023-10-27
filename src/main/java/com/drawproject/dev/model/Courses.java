@@ -64,7 +64,7 @@ public class Courses extends BaseEntity {
     private Set<Orders> orders = new HashSet< Orders>();
 
 
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Enroll> enrolls;
 
     @Transient
@@ -73,13 +73,16 @@ public class Courses extends BaseEntity {
     @Transient
     private int numLesson;
 
+    @Transient
+    private int numStudent;
+
     public double getAverageStar() {
-        if(this.feedback != null && !this.feedback.isEmpty()) {
+        if(this.getFeedback() != null && !this.getFeedback().isEmpty()) {
             double totalStars = 0;
-            for (Feedback f : this.feedback) {
+            for (Feedback f : this.getFeedback()) {
                 totalStars += f.getStar();
             }
-            this.averageStar = totalStars / this.feedback.size();
+            this.averageStar = totalStars / this.getFeedback().size();
         } else {
             this.averageStar = 0;
         }
@@ -87,13 +90,22 @@ public class Courses extends BaseEntity {
     }
 
     public int getNumLesson() {
-        if(this.topics != null) {
-            int count = this.topics.stream().mapToInt(topic -> (topic != null) ? (topic.getLessons().size()) : 0).sum();
+        if(this.getTopics() != null) {
+            int count = this.getTopics().stream().mapToInt(topic -> (topic != null) ? (topic.getLessons().size()) : 0).sum();
             this.numLesson = count;
         } else {
             this.numLesson = 0;
         }
         return this.numLesson;
+    }
+
+    public int getNumStudent() {
+        if(this.getEnrolls() != null) {
+            this.numStudent = this.getEnrolls().size();
+        } else {
+            this.numStudent = 0;
+        }
+        return this.numStudent;
     }
 
     public Courses(String courseTitle, String description, String information, int price, String image, String status) {

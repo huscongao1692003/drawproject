@@ -7,10 +7,7 @@ import com.drawproject.dev.dto.user_assignment.StudentWork;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.UserRepository;
-import com.drawproject.dev.service.CourseService;
-import com.drawproject.dev.service.OrderService;
-import com.drawproject.dev.service.PostService;
-import com.drawproject.dev.service.UserAssignmentService;
+import com.drawproject.dev.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,6 +34,9 @@ public class UserController {
 
     @Autowired
     PostService postService;
+
+    @Autowired
+    UserService userService;
 
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
@@ -108,6 +108,13 @@ public class UserController {
         eachPage = Math.max(eachPage, 1);
 
         return ResponseEntity.ok().body(postService.getPostByUserId(page, eachPage, authentication));
+    }
+
+    @GetMapping("/image")
+    public ResponseEntity<ResponseDTO> getImageOfUser(Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return ResponseEntity.ok().body(userService.getImageUser(user.getUserId()));
     }
 
 }

@@ -21,6 +21,6 @@ public class CoursePreviewDTO {
     private String status;
     private double averageStar;
     private int numLesson;
+    private int numStudent;
     private int instructorId;
-    private String username;
 }

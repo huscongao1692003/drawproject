@@ -16,12 +16,11 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     @Query("SELECT c " +
             "FROM Courses c " +
             "JOIN c.orders o " +
-            "WHERE c.category.categoryId = :categoryId " +
-            "AND c.status LIKE '" + DrawProjectConstaints.OPEN +
-            "' GROUP BY c.category.categoryId, c.courseId " +
+            "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
+            "' GROUP BY c.courseId " +
             "ORDER BY COUNT(o.orderId) DESC " +
             "LIMIT :limit")
-    List<Courses> findTopCourseByCategory(int categoryId, int limit);
+    List<Courses> findTopCourse(int limit);
 
     @Query("SELECT c " +
             "FROM Courses c LEFT JOIN c.feedback f " +
@@ -42,4 +41,5 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     Page<Courses> findByEnrollsUserUserId(int userId, Pageable pageable);
 
     int countByInstructorInstructorIdAndStatus(int instructorId, String status);
+
 }

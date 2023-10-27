@@ -75,14 +75,8 @@ public class CourseService {
      * @return top list course preview DTO by category
      */
     public ResponseDTO getTopCourseByCategory(int limit) {
-        Map<Integer, List<CoursePreviewDTO>> list = new HashMap<>();
 
-        categoryRepository.findAll().forEach(category ->
-                list.put(category.getCategoryId(), MapCourse.mapListToDTO(
-                        courseRepository.findTopCourseByCategory
-                                (category.getCategoryId(), limit))));
-
-        return new ResponseDTO(HttpStatus.OK, "Course found!", list);
+        return new ResponseDTO(HttpStatus.OK, "Course found!", MapCourse.mapListToDTO(courseRepository.findTopCourse(limit)));
     }
 
     public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,
@@ -237,9 +231,6 @@ public class CourseService {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "Course not found", null);
         }
         List<CoursePreviewDTO> list = MapCourse.mapListToDTO(courses.getContent());
-        list.forEach(coursePreviewDTO -> {
-            coursePreviewDTO.setUsername(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getFullName());
-        });
 
         return new ResponseDTO(HttpStatus.FOUND, "Course found", list);
     }
