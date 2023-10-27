@@ -23,4 +23,5 @@ public class CoursePreviewDTO {
     private int numLesson;
     private int numStudent;
     private int instructorId;
+    private String avatar;
 }

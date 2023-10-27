@@ -61,9 +61,4 @@ public class UserService {
 
     }
 
-    public ResponseDTO getImageUser(int userId) {
-        String image = userRepository.findById(userId).orElseThrow().getAvatar();
-        return new ResponseDTO(HttpStatus.OK, "Found user", image);
-    }
-
 }

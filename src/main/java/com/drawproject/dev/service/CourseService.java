@@ -76,7 +76,10 @@ public class CourseService {
      */
     public ResponseDTO getTopCourseByCategory(int limit) {
 
-        return new ResponseDTO(HttpStatus.OK, "Course found!", MapCourse.mapListToDTO(courseRepository.findTopCourse(limit)));
+        List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courseRepository.findTopCourse(limit));
+        coursePreviewDTOS.forEach(coursePreviewDTO -> coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar()));
+
+        return new ResponseDTO(HttpStatus.OK, "Course found!", coursePreviewDTOS);
     }
 
     public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,

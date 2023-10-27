@@ -110,11 +110,4 @@ public class UserController {
         return ResponseEntity.ok().body(postService.getPostByUserId(page, eachPage, authentication));
     }
 
-    @GetMapping("/image")
-    public ResponseEntity<ResponseDTO> getImageOfUser(Authentication authentication) {
-        String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElseThrow();
-        return ResponseEntity.ok().body(userService.getImageUser(user.getUserId()));
-    }
-
 }
