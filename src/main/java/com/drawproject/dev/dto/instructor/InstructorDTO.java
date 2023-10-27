@@ -9,4 +9,5 @@ public class InstructorDTO {
     private int userId;
     private int numberOfCourse;
     private String avatar;
+    private String fullName;
 }

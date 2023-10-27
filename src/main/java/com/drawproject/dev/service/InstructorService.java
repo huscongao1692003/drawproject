@@ -1,11 +1,13 @@
 package com.drawproject.dev.service;
 
+import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.instructor.InstructorProfile;
 import com.drawproject.dev.map.MapCertificate;
 import com.drawproject.dev.model.Certificate;
 import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.repository.CertificateRepository;
+import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.InstructorRepository;
 import com.drawproject.dev.repository.StyleRepository;
 import org.modelmapper.ModelMapper;
@@ -27,6 +29,9 @@ public class InstructorService {
     @Autowired
     StyleRepository styleRepository;
 
+    @Autowired
+    CourseRepository courseRepository;
+
     public Instructor saveInstructorRegister(Instructor instructor) {
          return  instructorRepository.save(instructor);
     }
@@ -44,4 +49,7 @@ public class InstructorService {
         return new ResponseDTO(HttpStatus.OK, "Instructor updated successfully", instructor.getExperiences());
     }
 
+    public int getNumOfCourses(int instructorId) {
+        return courseRepository.countByInstructorInstructorIdAndStatus(instructorId, DrawProjectConstaints.OPEN);
+    }
 }
