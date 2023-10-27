@@ -100,8 +100,8 @@ public class PostService {
 
         Page<Posts> posts = postRepository.searchPosts(search, search, search, categoryId, pageable);
 
-        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                posts.getTotalElements(), page, posts.getTotalPages(), eachPage, null);
+        ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Posts not found",
+                posts.getTotalElements(), page, posts.getTotalPages(), eachPage, "");
 
         if(!posts.isEmpty()) {
             List<PostDTO> postDTOList = posts.getContent().stream()
