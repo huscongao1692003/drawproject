@@ -1,26 +1,26 @@
 INSERT INTO `skills` (`skill_name`) VALUES
-('Mới bắt đầu'),
-('Trung cấp'),
-('Nâng cao'),
-('Chuyên nghiệp');
+('Beginner'),
+('Intermediate'),
+('Advance'),
+('Profession');
 
 INSERT INTO `category` (`category_name`) VALUES
 ("Pop Art"),
-("Tối giản"),
-("Trừu tượng"),
-("Hiện thực"),
-("Siêu thực");
+("Simplify"),
+("Abstract"),
+("Realistic"),
+("Surreal");
 
 
 INSERT INTO `drawing_style` (`drawing_style_name`) VALUES
-("Thiết kế 3D"),
-("Thiết kế trừu tượng"),
-("Thiết kế tối giản"),
-("Conceptual art - Thiết kế nghệ thuật khái niệm"),
-("Thiết kế vui nhộn"),
-("Thiêt kế minh họa"),
-("Thiết kế Vintage"),
-("Thiết kế tự nhsiên");
+("3D design"),
+("Abstract Design"),
+("Minimalist design"),
+("Conceptual art - Concept art design"),
+("Fun Design"),
+("Design illustration"),
+("Vintage Design"),
+("Natural design");
 
    INSERT INTO `roles` (`role_name`)
   VALUES
@@ -51,39 +51,38 @@ VALUES
 -- Thêm dữ liệu vào bảng 'courses' liên quan đến học vẽ
 INSERT INTO `courses` (`course_id`, `course_title`, `description`, `information`, `skill_id`, `price`, `category_id`, `status`, `image`, `drawing_style_id`, `instructor_id`)
 VALUES
-    (1, 'Vẽ Biển Và Cát', 'Học cách vẽ phong cảnh biển và cát bằng màu nước.', 'Khóa học này dành cho người mới học vẽ.', 1, 49, 1, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 1, 3),
-    (2, 'Vẽ Hoa Tulip', 'Tìm hiểu cách vẽ hoa tulip bằng pastel màu nước.', 'Khóa học này phù hợp cho tất cả mọi người.', 2, 29, 1, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 2, 6),
-    (3, 'Tranh Sơn Dầu Cảnh Đêm', 'Học kỹ thuật vẽ tranh sơn dầu cảnh đêm.', 'Cần kiến thức vẽ sơn dầu cơ bản.', 3, 79, 2, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 3, 7),
-    (4, 'Vẽ Chân Dung', 'Học cách vẽ chân dung nghệ thuật với bút chì và màu nước.', 'Yêu cầu kiến thức về vẽ căn bản.', 4, 59, 2, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 4, 3),
-    (5, 'Vẽ Graffiti Đường Phố', 'Học cách tạo nghệ thuật graffiti độc đáo.', 'Không cần kinh nghiệm trước đây.', 1, 39, 3, 'Open', 'https://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 5, 7);
-
+    (1, 'Draw Beach And Sand', 'Learn how to draw sea and sand landscapes with watercolor.', 'This course is for beginners.', 1, 49, 1, 'Open', 'https ://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 1, 3),
+    (2, 'Draw Tulip Flower', 'Learn how to draw tulips with watercolor pastels.', 'This course is suitable for everyone.', 2, 29, 1, 'Open', 'https: //storage.googleapis.com/example_test_image/image/courses/co11697775460577', 2, 6),
+    (3, 'Night Scene Oil Painting', 'Learn night scene oil painting techniques.', 'Need basic oil painting knowledge.', 3, 79, 2, 'Open', 'https:/ /storage.googleapis.com/example_test_image/image/courses/co11697775460577', 3, 7),
+    (4, 'Drawing Portraits', 'Learn how to draw artistic portraits with pencil and watercolor.', 'Requires knowledge of basic drawing.', 4, 59, 2, 'Open', 'https ://storage.googleapis.com/example_test_image/image/courses/co11697775460577', 4, 3),
+    (5, 'Draw Street Graffiti', 'Learn how to create unique graffiti art.', 'No previous experience needed.', 1, 39, 3, 'Open', 'https://storage.googleapis .com/example_test_image/image/courses/co11697775460577', 5, 7);
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson'
 -- Thêm dữ liệu vào bảng 'topic' và 'lesson' liên quan đến học vẽ
 INSERT INTO `topic` (`topic_id`, `topic_title`, `course_id`, `number`, `status`)
 VALUES
-    (1, 'Vẽ bãi biển', 1, 1, 'Open'),
-    (2, 'Vẽ cảnh người đánh cá', 1, 2, 'Open'),
-    (3, 'Vẽ sóng', 1, 3, 'Open'),
-    (4, 'Vẽ hoa tulip', 2, 2, 'Open'),
-    (5, 'Vẽ cảnh phụ', 2, 1, 'Open'),
-    (6, 'Vẽ tranh sơn dầu cảnh đêm', 3, 1, 'Open'),
-    (7, 'Chân dung người mẫu', 4, 1, 'Open'),
-    (8, 'Vẽ graffiti phố đêm', 5, 1, 'Open');
+    (1, 'Draw the beach', 1, 1, 'Open'),
+    (2, 'Drawing a scene of a fisherman', 1, 2, 'Open'),
+    (3, 'Draw wave', 1, 3, 'Open'),
+    (4, 'Draw tulips', 2, 2, 'Open'),
+    (5, 'Draw extra scene', 2, 1, 'Open'),
+    (6, 'Night scene oil painting', 3, 1, 'Open'),
+    (7, 'Portrait of a model', 4, 1, 'Open'),
+    (8, 'Drawing graffiti on the streets at night', 5, 1, 'Open');
 
 INSERT INTO `lesson` (`lesson_id`, `url`, `topic_id`, `name`, `type_file`, `created_at`, `updated_at`, `number`, `status`)
 VALUES
-    (1, 'lesson1.mp4', 1, 'Vẽ biển và cát', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 1, 'Open'),
-    (2, 'lesson2.mp4', 1, 'Vẽ trời và chi tiết phụ', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 2, 'Open'),
-    (3, 'lesson1.mp4', 2, 'Sử dụng pastel màu nước', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1, 'Open'),
-    (4, 'lesson2.mp4', 2, 'Vẽ người và thuyền', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1, 'Open'),
-    (5, 'lesson1.pdf', 3, 'Sử dụng kết hợp các cách đã học', 'pdf', '2023-09-20 09:30:00', '2023-09-20 10:00:00', 1, 'Open'),
-    (6, 'lesson1.mp4', 4, 'Chân dung và biểu cảm', 'video', '2023-09-21 14:00:00', '2023-09-21 14:30:00', 1, 'Open'),
-    (7, 'lesson2.docx', 5, 'Các công cụ và kỹ thuật graffiti', 'document', '2023-09-22 11:00:00', '2023-09-22 11:45:00', 1, 'Open'),
-    (8, 'lesson1.mp4', 6, 'Vẽ cảnh trời', 'video', '2023-09-23 15:00:00', '2023-09-23 15:45:00', 1, 'Open'),
-    (9, 'lesson2.pdf', 6, 'Vẽ cây cỏ bằng bút chì', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 2, 'Open'),
-    (10, 'lesson1.pdf', 7, 'Kĩ thuật phác họa hình ảnh', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
-    (11, 'lesson2.mp4', 7, 'Vẽ chi tiết trên khuôn mặt', 'video', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
-    (12, 'lesson1.pdf', 8, 'Vẽ phong cảnh và phác hoạt dòng người', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open');
+    (1, 'lesson1.mp4', 1, 'Drawing sea and sand', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 1, 'Open'),
+    (2, 'lesson2.mp4', 1, 'Drawing the sky and extra details', 'video', '2023-09-19 10:00:00', '2023-09-19 10:30:00', 2, 'Open'),
+    (3, 'lesson1.mp4', 2, 'Using watercolor pastels', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1 , 'Open'),
+    (4, 'lesson2.mp4', 2, 'Drawing people and boats', 'video', '2023-09-19 10:45:00', '2023-09-19 11:15:00', 1, 'Open'),
+    (5, 'https://storage.googleapis.com/example_test_image/document/lesson/av3333333', 3, 'Use a combination of learned methods', 'pdf', '2023-09-20 09:30:00', '2023-09-20 10:00:00 ', 1, 'Open'),
+    (6, 'lesson1.mp4', 4, 'Portraits and expressions', 'video', '2023-09-21 14:00:00', '2023-09-21 14:30:00', 1 , 'Open'),
+    (7, 'lesson2.docx', 5, 'Graffiti tools and techniques', 'document', '2023-09-22 11:00:00', '2023-09-22 11:45:00' , 1, 'Open'),
+    (8, 'lesson1.mp4', 6, 'Drawing sky scenes', 'video', '2023-09-23 15:00:00', '2023-09-23 15:45:00', 1, ' Open'),
+    (9, 'https://storage.googleapis.com/example_test_image/document/lesson/av3333333', 6, 'Drawing plants with pencil', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 2, 'Open'),
+    (10, 'https://storage.googleapis.com/example_test_image/document/lesson/av3333333', 7, 'Image sketching techniques', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
+    (11, 'lesson2.mp4', 7, 'Drawing facial details', 'video', '2023-09-24 10:30:00', '2023-09-24 11:15:00', 1, 'Open'),
+    (12, 'https://storage.googleapis.com/example_test_image/document/lesson/av3333333', 8, 'Drawing landscapes and sketching people', 'pdf', '2023-09-24 10:30:00', '2023-09-24 11:15:00 ', 1, 'Open');
 
 # Tạo 10 bản ghi
 INSERT INTO feedback (feedback_information, status, star, created_at, course_id, user_id)

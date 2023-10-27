@@ -18,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -65,8 +66,9 @@ public class ArtWorkService {
         return responsePagingDTO;
     }
 
-    public ResponseDTO createArtwork(MultipartFile requestImage, ArtWorkDTO artWorkDTO, HttpSession session) {
-        User user = (User) session.getAttribute("loggedInPerson");
+    public ResponseDTO createArtwork(MultipartFile requestImage, ArtWorkDTO artWorkDTO, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElse(null);
         if(!user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
             return new ResponseDTO(HttpStatus.METHOD_NOT_ALLOWED, "You are not an instructor", null);
         }
@@ -74,6 +76,7 @@ public class ArtWorkService {
         artwork.setInstructor(instructorRepository.findById(user.getUserId()).orElseThrow());
         artwork.setImage(fileService.uploadFile(requestImage, user.getUserId(), "image", "artworks"));
         artwork.setCategory(categoryRepository.findById(artWorkDTO.getCategoryId()).orElseThrow());
+        artwork.setStatus(DrawProjectConstaints.OPEN);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.CREATED, "Artwork created", "Your artwork will be reviewed by our");
