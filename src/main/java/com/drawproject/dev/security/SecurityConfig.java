@@ -50,7 +50,7 @@ public class SecurityConfig {
                  .requestMatchers("/api/v1/courses/top-courses/**").permitAll()
                  .requestMatchers(HttpMethod.GET, "/api/v1/courses").permitAll()
                  .requestMatchers(HttpMethod.POST, "/api/v1/courses").hasRole(DrawProjectConstaints.INSTRUCTOR)
-                 .requestMatchers(HttpMethod.PUT, "/api/v1/courses").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.PUT, "/api/v1/courses/{id}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}").hasAnyRole(
                          DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.INSTRUCTOR
                  )

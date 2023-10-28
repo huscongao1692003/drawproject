@@ -3,6 +3,7 @@ package com.drawproject.dev.repository;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.course.CourseFeature;
 import com.drawproject.dev.model.Courses;
+import com.drawproject.dev.model.Style;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -29,11 +30,12 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
             "' AND (c.category.categoryId IN :categories) " +
             "AND (c.skill.skillId IN :skills) " +
+            "AND (c.style.drawingStyleId IN :styles) " +
             "AND (c.courseTitle LIKE %:search% " +
             "OR c.description LIKE %:search% " +
             "OR c.information LIKE %:search%) " +
             "GROUP BY c.courseId HAVING COALESCE(AVG(f.star), 0) >= :star")
-    Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, String search, int star, Pageable pageable);
+    Page<Courses> searchCourse(List<Integer> categories, List<Integer> skills, List<Integer> styles, String search, int star, Pageable pageable);
 
     Page<Courses> findByInstructorInstructorId(int instructionId, Pageable pageable);
 

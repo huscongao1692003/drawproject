@@ -15,7 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseDTO {
-    private int courseId;
 
     @NotBlank(message = "Title can not be blank")
     @Size(min = 6, message = "Title must be at least 6 characters long")

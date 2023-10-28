@@ -80,10 +80,9 @@ public class CourseService {
     }
 
     public ResponsePagingDTO searchCourse(int page, int eachPage, Integer star,
-                                    List<Integer> categories, List<Integer> skills, String search) {
+                                    List<Integer> categories, List<Integer> skills, List<Integer> styles, String search) {
 
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-
 
         if (categories == null) {
             categories = categoryRepository.findAll().stream().map(Category::getCategoryId).toList();
@@ -91,7 +90,11 @@ public class CourseService {
         if (skills == null) {
             skills = skillRepository.findAll().stream().map(Skill::getSkillId).toList();
         }
-        Page<Courses> courses = courseRepository.searchCourse(categories, skills, search, star, pageable);
+        if (styles == null) {
+            styles = styleRepository.findAll().stream().map(Style::getDrawingStyleId).toList();
+        }
+
+        Page<Courses> courses = courseRepository.searchCourse(categories, skills, styles, search, star, pageable);
 
         List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
@@ -127,10 +130,14 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.CREATED, "Course created successfully", "Your course will be reviewed by us! Please wait for a while.");
     }
 
-    public ResponseDTO updateCourse(CourseDTO courseDTO) {
-        Courses course = courseRepository.findById(courseDTO.getCourseId()).orElseThrow();
+    public ResponseDTO updateCourse(int courseId, CourseDTO courseDTO) {
+        Courses course = courseRepository.findById(courseId).orElseThrow();
         course = setProperties(course, courseDTO);
         course.setStatus(courseDTO.getStatus());
+        if(!courseDTO.getImage().getOriginalFilename().equalsIgnoreCase(course.getImage())) {
+            course.setImage(fileService.uploadFile(courseDTO.getImage(), course.getCourseId(),
+                    DrawProjectConstaints.IMAGE, "courses"));
+        }
         courseRepository.save(course);
         return new ResponseDTO(HttpStatus.OK, "Update Course Successfully", null);
     }
@@ -146,9 +153,6 @@ public class CourseService {
         //set skill
         Skill skill = skillRepository.findById(courseDTO.getSkill()).orElseThrow();
         course.setSkill(skill);
-        //set image
-        String fileName = IdUtils.generateCode(courseDTO.getCourseId(), "COURSE");
-        course.setImage(fileName);
 
         return course;
     }

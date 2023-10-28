@@ -40,12 +40,13 @@ public class CourseController {
                                                           @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
                                                           @RequestParam(value = "category", required = false) List<Integer> categories,
                                                           @RequestParam(value = "skill", required = false) List<Integer> skills,
+                                                          @RequestParam(value = "style", required = false) List<Integer> styles,
                                                           @RequestParam(value = "star", required = false, defaultValue = "0") int star,
                                                           @RequestParam(value = "search", required = false, defaultValue = "") String search) {
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
 
-        return ResponseEntity.ok().body(courseService.searchCourse(page, eachPage, star, categories, skills, search));
+        return ResponseEntity.ok().body(courseService.searchCourse(page, eachPage, star, categories, skills, styles, search));
     }
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -53,9 +54,9 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.saveCourse(authentication, courseDTO));
     }
 
-    @PutMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> updateCourse(@Valid CourseDTO courseDTO) {
-        return ResponseEntity.ok().body(courseService.updateCourse(courseDTO));
+    @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<ResponseDTO> updateCourse(@PathVariable("id") int courseId, @Valid CourseDTO courseDTO) {
+        return ResponseEntity.ok().body(courseService.updateCourse(courseId, courseDTO));
     }
 
     @DeleteMapping(value = "/{id}")
