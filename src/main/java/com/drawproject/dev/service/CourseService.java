@@ -3,10 +3,7 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.Mail;
 import com.drawproject.dev.dto.ResponseDTO;
-import com.drawproject.dev.dto.course.CourseDTO;
-import com.drawproject.dev.dto.course.CourseDetail;
-import com.drawproject.dev.dto.course.CoursePreviewDTO;
-import com.drawproject.dev.dto.course.ResponsePagingDTO;
+import com.drawproject.dev.dto.course.*;
 import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.*;
 import com.drawproject.dev.repository.*;
@@ -273,6 +270,16 @@ public class CourseService {
         courseRepository.save(course);
 
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.OPEN);
+    }
+
+    public ResponseDTO getNumOfCourseForEachFeature() {
+
+        Map<String, List<CourseFeature>> features = new HashMap<>();
+        features.put("Skill", courseRepository.getCourseOfSkills());
+        features.put("Category", courseRepository.getCourseOfCategories());
+        features.put("Style", courseRepository.getCourseOfStyles());
+
+        return new ResponseDTO(HttpStatus.FOUND, "Course found", features);
     }
 
 }
