@@ -1,6 +1,7 @@
 package com.drawproject.dev.repository;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
+import com.drawproject.dev.dto.course.CourseFeature;
 import com.drawproject.dev.model.Courses;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,4 +43,32 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     Page<Courses> findByEnrollsUserUserId(int userId, Pageable pageable);
 
     int countByInstructorInstructorIdAndStatus(int instructorId, String status);
+
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.skillId, count(c.courseId)) " +
+            "FROM Courses c " +
+            "RIGHT JOIN Skill s " +
+            "ON c.skill.skillId = s.skillId " +
+            "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
+            "' Or c.status IS null " +
+            "GROUP BY s.skillId ")
+    List<CourseFeature> getCourseOfSkills();
+
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(c.category.categoryId, count(c.courseId)) " +
+            "FROM Courses c " +
+            "JOIN Category ca " +
+            "ON ca.categoryId = c.category.categoryId " +
+            "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
+            "' Or c.status IS null " +
+            "GROUP BY c.category ")
+    List<CourseFeature> getCourseOfCategories();
+
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.drawingStyleId, count(c.courseId)) " +
+            "FROM Style s " +
+            "LEFT JOIN Courses c " +
+            "ON c.style.drawingStyleId = s.drawingStyleId " +
+            "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
+            "' Or c.status IS null " +
+            "GROUP BY s.drawingStyleId ")
+    List<CourseFeature> getCourseOfStyles();
+
 }

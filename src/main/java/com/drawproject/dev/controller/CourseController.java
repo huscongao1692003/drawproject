@@ -111,4 +111,9 @@ public class CourseController {
         return ResponseEntity.ok().body(reportStudentService.createReport(reportStudentDTO));
     }
 
+    @GetMapping(value = "/feature")
+    public ResponseEntity<ResponseDTO> getCourseFeature() {
+        return ResponseEntity.ok().body(courseService.getNumOfCourseForEachFeature());
+    }
+
 }
