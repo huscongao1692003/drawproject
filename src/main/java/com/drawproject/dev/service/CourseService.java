@@ -96,11 +96,12 @@ public class CourseService {
 
         Page<Courses> courses = courseRepository.searchCourse(categories, skills, styles, search, star, pageable);
 
-        List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
+
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, coursePreviewDTOS);
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, courses.getContent());
 
         if(!courses.isEmpty()) {
+            List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
             coursePreviewDTOS.forEach(coursePreviewDTO -> coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar()));
             responsePagingDTO.setData(coursePreviewDTOS);
             responsePagingDTO.setMessage("Course found");
