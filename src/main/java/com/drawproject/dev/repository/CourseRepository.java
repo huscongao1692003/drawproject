@@ -43,7 +43,7 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
 
     int countByInstructorInstructorIdAndStatus(int instructorId, String status);
 
-    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.skillId, count(c.courseId)) " +
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.skillId, s.skillName, count(c.courseId)) " +
             "FROM Courses c " +
             "RIGHT JOIN Skill s " +
             "ON c.skill.skillId = s.skillId " +
@@ -52,7 +52,7 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "GROUP BY s.skillId ")
     List<CourseFeature> getCourseOfSkills();
 
-    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(c.category.categoryId, count(c.courseId)) " +
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(ca.categoryId, ca.categoryName, count(c.courseId)) " +
             "FROM Courses c " +
             "JOIN Category ca " +
             "ON ca.categoryId = c.category.categoryId " +
@@ -61,7 +61,7 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "GROUP BY c.category ")
     List<CourseFeature> getCourseOfCategories();
 
-    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.drawingStyleId, count(c.courseId)) " +
+    @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.drawingStyleId, s.drawingStyleName, count(c.courseId)) " +
             "FROM Style s " +
             "LEFT JOIN Courses c " +
             "ON c.style.drawingStyleId = s.drawingStyleId " +
