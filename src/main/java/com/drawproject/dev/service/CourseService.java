@@ -189,13 +189,13 @@ public class CourseService {
         User user = userRepository.findByUsername(username).orElse(null);
 
         //set status buy/enroll
-        if(user.getRoles().getName().equals(DrawProjectConstaints.USER_ROLE)) {
-            Boolean enroll = enrollRepository.existsByUserUserIdAndCourseCourseId(courseId, user.getUserId());
+        if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.USER_ROLE)) {
+            Boolean enroll = enrollRepository.existsByUserUserIdAndCourseCourseId(user.getUserId(), courseId);
             if(enroll) {
                 return new ResponseDTO(HttpStatus.ACCEPTED, "You have enrolled this course", DrawProjectConstaints.ENROLL);
             }
             return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have not enrolled this course", DrawProjectConstaints.UNENROLL);
-        } else if(user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
+        } else if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.INSTRUCTOR)) {
             Boolean owner = courseRepository.existsByInstructorInstructorIdAndCourseId(user.getUserId(), courseId);
             if(owner) {
                 return new ResponseDTO(HttpStatus.ACCEPTED, "You have owner this course", DrawProjectConstaints.OWNER);
