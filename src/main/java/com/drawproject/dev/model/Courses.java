@@ -71,9 +71,6 @@ public class Courses extends BaseEntity {
     private double averageStar;
 
     @Transient
-    private int numLesson;
-
-    @Transient
     private int numStudent;
 
     public double getAverageStar() {
@@ -87,16 +84,6 @@ public class Courses extends BaseEntity {
             this.averageStar = 0;
         }
         return averageStar;
-    }
-
-    public int getNumLesson() {
-        if(this.getTopics() != null) {
-            int count = this.getTopics().stream().mapToInt(topic -> (topic != null) ? (topic.getLessons().size()) : 0).sum();
-            this.numLesson = count;
-        } else {
-            this.numLesson = 0;
-        }
-        return this.numLesson;
     }
 
     public int getNumStudent() {

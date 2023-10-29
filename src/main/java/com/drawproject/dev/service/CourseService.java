@@ -67,6 +67,10 @@ public class CourseService {
     @Autowired
     LessonService lessonService;
 
+
+    @Autowired
+    LessonRepository lessonRepository;
+
     /**
      * Gets top course by category.
      *
@@ -103,7 +107,10 @@ public class CourseService {
 
         if(!courses.isEmpty()) {
             List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
-            coursePreviewDTOS.forEach(coursePreviewDTO -> coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar()));
+            coursePreviewDTOS.forEach(coursePreviewDTO -> {
+                coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar());
+                coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
+            });
             responsePagingDTO.setData(coursePreviewDTOS);
             responsePagingDTO.setMessage("Course found");
             responsePagingDTO.setStatus(HttpStatus.OK);
@@ -171,6 +178,8 @@ public class CourseService {
         courseDetail.setNumQuiz(assignmentRepository.countByLessonTopicCourseCourseId(courseId));
         //set videoIntro
         courseDetail.setVideoIntro(lessonService.getTrailler(courseId));
+        //set number of lesson
+        courseDetail.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN));
 
         return new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
     }
@@ -270,9 +279,10 @@ public class CourseService {
 
     public ResponseDTO openCourse(int courseId, String message) {
         Courses course = courseRepository.findById(courseId).orElseThrow();
-
+        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
+            return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "This course is not enough lesson to Open! Please, create lesson to Open.", "Project need at least 3 lesson to open");
+        }
         course.setStatus(DrawProjectConstaints.OPEN);
-
         courseRepository.save(course);
 
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.OPEN);
