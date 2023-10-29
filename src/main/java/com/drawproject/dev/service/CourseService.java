@@ -2,6 +2,7 @@ package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.Mail;
+import com.drawproject.dev.dto.QuickSearchData;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.*;
 import com.drawproject.dev.map.MapCourse;
@@ -285,6 +286,37 @@ public class CourseService {
         features.put("Style", courseRepository.getCourseOfStyles());
 
         return new ResponseDTO(HttpStatus.FOUND, "Course found", features);
+    }
+
+    public ResponseDTO quickSearch(String search) {
+        Pageable pageable = PageRequest.of(0, 2);
+        boolean isFound = false;
+        QuickSearchData quickSearchData = new QuickSearchData();
+        //get list couse
+        List<Courses> course = courseRepository.searchCourse(search);
+        if(!course.isEmpty()) {
+            quickSearchData.setCourse(MapCourse.mapListQuickCourseToDTO(course));
+            quickSearchData.getCourse().forEach(quickCourse -> quickCourse.setFullName(userRepository.findById(quickCourse.getInstructorId()).orElseThrow().getFullName()));
+            isFound = true;
+        }
+        //get category search
+        Page<Category> category = categoryRepository.findTopByCategoryNameStartingWith(search, pageable);
+        if(!category.isEmpty()) {
+            quickSearchData.getTags().put("Category", category.getContent());
+            isFound = true;
+        }
+        //get style search
+        Page<Style> style = styleRepository.findTopByDrawingStyleNameStartingWith(search, pageable);
+        if(!style.isEmpty()) {
+            quickSearchData.getTags().put("Style", style.getContent());
+            isFound = true;
+        }
+        //check is found
+        if(isFound) {
+            return new ResponseDTO(HttpStatus.FOUND, "Course found", quickSearchData);
+        }
+        return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", quickSearchData);
+
     }
 
 }

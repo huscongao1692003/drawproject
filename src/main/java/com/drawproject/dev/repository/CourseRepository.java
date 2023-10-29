@@ -72,4 +72,16 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "GROUP BY s.drawingStyleId ")
     List<CourseFeature> getCourseOfStyles();
 
+    @Query(value = "SELECT c.* " +
+            "FROM courses c Join orders o " +
+            "ON c.course_id = o.course_id " +
+            "JOIN feedback f " +
+            "ON c.course_id = f.course_id " +
+            "WHERE c.course_title LIKE :courseTitle% " +
+            "AND c.status LIKE 'Open' " +
+            "GROUP BY c.course_id " +
+            "ORDER BY COUNT(o.order_id) DESC , COALESCE(AVG(f.star), 0) DESC " +
+            "LIMIT 3", nativeQuery = true)
+    List<Courses> searchCourse(String courseTitle);
+
 }

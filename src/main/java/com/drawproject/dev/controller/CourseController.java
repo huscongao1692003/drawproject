@@ -117,4 +117,9 @@ public class CourseController {
         return ResponseEntity.ok().body(courseService.getNumOfCourseForEachFeature());
     }
 
+    @GetMapping(value = "/search")
+    public ResponseEntity<ResponseDTO> quickSearch(@RequestParam(value = "search") String search) {
+        return ResponseEntity.ok().body(courseService.quickSearch(search));
+    }
+
 }
