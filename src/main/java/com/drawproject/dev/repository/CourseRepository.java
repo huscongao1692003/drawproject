@@ -84,4 +84,6 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
             "LIMIT 3", nativeQuery = true)
     List<Courses> searchCourse(String courseTitle);
 
+    Boolean existsByInstructorInstructorIdAndCourseId(int instructorId, int courseId);
+
 }
