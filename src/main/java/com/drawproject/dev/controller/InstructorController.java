@@ -231,4 +231,9 @@ public class InstructorController {
         return ResponseEntity.ok(artWorkService.deleteArtWork(message, artworkId));
     }
 
+    @GetMapping("/top-instructors")
+    public ResponseEntity<ResponseDTO> getTopInstructors() {
+        return ResponseEntity.ok().body(instructorService.topInstructor());
+    }
+
 }

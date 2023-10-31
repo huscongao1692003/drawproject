@@ -110,4 +110,9 @@ public class UserController {
         return ResponseEntity.ok().body(postService.getPostByUserId(page, eachPage, authentication));
     }
 
+    @GetMapping("/avatar")
+    public ResponseEntity<String> getImage(Authentication authentication) {
+        return ResponseEntity.ok().body(userService.getAvatar(authentication));
+    }
+
 }

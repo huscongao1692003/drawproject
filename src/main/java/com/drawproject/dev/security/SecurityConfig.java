@@ -83,6 +83,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.POST, "/api/v1/assignments").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/assignments/{id}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/assignments/{id}").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/instructor/top-instructors").permitAll()
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/experiences").permitAll()
                  .requestMatchers(HttpMethod.PUT, "/api/v1/instructor/{userId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/courses").permitAll()
@@ -103,7 +104,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.GET, "api/v1/users/id").hasAnyRole(DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.INSTRUCTOR,
                                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
                  .requestMatchers(HttpMethod.GET, "/api/v1/users/posts").hasAnyRole(DrawProjectConstaints.INSTRUCTOR, DrawProjectConstaints.USER_ROLE)
-                 .requestMatchers(HttpMethod.GET, "/api/v1/users/image").authenticated()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/users/avatar").authenticated()
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/artworks/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/certificates/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.GET, "api/v1/style").permitAll()
