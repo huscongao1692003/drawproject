@@ -8,8 +8,6 @@ import com.drawproject.dev.dto.course.*;
 import com.drawproject.dev.map.MapCourse;
 import com.drawproject.dev.model.*;
 import com.drawproject.dev.repository.*;
-import com.drawproject.dev.ultils.IdUtils;
-import jakarta.servlet.http.HttpSession;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -250,12 +247,15 @@ public class CourseService {
     public ResponseDTO viewAllCourse(int page, int eachPage) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
         Page<Courses> courses = courseRepository.findAll(pageable);
-        if(courses.isEmpty()) {
-            return new ResponseDTO(HttpStatus.NO_CONTENT, "Course not found", null);
+        if(!courses.isEmpty()) {
+            List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
+            coursePreviewDTOS.forEach(coursePreviewDTO -> {
+                coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
+            });
+            return new ResponseDTO(HttpStatus.FOUND, "Course found", coursePreviewDTOS);
         }
-        List<CoursePreviewDTO> list = MapCourse.mapListToDTO(courses.getContent());
 
-        return new ResponseDTO(HttpStatus.FOUND, "Course found", list);
+        return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", courses.getContent());
     }
 
     public ResponseDTO reportCourse(int courseId, String message) {

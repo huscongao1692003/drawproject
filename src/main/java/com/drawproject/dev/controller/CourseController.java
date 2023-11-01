@@ -5,6 +5,7 @@ import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.service.CourseService;
+import com.drawproject.dev.service.ProcessService;
 import com.drawproject.dev.service.ReportStudentService;
 import com.drawproject.dev.service.UserService;
 import jakarta.validation.Valid;
@@ -29,6 +30,9 @@ public class CourseController {
 
     @Autowired
     ReportStudentService reportStudentService;
+
+    @Autowired
+    ProcessService processService;
 
     @GetMapping("/top-courses")
     public ResponseEntity<ResponseDTO> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
@@ -120,6 +124,11 @@ public class CourseController {
     @GetMapping(value = "/search")
     public ResponseEntity<ResponseDTO> quickSearch(@RequestParam(value = "search") String search) {
         return ResponseEntity.ok().body(courseService.quickSearch(search));
+    }
+
+    @GetMapping("{id}/progress")
+    public ResponseEntity<ResponseDTO> getProgress(@PathVariable("id") int courseId, Authentication authentication) {
+        return ResponseEntity.ok().body(processService.getProgressStudent(courseId, authentication));
     }
 
 }
