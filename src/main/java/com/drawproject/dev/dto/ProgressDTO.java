@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ProgressDTO {
 
-    private int progress;
+    private Long progress;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String status;

@@ -38,6 +38,9 @@ public class UserController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ProcessService processService;
+
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int userId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
@@ -113,6 +116,13 @@ public class UserController {
     @GetMapping("/avatar")
     public ResponseEntity<String> getImage(Authentication authentication) {
         return ResponseEntity.ok().body(userService.getAvatar(authentication));
+    }
+
+    @PostMapping("/record")
+    public ResponseEntity<ResponseDTO> recordStudy(@RequestParam("courseId") int courseId,
+                                                   @RequestParam("lessonId") int lessonId,
+                                                   Authentication authentication) {
+        return ResponseEntity.ok().body(processService.recordProgressStudy(authentication, courseId, lessonId));
     }
 
 }

@@ -74,9 +74,11 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.PUT, "/api/v1/courses/topic/{topicId}/close").hasAnyRole(DrawProjectConstaints.INSTRUCTOR,
                          DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
                  .requestMatchers(HttpMethod.GET, "/api/v1/courses/feature").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/progress").hasRole(DrawProjectConstaints.USER_ROLE)
                  .requestMatchers(HttpMethod.GET, "/api/v1/users/{userId}/courses").hasAnyRole(
                          DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF
                  )
+                 .requestMatchers(HttpMethod.POST, "/api/v1/users/record").hasRole(DrawProjectConstaints.USER_ROLE)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}/report").hasAnyRole(
                          DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/courses/{id}/open").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
