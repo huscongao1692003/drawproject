@@ -189,7 +189,7 @@ public class CourseService {
         if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.USER_ROLE)) {
             Optional<Enroll> enroll = enrollRepository.findByUserUserIdAndCourseCourseId(user.getUserId(), courseId);
             if(enroll.isPresent()) {
-                if(enroll.get().getStatus().equalsIgnoreCase(DrawProjectConstaints.OPEN)) {
+                if(enroll.get().getStatus().equalsIgnoreCase(DrawProjectConstaints.ENROLL)) {
                     return new ResponseDTO(HttpStatus.ACCEPTED, "You have enrolled this course", DrawProjectConstaints.ENROLL);
                 } else if(enroll.get().getStatus().equalsIgnoreCase(DrawProjectConstaints.CLOSE)) {
                     return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have been banned this course", DrawProjectConstaints.CLOSE);
