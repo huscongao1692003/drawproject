@@ -45,16 +45,19 @@ public class ArtWorkService {
     @Autowired
     MailService mailService;
 
-    public ResponsePagingDTO getArtworks(int page, int eachPage, int instructorId, int categoryId) {
+    public ResponsePagingDTO getArtworks(int page, int eachPage, int instructorId, int categoryId, String status) {
 
         Pageable pageable = PageRequest.of(page - 1, eachPage);
         Page<Artwork> artworks;
 
         if(categoryId != 0) {
-            artworks = artworkRepository.findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(instructorId, categoryId, DrawProjectConstaints.COMPLETED, pageable);
+            artworks = artworkRepository.findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(instructorId, categoryId, status, pageable);
+        } else if(!status.equalsIgnoreCase("")) {
+            artworks = artworkRepository.findByInstructorInstructorIdAndStatus(instructorId, status, pageable);
         } else {
-            artworks = artworkRepository.findByInstructorInstructorIdAndStatus(instructorId, DrawProjectConstaints.COMPLETED, pageable);
+            artworks = artworkRepository.findByInstructorInstructorId(instructorId, pageable);
         }
+
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.FOUND, "Artwork found",
                 artworks.getTotalElements(), page, artworks.getTotalPages(), eachPage, MapArtWork.mapArtWorkToDTOs(artworks.getContent()));
 
@@ -84,7 +87,7 @@ public class ArtWorkService {
 
     public ResponseDTO openArtWork(String message, int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
-        artwork.setStatus(DrawProjectConstaints.COMPLETED);
+        artwork.setStatus(DrawProjectConstaints.OPEN);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.OK, "Artwork checked", message);

@@ -47,8 +47,15 @@ public class CertificateService {
     @Autowired
     MailService mailService;
 
-    public ResponseDTO getCertificates(int instructorId) {
-        List<Certificate> certificates = certificateRepository.findByInstructorInstructorId(instructorId);
+    public ResponseDTO getCertificates(int instructorId, String status) {
+
+        List<Certificate> certificates;
+        if(status.equalsIgnoreCase("")) {
+            certificates = certificateRepository.findByInstructorInstructorId(instructorId);
+        } else {
+            certificates = certificateRepository.findByInstructorInstructorIdAndStatus(instructorId, status);
+        }
+
         if(certificates.isEmpty()) {
             return new ResponseDTO(HttpStatus.NO_CONTENT, "No certificates found", certificates);
         }
@@ -65,7 +72,7 @@ public class CertificateService {
             //How to save image MultipartFile to database
             certificate.setImage(fileService.uploadFile(image, instructorId, "image", "certificates"));
             certificate.setInstructor(instructor);
-            certificate.setStatus(DrawProjectConstaints.CLOSE);
+            certificate.setStatus(DrawProjectConstaints.OPEN);
             certificateRepository.save(certificate);
         }
         return new ResponseDTO(HttpStatus.CREATED, "Certificate created", "Your certificate will be reviewed before updating!");

@@ -233,9 +233,14 @@ public class CourseService {
         return responsePagingDTO;
     }
 
-    public Object getCoursesByInstructor(int instructorId, int page, int eachPage) {
+    public Object getCoursesByInstructor(int instructorId, int page, int eachPage, String status) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-        Page<Courses> course = courseRepository.findByInstructorInstructorId(instructorId, pageable);
+        Page<Courses> course;
+        if(status.equalsIgnoreCase("")) {
+            course = courseRepository.findByInstructorInstructorId(instructorId, pageable);
+        } else {
+            course = courseRepository.findByInstructorInstructorIdAndStatus(instructorId, status, pageable);
+        }
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
                 course.getTotalElements(), page, course.getTotalPages(), eachPage, MapCourse.mapListToDTO(course.getContent()));

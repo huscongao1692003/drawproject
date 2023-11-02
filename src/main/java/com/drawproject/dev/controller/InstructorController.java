@@ -112,8 +112,9 @@ public class InstructorController {
     }
 
     @GetMapping("/{userId}/certificates")
-    public ResponseEntity<ResponseDTO> getCertificates(@PathVariable("userId") int userId) {
-        return ResponseEntity.ok().body(certificateService.getCertificates(userId));
+    public ResponseEntity<ResponseDTO> getCertificates(@PathVariable("userId") int userId,
+                                                       @RequestParam(value = "status", defaultValue = "", required = false) String status) {
+        return ResponseEntity.ok().body(certificateService.getCertificates(userId, status));
     }
 
     @PostMapping("/certificates")
@@ -168,12 +169,13 @@ public class InstructorController {
     @GetMapping("/{userId}/courses")
     public ResponseEntity<Object> getEnrollCourse(@PathVariable("userId") int instructorId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
-                                                  @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
+                                                  @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
+                                                  @RequestParam(value = "status", defaultValue = "") String status) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
 
-        return ResponseEntity.ok(courseService.getCoursesByInstructor(instructorId, page, eachPage));
+        return ResponseEntity.ok(courseService.getCoursesByInstructor(instructorId, page, eachPage, status));
     }
 
     @GetMapping("/{userId}/submissions")
@@ -200,12 +202,13 @@ public class InstructorController {
     public ResponseEntity<Object> getArtWorks(@PathVariable("userId") int instructorId,
                                                   @RequestParam(value = "page", defaultValue = "1") int page,
                                                   @RequestParam(value = "eachPage", defaultValue = "4") int eachPage,
-                                                  @RequestParam(value = "categoryId", defaultValue = "0") int categoryId) {
+                                                  @RequestParam(value = "categoryId", defaultValue = "0") int categoryId,
+                                                  @RequestParam(value = "status", defaultValue = "", required = false) String status) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
 
-        return ResponseEntity.ok(artWorkService.getArtworks(page, eachPage, instructorId, categoryId));
+        return ResponseEntity.ok(artWorkService.getArtworks(page, eachPage, instructorId, categoryId, status));
     }
 
     @PostMapping("/artworks")

@@ -12,6 +12,8 @@ import java.util.List;
 public interface CertificateRepository extends JpaRepository<Certificate, Integer> {
     List<Certificate> findByInstructorInstructorId(int instructionId);
 
+    List<Certificate> findByInstructorInstructorIdAndStatus(int instructorId, String status);
+
     Certificate findByCertificateIdAndInstructorInstructorId(int certificateId, int instructorId);
 
     Page<Certificate> findByStatus(String status, Pageable pageable);

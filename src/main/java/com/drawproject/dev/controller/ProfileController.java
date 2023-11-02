@@ -64,7 +64,7 @@ public class ProfileController {
     }
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateProfile(MultipartFile image, @Valid Profile profile, Errors errors, Authentication authentication){
+    public ResponseEntity<String> updateProfile(@RequestParam(required = false) MultipartFile image, @Valid Profile profile, Errors errors, Authentication authentication){
         if(errors.hasErrors()){
             return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
         }
@@ -74,7 +74,10 @@ public class ProfileController {
         user.setFullName(profile.getFullName());
         user.setEmail(profile.getEmail());
         user.setMobileNum(profile.getMobileNumber());
-        user.setAvatar(fileService.uploadFile(image, user.getUserId(), "image", "avatars"));
+        if(image != null) {
+            user.setAvatar(fileService.uploadFile(image, user.getUserId(), "image", "avatars"));
+        }
+
         user.setSkill(skill);
         User savedUser = userRepository.save(user);
         return new ResponseEntity<>("Update Profile Successful", HttpStatus.OK);
