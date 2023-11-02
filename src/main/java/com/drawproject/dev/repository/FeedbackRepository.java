@@ -13,5 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Integer> {
+    boolean existsByUser_UserIdAndCourses_CourseIdAndStatus(int userId, int courseId, String status);
+    Page<Feedback> findByCoursesCourseIdAndStatus(int id, String status, Pageable pageable);
     Page<Feedback> findByCoursesCourseId(int id, Pageable pageable);
 }

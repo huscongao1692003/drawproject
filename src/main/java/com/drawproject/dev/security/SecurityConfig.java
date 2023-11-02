@@ -68,6 +68,9 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/courses/{id}/feedback/{feedbackId}").hasAnyRole(
                          DrawProjectConstaints.USER_ROLE, DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE
                  )
+                 .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/feedback/check").hasRole(
+                         DrawProjectConstaints.USER_ROLE
+                 )
                  .requestMatchers(HttpMethod.GET, "/api/v1/courses/{id}/topic").permitAll()
                  .requestMatchers(HttpMethod.POST, "/api/v1/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/courses/{id}/topic").hasRole(DrawProjectConstaints.INSTRUCTOR)

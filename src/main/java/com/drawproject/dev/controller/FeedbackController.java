@@ -7,6 +7,7 @@ import com.drawproject.dev.service.FeedbackService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,12 +19,13 @@ public class FeedbackController {
     @GetMapping("/courses/{id}/feedback")
     public ResponseEntity<ResponsePagingDTO> getFeedback(@PathVariable("id") int courseId,
                                                          @RequestParam(value = "page", defaultValue = "1") int page,
-                                                         @RequestParam(value = "eachPage", defaultValue = "3") int eachPage) {
+                                                         @RequestParam(value = "eachPage", defaultValue = "3") int eachPage,
+                                                         @RequestParam(value = "status", defaultValue = "") String status) {
 
         page = Math.max(page, 1);
         eachPage = Math.max(eachPage, 1);
 
-        return ResponseEntity.ok().body(feedbackService.getFeedback(courseId, page, eachPage));
+        return ResponseEntity.ok().body(feedbackService.getFeedback(courseId, status, page, eachPage));
     }
 
     @PutMapping("/courses/{id}/feedback")
@@ -45,6 +47,12 @@ public class FeedbackController {
                                                       @PathVariable("feedbackId") int feedbackId) {
 
         return ResponseEntity.ok().body(feedbackService.deleteFeedback(courseId, feedbackId));
+    }
+
+    @GetMapping("/courses/{id}/feedback/check")
+    public ResponseEntity<ResponseDTO> checkFeedback(@PathVariable("id") int courseId,
+                                                     Authentication authentication) {
+        return ResponseEntity.ok().body(feedbackService.checkFeedback(authentication, courseId));
     }
 
 }

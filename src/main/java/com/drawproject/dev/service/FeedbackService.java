@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,9 +35,14 @@ public class FeedbackService {
     UserRepository userRepository;
 
 
-    public ResponsePagingDTO getFeedback(int courseId, int page, int eachPage) {
+    public ResponsePagingDTO getFeedback(int courseId, String status, int page, int eachPage) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-        Page<Feedback> feedbacks = feedbackRepository.findByCoursesCourseId(courseId, pageable);
+        Page<Feedback> feedbacks;
+        if(status.equalsIgnoreCase("")) {
+            feedbacks = feedbackRepository.findByCoursesCourseId(courseId, pageable);
+        } else {
+            feedbacks = feedbackRepository.findByCoursesCourseIdAndStatus(courseId, status, pageable);
+        }
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
                 feedbacks.getTotalElements(), page, feedbacks.getTotalPages(), eachPage, MapFeedback.mapListFeedbackToDTO(feedbacks.getContent()));
@@ -84,6 +90,20 @@ public class FeedbackService {
         Feedback feedback = feedbackRepository.findById(feedbackId).orElseThrow();
         feedback.setStatus(DrawProjectConstaints.CLOSE);
         return new ResponseDTO(HttpStatus.OK, "Feedback deleted", MapFeedback.mapFeedbackToDTO(feedback));
+    }
+
+    public ResponseDTO checkFeedback(Authentication authentication, int courseId) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+
+        Boolean check = feedbackRepository.existsByUser_UserIdAndCourses_CourseIdAndStatus(user.getUserId(), courseId, DrawProjectConstaints.OPEN);
+
+        if(check) {
+            return new ResponseDTO(HttpStatus.METHOD_NOT_ALLOWED, "You have been feedback for this course", true);
+        }
+
+        return new ResponseDTO(HttpStatus.OK, "Feedback not found", false);
+
     }
 
 }

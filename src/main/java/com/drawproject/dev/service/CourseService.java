@@ -181,9 +181,9 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
     }
 
-    public ResponseDTO checkEnroll(int courseId, Authentication authentication) {
+        public ResponseDTO checkEnroll(int courseId, Authentication authentication) {
         String username = authentication.getName();
-        User user = userRepository.findByUsername(username).orElse(null);
+        User user = userRepository.findByUsername(username).orElseThrow();
 
         //set status buy/enroll
         if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.USER_ROLE)) {
