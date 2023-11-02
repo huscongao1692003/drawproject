@@ -187,11 +187,13 @@ public class CourseService {
 
         //set status buy/enroll
         if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.USER_ROLE)) {
-            Enroll enroll = enrollRepository.findByUserUserIdAndCourseCourseId(user.getUserId(), courseId).orElseThrow();
-            if(enroll.getStatus().equalsIgnoreCase(DrawProjectConstaints.OPEN)) {
-                return new ResponseDTO(HttpStatus.ACCEPTED, "You have enrolled this course", DrawProjectConstaints.ENROLL);
-            } else if(enroll.getStatus().equalsIgnoreCase(DrawProjectConstaints.CLOSE)) {
-                return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have been banned this course", DrawProjectConstaints.CLOSE);
+            Optional<Enroll> enroll = enrollRepository.findByUserUserIdAndCourseCourseId(user.getUserId(), courseId);
+            if(enroll.isPresent()) {
+                if(enroll.get().getStatus().equalsIgnoreCase(DrawProjectConstaints.OPEN)) {
+                    return new ResponseDTO(HttpStatus.ACCEPTED, "You have enrolled this course", DrawProjectConstaints.ENROLL);
+                } else if(enroll.get().getStatus().equalsIgnoreCase(DrawProjectConstaints.CLOSE)) {
+                    return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have been banned this course", DrawProjectConstaints.CLOSE);
+                }
             }
             return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "You have not enrolled this course", DrawProjectConstaints.UNENROLL);
         } else if(user.getRoles().getName().equalsIgnoreCase(DrawProjectConstaints.INSTRUCTOR)) {
