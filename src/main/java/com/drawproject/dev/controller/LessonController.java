@@ -28,4 +28,10 @@ public class LessonController {
         return ResponseEntity.ok().body(lessonService.updateLesson(file, lessonDTO, topicId));
     }
 
+    @DeleteMapping("")
+    public ResponseEntity<ResponseDTO> deleteLesson(int lessonId) {
+        lessonService.deleteLesson(lessonId);
+        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "Delete lessons Successfully", ""));
+    }
+
 }
