@@ -19,6 +19,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class LessonService {
@@ -35,6 +36,7 @@ public class LessonService {
     @Autowired
     FileService fileService;
 
+    /*
     @Transactional
     public ResponseDTO createLessons(List<MultipartFile> listFile, Topic topic, List<LessonDTO> lessonDTOs) {
         List<Lesson> lessonErrors = new ArrayList<>();
@@ -82,6 +84,9 @@ public class LessonService {
         lessonRepository.save(newLesson);
     }
 
+    */
+
+
     public String getTrailler(int courseId) {
         Lesson lesson= lessonRepository.findByNumberAndTopicNumberAndTopicCourseCourseIdAndStatus(1, 1, courseId, DrawProjectConstaints.OPEN);
         return lesson.getUrl();
@@ -90,6 +95,9 @@ public class LessonService {
     @Transactional
     public void deleteLesson(int topicId) {
         List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatus(topicId, DrawProjectConstaints.OPEN);
+        if(lessons.isEmpty()) {
+            return;
+        }
         lessons.forEach(lesson -> {
             lesson.setStatus(DrawProjectConstaints.CLOSE);
             lessonRepository.save(lesson);
@@ -98,8 +106,6 @@ public class LessonService {
 
     public void deleteLesson(int topicId, List<Integer> lessonIds) {
         List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatusAndLessonIdNotIn(topicId, DrawProjectConstaints.OPEN, lessonIds);
-        System.out.println("================================================");
-        System.out.println(lessons.size());
         lessons.forEach(lesson -> {
             lesson.setStatus(DrawProjectConstaints.CLOSE);
             lessonRepository.save(lesson);
@@ -107,6 +113,46 @@ public class LessonService {
 
     }
 
+    public ResponseDTO createLesson(MultipartFile file, LessonDTO lessonDTO, int topicId) {
+        Lesson lesson = new Lesson();
+        modelMapper.map(lessonDTO, lesson);
+        lesson.setStatus(DrawProjectConstaints.OPEN);
+        Optional<Topic> topic = topicRepository.findById(topicId);
+        if(topic.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
+        }
+        lesson.setTopic(topic.get());
+        if(!lessonDTO.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) {
+            lesson = lessonRepository.save(lesson);
+            lesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), lessonDTO.getTypeFile(), "lessons"));
+        }
+        lessonRepository.save(lesson);
+        return new ResponseDTO(HttpStatus.CREATED, "Lesson created successfully", "Save lesson successfully");
+    }
+
+    public ResponseDTO updateLesson(MultipartFile file, LessonDTO lessonDTO, int topicId) {
+        Optional<Lesson> lesson = lessonRepository.findById(lessonDTO.getLessonId());
+        if(lesson.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Lesson not found", "Error while updating lesson");
+        }
+        Lesson newLesson = lesson.get();
+        modelMapper.map(lessonDTO, newLesson);
+
+        Optional<Topic> topic = topicRepository.findById(topicId);
+        if(topic.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error while getting topic");
+        }
+        newLesson.setTopic(topic.get());
+
+        if((!lessonDTO.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) && (!newLesson.getUrl().equalsIgnoreCase(lessonDTO.getUrl()))) {
+            lesson.get().setUrl(fileService.uploadFile(file, lesson.get().getLessonId(), lessonDTO.getTypeFile(), "lessons"));
+        }
+
+        lessonRepository.save(newLesson);
+        return new ResponseDTO(HttpStatus.OK, "Update lesson successfully", "Save lesson successfully");
+    }
+
+    /*
     @Transactional
     public ResponseDTO updateLessons(List<MultipartFile> listFile, Topic topic, List<LessonDTO> lessonDTOs) {
         List<Lesson> lessonErrors = new ArrayList<>();
@@ -157,7 +203,7 @@ public class LessonService {
         lessonRepository.save(newLesson);
 
     }
-
+*/
 
 
 

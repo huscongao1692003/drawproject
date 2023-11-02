@@ -27,11 +27,18 @@ public class TopicController {
         return ResponseEntity.ok().body(topicService.getTopicByCourse(courseId));
     }
 
-    @PostMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseDTO> createTopic(@RequestPart("files") List<MultipartFile> files, @PathVariable("id") int courseId,
-                                                   @Valid @RequestPart("topic") String topic) {
-        TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
-        return ResponseEntity.ok().body(topicService.createTopic(files, courseId, topicDTO));
+//    @PostMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity<ResponseDTO> createTopic(@RequestPart("files") List<MultipartFile> files, @PathVariable("id") int courseId,
+//                                                   @Valid @RequestPart("topic") String topic) {
+//        TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
+//        return ResponseEntity.ok().body(topicService.createTopic(files, courseId, topicDTO));
+//    }
+
+    @PostMapping("/{id}/topic")
+    public ResponseEntity<ResponseDTO> createTopic(@PathVariable("id") int courseId,
+                                                   @Valid @RequestBody TopicDTO topicDTO) {
+
+        return ResponseEntity.ok().body(topicService.saveTopic(topicDTO, courseId));
     }
 
     @PutMapping("/topic/{topicId}/close")
@@ -39,11 +46,18 @@ public class TopicController {
         return ResponseEntity.ok().body(topicService.deleteTopic(topicId));
     }
 
-    @PutMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseDTO> updateTopic(@RequestPart(value = "files", required = false) List<MultipartFile> files, @PathVariable("id") int courseId,
-                                                   @Valid @RequestPart("topic") String topic) {
-        TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
-        return ResponseEntity.ok().body(topicService.updateTopic(files, courseId, topicDTO));
+//    @PutMapping(value = "/{id}/topic", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
+//    public ResponseEntity<ResponseDTO> updateTopic(@RequestPart(value = "files", required = false) List<MultipartFile> files, @PathVariable("id") int courseId,
+//                                                   @Valid @RequestPart("topic") String topic) {
+//        TopicDTO topicDTO = JsonUtils.getJson(topic, TopicDTO.class);
+//        return ResponseEntity.ok().body(topicService.updateTopic(files, courseId, topicDTO));
+//    }
+
+    @PutMapping(value = "/{id}/topic")
+    public ResponseEntity<ResponseDTO> updateTopic(@PathVariable("id") int courseId,
+                                                   @Valid @RequestBody TopicDTO topicDTO) {
+
+        return ResponseEntity.ok().body(topicService.saveTopic(topicDTO, courseId));
     }
 
 }
