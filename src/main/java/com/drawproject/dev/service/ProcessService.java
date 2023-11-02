@@ -36,8 +36,18 @@ public class ProcessService {
 
     public ProgressDTO getProcessOfStudent(int userId, int courseId) {
         ProgressDTO progressDTO = new ProgressDTO();
-        progressDTO.setCreatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumber(userId, courseId).getCreatedAt());
-        progressDTO.setUpdatedAt(processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumberDesc(userId, courseId).getCreatedAt());
+        Process process = processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumber(userId, courseId);
+        if(process != null) {
+            progressDTO.setCreatedAt(process.getCreatedAt());
+        } else {
+            progressDTO.setCreatedAt(null);
+        }
+        process = processRepository.findTopByEnrollUserUserIdAndEnrollCourseCourseIdOrderByLessonNumberDesc(userId, courseId);
+        if(process != null) {
+            progressDTO.setUpdatedAt(process.getUpdatedAt());
+        } else {
+            progressDTO.setUpdatedAt(null);
+        }
         Enroll enroll = enrollRepository.findByUserUserIdAndCourseCourseId(userId, courseId).orElseThrow();
         Long progress = processRepository.countByEnroll_EnrollIdAndLesson_Topic_Course_CourseIdAndLesson_Status(enroll.getEnrollId(), courseId, DrawProjectConstaints.OPEN);
         progressDTO.setProgress(progress);
