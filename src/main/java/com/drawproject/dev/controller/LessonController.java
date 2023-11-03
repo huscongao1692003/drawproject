@@ -1,6 +1,7 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.LessonDTO;
+import com.drawproject.dev.dto.LessonRequestDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.service.LessonService;
@@ -19,8 +20,8 @@ public class LessonController {
     LessonService lessonService;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseDTO> createLesson(MultipartFile file, int topicId, LessonDTO lessonDTO) {
-        return ResponseEntity.ok().body(lessonService.createLesson(file, lessonDTO, topicId));
+    public ResponseEntity<ResponseDTO> createLesson(MultipartFile file, LessonRequestDTO lessonRequestDTO) {
+        return ResponseEntity.ok().body(lessonService.createLesson(file, lessonRequestDTO));
     }
 
     @PutMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})

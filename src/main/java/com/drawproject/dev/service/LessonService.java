@@ -2,6 +2,7 @@ package com.drawproject.dev.service;
 
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.dto.LessonDTO;
+import com.drawproject.dev.dto.LessonRequestDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.map.MapLesson;
 import com.drawproject.dev.model.Lesson;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -113,11 +115,11 @@ public class LessonService {
 
     }
 
-    public ResponseDTO createLesson(MultipartFile file, LessonDTO lessonDTO, int topicId) {
+    public ResponseDTO createLesson(MultipartFile file, LessonRequestDTO lessonDTO) {
         Lesson lesson = new Lesson();
         modelMapper.map(lessonDTO, lesson);
         lesson.setStatus(DrawProjectConstaints.OPEN);
-        Optional<Topic> topic = topicRepository.findById(topicId);
+        Optional<Topic> topic = topicRepository.findById(lessonDTO.getTopicId());
         if(topic.isEmpty()) {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
         }
