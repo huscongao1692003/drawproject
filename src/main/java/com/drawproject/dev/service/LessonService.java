@@ -115,18 +115,19 @@ public class LessonService {
 
     }
 
-    public ResponseDTO createLesson(MultipartFile file, LessonRequestDTO lessonDTO) {
+    public ResponseDTO createLesson(MultipartFile file, LessonRequestDTO lessonRequestDTO) {
         Lesson lesson = new Lesson();
-        modelMapper.map(lessonDTO, lesson);
+        modelMapper.map(lessonRequestDTO, lesson);
         lesson.setStatus(DrawProjectConstaints.OPEN);
-        Optional<Topic> topic = topicRepository.findById(lessonDTO.getTopicId());
-        if(topic.isEmpty()) {
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
-        }
+        Optional<Topic> topic = topicRepository.findById(lessonRequestDTO.getTopicId());
+        //lay topic bang dropdown ma check cai deo gi
+//        if(topic.isEmpty()) {
+//            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
+//        }
         lesson.setTopic(topic.get());
-        if(!lessonDTO.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) {
+        if(!lessonRequestDTO.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) {
             lesson = lessonRepository.save(lesson);
-            lesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), lessonDTO.getTypeFile(), "lessons"));
+            lesson.setUrl(fileService.uploadFile(file, lesson.getLessonId(), lessonRequestDTO.getTypeFile(), "lessons"));
         }
         lessonRepository.save(lesson);
         return new ResponseDTO(HttpStatus.CREATED, "Lesson created successfully", "Save lesson successfully");
