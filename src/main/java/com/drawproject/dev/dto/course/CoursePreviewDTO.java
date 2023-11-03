@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CoursePreviewDTO {
     private int courseId;
     private String courseTitle;
+    private String information;
     private int price;
     private int drawingStyleId;
     private String drawingStyleName;
