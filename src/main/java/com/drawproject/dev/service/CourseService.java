@@ -250,6 +250,7 @@ public class CourseService {
             coursePreviewDTOS.forEach(coursePreviewDTO -> {
                 coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
             });
+            responsePagingDTO.setData(coursePreviewDTOS);
             responsePagingDTO.setMessage("Course found");
             responsePagingDTO.setStatus(HttpStatus.OK);
         }
