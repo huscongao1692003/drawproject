@@ -20,12 +20,12 @@ public class LessonController {
     LessonService lessonService;
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseDTO> createLesson(MultipartFile file, LessonRequestDTO lessonRequestDTO) {
+    public ResponseEntity<ResponseDTO> createLesson(@RequestParam(value = "file", required = false) MultipartFile file, LessonRequestDTO lessonRequestDTO) {
         return ResponseEntity.ok().body(lessonService.createLesson(file, lessonRequestDTO));
     }
 
     @PutMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<ResponseDTO> updateLesson(MultipartFile file, int topicId, LessonDTO lessonDTO) {
+    public ResponseEntity<ResponseDTO> updateLesson(@RequestParam(value = "file", required = false) MultipartFile file, int topicId, LessonDTO lessonDTO) {
         return ResponseEntity.ok().body(lessonService.updateLesson(file, lessonDTO, topicId));
     }
 
