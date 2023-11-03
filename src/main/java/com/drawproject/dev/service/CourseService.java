@@ -77,7 +77,10 @@ public class CourseService {
     public ResponseDTO getTopCourseByCategory(int limit) {
 
         List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courseRepository.findTopCourse(limit));
-        coursePreviewDTOS.forEach(coursePreviewDTO -> coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar()));
+        coursePreviewDTOS.forEach(coursePreviewDTO -> {
+            coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar());
+            coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
+        });
 
         return new ResponseDTO(HttpStatus.OK, "Course found!", coursePreviewDTOS);
     }
@@ -350,4 +353,20 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", quickSearchData);
 
     }
+
+    public ResponseDTO getAllCourseOfInstructor(int instructorId) {
+
+        List<Courses> courses = courseRepository.findByInstructorInstructorId(instructorId);
+        if(!courses.isEmpty()) {
+            List<CourseInstructor> courseInstructor = MapCourse.mapCourseToCourseInstructors(courses);
+            courseInstructor.forEach(course -> {
+                course.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(course.getCourseId(), DrawProjectConstaints.OPEN));
+            });
+            return new ResponseDTO(HttpStatus.FOUND, "Course found", courseInstructor);
+        }
+        return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", courses);
+
+
+    }
+
 }

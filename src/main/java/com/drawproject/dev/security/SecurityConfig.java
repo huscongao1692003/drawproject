@@ -96,6 +96,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.PUT, "/api/v1/instructor/{userId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/courses").permitAll()
                  .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/certificates").permitAll()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/instructor/{userId}/all-courses").permitAll()
                  .requestMatchers(HttpMethod.POST, "/api/v1/instructor/certificates").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/instructor/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)
                  .requestMatchers(HttpMethod.DELETE, "/api/v1/instructor/certificates/{certificateId}").hasRole(DrawProjectConstaints.INSTRUCTOR)

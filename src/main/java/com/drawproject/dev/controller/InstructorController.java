@@ -239,4 +239,9 @@ public class InstructorController {
         return ResponseEntity.ok().body(instructorService.topInstructor());
     }
 
+    @GetMapping("/{userId}/all-courses")
+    public ResponseEntity<ResponseDTO> getAllCourse(@PathVariable("userId") int userId) {
+        return ResponseEntity.ok().body(courseService.getAllCourseOfInstructor(userId));
+    }
+
 }

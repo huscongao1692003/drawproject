@@ -62,8 +62,20 @@ public class MapCourse {
         return list;
     }
 
-    public static CourseUpdateDTO mapCourseToUpdateDTO(Courses course) {
-        return modelMapper.map(course, CourseUpdateDTO.class);
+    public static CourseInstructor mapCourseToCourseInstructor(Courses course) {
+        return modelMapper.map(course, CourseInstructor.class);
+    }
+
+    public static List<CourseInstructor> mapCourseToCourseInstructors(List<Courses> courses) {
+        if(courses.isEmpty()) {
+            return null;
+        }
+
+        List<CourseInstructor> list = new ArrayList<>();
+
+        courses.forEach(course -> list.add(mapCourseToCourseInstructor(course)));
+
+        return list;
     }
 
 }
