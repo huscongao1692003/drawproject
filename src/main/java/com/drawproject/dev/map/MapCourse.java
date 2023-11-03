@@ -1,9 +1,6 @@
 package com.drawproject.dev.map;
 
-import com.drawproject.dev.dto.course.CourseDTO;
-import com.drawproject.dev.dto.course.CourseDetail;
-import com.drawproject.dev.dto.course.CoursePreviewDTO;
-import com.drawproject.dev.dto.course.QuickCourse;
+import com.drawproject.dev.dto.course.*;
 import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.repository.CategoryRepository;
 import org.modelmapper.ModelMapper;
@@ -63,6 +60,10 @@ public class MapCourse {
         courses.forEach(course -> list.add(mapQuickCourseToDTO(course)));
 
         return list;
+    }
+
+    public static CourseUpdateDTO mapCourseToUpdateDTO(Courses course) {
+        return modelMapper.map(course, CourseUpdateDTO.class);
     }
 
 }

@@ -43,10 +43,5 @@ public class CourseDTO {
     @NotNull(message = "Style can not be blank")
     private Integer style;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    @NotNull(message = "Image can not be blank")
-    private MultipartFile image;
-
     private String status;
 }

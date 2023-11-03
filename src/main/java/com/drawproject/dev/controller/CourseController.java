@@ -54,13 +54,13 @@ public class CourseController {
     }
 
     @PostMapping(value = "", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> createCourse(@Valid CourseDTO courseDTO, Authentication authentication) {
-        return ResponseEntity.ok().body(courseService.saveCourse(authentication, courseDTO));
+    public ResponseEntity<ResponseDTO> createCourse(@RequestParam(value = "image", required = false) MultipartFile image, @Valid CourseDTO courseDTO, Authentication authentication) {
+        return ResponseEntity.ok().body(courseService.saveCourse(image, authentication, courseDTO));
     }
 
     @PutMapping(value = "/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<ResponseDTO> updateCourse(@PathVariable("id") int courseId, @Valid CourseDTO courseDTO) {
-        return ResponseEntity.ok().body(courseService.updateCourse(courseId, courseDTO));
+    public ResponseEntity<ResponseDTO> updateCourse(@RequestParam(value = "image", required = false) MultipartFile image, @PathVariable("id") int courseId, @Valid CourseDTO courseDTO) {
+        return ResponseEntity.ok().body(courseService.updateCourse(image, courseId, courseDTO));
     }
 
     @DeleteMapping(value = "/{id}")

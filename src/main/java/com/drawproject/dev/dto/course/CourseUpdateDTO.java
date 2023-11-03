@@ -6,9 +6,13 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
+@Data
 public class CourseUpdateDTO {
+    private int courseId;
+
     @Size(min = 6, message = "Title must be at least 6 characters long")
     private String courseTitle;
 
@@ -30,9 +34,7 @@ public class CourseUpdateDTO {
     @Min(value = 1, message = "Not existed style")
     private Integer style;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private MultipartFile image;
+    private String image;
 
     private String status;
 }

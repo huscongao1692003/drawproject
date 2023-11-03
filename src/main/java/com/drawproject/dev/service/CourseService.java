@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -116,7 +117,7 @@ public class CourseService {
         return responsePagingDTO;
     }
 
-    public ResponseDTO saveCourse(Authentication authentication, CourseDTO courseDTO) {
+    public ResponseDTO saveCourse(MultipartFile image, Authentication authentication, CourseDTO courseDTO) {
         Courses course = new Courses();
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
@@ -129,19 +130,19 @@ public class CourseService {
         course.setStatus(DrawProjectConstaints.CLOSE);
         course = courseRepository.save(course);
         //save image
-        course.setImage(fileService.uploadFile(courseDTO.getImage(), course.getCourseId(),
+        course.setImage(fileService.uploadFile(image, course.getCourseId(),
                 DrawProjectConstaints.IMAGE, "courses"));
         courseRepository.save(course);
 
         return new ResponseDTO(HttpStatus.CREATED, "Course created successfully", "Your course will be reviewed by us! Please wait for a while.");
     }
 
-    public ResponseDTO updateCourse(int courseId, CourseDTO courseDTO) {
+    public ResponseDTO updateCourse(MultipartFile image, int courseId, CourseDTO courseDTO) {
         Courses course = courseRepository.findById(courseId).orElseThrow();
         course = setProperties(course, courseDTO);
         course.setStatus(courseDTO.getStatus());
-        if(!courseDTO.getImage().getOriginalFilename().equalsIgnoreCase(course.getImage())) {
-            course.setImage(fileService.uploadFile(courseDTO.getImage(), course.getCourseId(),
+        if(image != null) {
+            course.setImage(fileService.uploadFile(image, course.getCourseId(),
                     DrawProjectConstaints.IMAGE, "courses"));
         }
         courseRepository.save(course);
@@ -349,5 +350,4 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.NOT_FOUND, "Course not found", quickSearchData);
 
     }
-
 }
