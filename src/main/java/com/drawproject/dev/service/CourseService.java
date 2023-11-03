@@ -235,17 +235,21 @@ public class CourseService {
 
     public Object getCoursesByInstructor(int instructorId, int page, int eachPage, String status) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-        Page<Courses> course;
+        Page<Courses> courses;
         if(status.equalsIgnoreCase("")) {
-            course = courseRepository.findByInstructorInstructorId(instructorId, pageable);
+            courses = courseRepository.findByInstructorInstructorId(instructorId, pageable);
         } else {
-            course = courseRepository.findByInstructorInstructorIdAndStatus(instructorId, status, pageable);
+            courses = courseRepository.findByInstructorInstructorIdAndStatus(instructorId, status, pageable);
         }
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapCourse.mapListToDTO(course.getContent()));
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, MapCourse.mapListToDTO(courses.getContent()));
 
-        if(!course.isEmpty()) {
+        if(!courses.isEmpty()) {
+            List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
+            coursePreviewDTOS.forEach(coursePreviewDTO -> {
+                coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
+            });
             responsePagingDTO.setMessage("Course found");
             responsePagingDTO.setStatus(HttpStatus.OK);
         }
