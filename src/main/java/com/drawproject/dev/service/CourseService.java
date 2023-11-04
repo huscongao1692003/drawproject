@@ -131,6 +131,7 @@ public class CourseService {
         course = setProperties(course, courseDTO);
         //set status course
         course.setStatus(DrawProjectConstaints.CLOSE);
+        course.setImage("");
         course = courseRepository.save(course);
         //save image
         course.setImage(fileService.uploadFile(image, course.getCourseId(),
