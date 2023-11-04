@@ -94,8 +94,8 @@ public class LessonService {
         return lesson.getUrl();
     }
 
-    @Transactional
-    public void deleteLesson(int topicId) {
+
+    public void deleteLessons(int topicId) {
         List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatus(topicId, DrawProjectConstaints.OPEN);
         if(lessons.isEmpty()) {
             return;
@@ -106,13 +106,12 @@ public class LessonService {
         });
     }
 
-    public void deleteLesson(int topicId, List<Integer> lessonIds) {
-        List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatusAndLessonIdNotIn(topicId, DrawProjectConstaints.OPEN, lessonIds);
-        lessons.forEach(lesson -> {
-            lesson.setStatus(DrawProjectConstaints.CLOSE);
-            lessonRepository.save(lesson);
-        });
-
+    public ResponseDTO deleteLesson(int lessonId) {
+        Lesson lesson= lessonRepository.findById(lessonId).orElseThrow();
+        lesson.setStatus(DrawProjectConstaints.CLOSE);
+        lessonRepository.save(lesson);
+        checkIndexLesson(lesson.getTopic().getTopicId());
+        return new ResponseDTO(HttpStatus.OK, "Delete lesson successfully", "");
     }
 
     public ResponseDTO createLesson(MultipartFile file, LessonRequestDTO lessonRequestDTO) {
@@ -153,6 +152,16 @@ public class LessonService {
 
         lessonRepository.save(newLesson);
         return new ResponseDTO(HttpStatus.OK, "Update lesson successfully", "Save lesson successfully");
+    }
+
+    public void checkIndexLesson(int topicId) {
+        List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatusOrderByNumber(topicId, DrawProjectConstaints.OPEN);
+        for(int i = 0; i < lessons.size(); i++) {
+            if(lessons.get(i).getNumber() != (i + 1)) {
+                lessons.get(i).setNumber(i + 1);
+                lessonRepository.save(lessons.get(i));
+            }
+        }
     }
 
     /*

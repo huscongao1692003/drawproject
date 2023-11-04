@@ -97,8 +97,9 @@ public class TopicService {
     public ResponseDTO deleteTopic(int topicId) {
         Topic topic = topicRepository.findById(topicId).orElseThrow();
         topic.setStatus(DrawProjectConstaints.CLOSE);
-        lessonService.deleteLesson(topicId);
+        lessonService.deleteLessons(topicId);
         topicRepository.save(topic);
+        checkIndexNumber(topic.getCourse().getCourseId());
         return new ResponseDTO(HttpStatus.OK, "Topic deleted", "Topic and lessons deleted");
     }
 
@@ -115,6 +116,16 @@ public class TopicService {
 //
 //        return new ResponseDTO(HttpStatus.CREATED, "Topic updated", "ok");
 //    }
+
+    public void checkIndexNumber(int courseId) {
+        List<Topic> topics = topicRepository.findByCourse_CourseIdAndStatusOrderByNumber(courseId, DrawProjectConstaints.OPEN);
+        for(int i = 0; i < topics.size(); i++) {
+            if(topics.get(i).getNumber() != (i + 1)) {
+                topics.get(i).setNumber(i + 1);
+                topicRepository.save(topics.get(i));
+            }
+        }
+    }
 
 
 }

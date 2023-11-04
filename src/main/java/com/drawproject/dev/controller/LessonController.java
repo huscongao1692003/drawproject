@@ -31,8 +31,7 @@ public class LessonController {
 
     @DeleteMapping("")
     public ResponseEntity<ResponseDTO> deleteLesson(int lessonId) {
-        lessonService.deleteLesson(lessonId);
-        return ResponseEntity.ok().body(new ResponseDTO(HttpStatus.OK, "Delete lessons Successfully", ""));
+        return ResponseEntity.ok().body(lessonService.deleteLesson(lessonId));
     }
 
 }
