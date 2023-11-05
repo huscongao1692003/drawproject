@@ -119,10 +119,9 @@ public class LessonService {
         modelMapper.map(lessonRequestDTO, lesson);
         lesson.setStatus(DrawProjectConstaints.OPEN);
         Optional<Topic> topic = topicRepository.findById(lessonRequestDTO.getTopicId());
-        //lay topic bang dropdown ma check cai deo gi
-//        if(topic.isEmpty()) {
-//            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
-//        }
+        if(topic.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Topic not found", "Error when creating with your topic");
+        }
         lesson.setTopic(topic.get());
         if(!lessonRequestDTO.getTypeFile().equalsIgnoreCase(DrawProjectConstaints.VIDEO)) {
             lesson = lessonRepository.save(lesson);

@@ -118,11 +118,11 @@ public class InstructorController {
     }
 
     @PostMapping("/certificates")
-    public ResponseEntity<ResponseDTO> createCertificates(Authentication authentication, List<MultipartFile> image) {
+    public ResponseEntity<ResponseDTO> createCertificates(Authentication authentication, List<MultipartFile> listImages) {
         String username = authentication.getName();
         User instructor = userRepository.findByUsername(username).orElse(null);
 
-        return ResponseEntity.ok().body(certificateService.createCertificate(instructor.getUserId(), image));
+        return ResponseEntity.ok().body(certificateService.createCertificate(instructor.getUserId(), listImages));
     }
 
     @PutMapping("/certificates/{certificateId}")
