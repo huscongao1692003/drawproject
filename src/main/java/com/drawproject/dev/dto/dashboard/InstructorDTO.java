@@ -11,6 +11,7 @@ public class InstructorDTO {
     private int numOfCourseOpen;
     private int numOfCourse;
     private float totalIncome;
+    private int numOfPost;
     private List<Object[]> numOfCourseByStyle;
     private List<Object[]> numOfCourseByCategory;
 }

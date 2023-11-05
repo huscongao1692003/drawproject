@@ -33,5 +33,5 @@ public interface PostRepository extends JpaRepository<Posts, Integer> {
             + " ORDER BY p.createdAt DESC ")
     Page<Posts> searchPosts(String title, String description, String body, int categoryId, Pageable pageable);
 
-
+    int countByUserUserId(int userId);
 }

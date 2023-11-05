@@ -43,6 +43,9 @@ public class InstructorService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    PostRepository postRepository;
+
     public Instructor saveInstructorRegister(Instructor instructor) {
          return  instructorRepository.save(instructor);
     }
@@ -98,6 +101,9 @@ public class InstructorService {
 
         //set number of course by category
         instructorDTO.setNumOfCourseByCategory(instructorRepository.getNumOfCourseByCategory(user.getUserId()));
+
+        //set number of posts
+        instructorDTO.setNumOfPost(postRepository.countByUserUserId(user.getUserId()));
 
 
         return new ResponseDTO(HttpStatus.OK, "Data dashboard", instructorDTO);
