@@ -21,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -105,7 +106,20 @@ public class InstructorService {
     public ResponseDTO getIncomeFollowMonth(Authentication authentication, int year) {
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElseThrow();
-        return new ResponseDTO(HttpStatus.OK, "Income follow month", instructorRepository.getIncomeFollowMonth(user.getUserId(), year));
+        List<Object[]> list = instructorRepository.getIncomeFollowMonth(user.getUserId(), year);
+        List<Long> incomeFollowMonth = new ArrayList<>();
+        for(int i = 1; i <= 12; i++) {
+            boolean check = false;
+            for(Object[] object : list) {
+                if(object[0].equals(i)) {
+                    incomeFollowMonth.add(Long.parseLong(object[1].toString()));
+                    check = true;
+                    break;
+                }
+            }
+            if(!check) incomeFollowMonth.add(0L);
+        }
+        return new ResponseDTO(HttpStatus.OK, "Income follow month", incomeFollowMonth);
     }
 
 }
