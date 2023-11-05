@@ -67,7 +67,8 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
             "FROM Courses c JOIN c.orders o " +
             "WHERE c.instructor.instructorId = :instructorId " +
             "AND year(o.createdAt) = :year " +
-            "GROUP BY c.instructor.instructorId, month(o.createdAt)")
+            "GROUP BY c.instructor.instructorId, month(o.createdAt) " +
+            "ORDER BY month(o.createdAt)")
     List<Object[]> getIncomeFollowMonth(int instructorId, int year);
 
 }
