@@ -140,7 +140,9 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.POST,"/api/v1/pay").authenticated()
                  .requestMatchers(HttpMethod.GET,"/api/v1/pay/cancel").permitAll()
                  .requestMatchers("/api/v1/pay/success").authenticated()
-                .and()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/dashboard/instructor").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .requestMatchers(HttpMethod.GET, "/api/v1/dashboard/instructor/income-month").hasRole(DrawProjectConstaints.INSTRUCTOR)
+                 .and()
                 .httpBasic();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();

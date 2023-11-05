@@ -1,8 +1,10 @@
 package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.DashboardResponseDTO;
+import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.UserRepository;
+import com.drawproject.dev.service.InstructorService;
 import jakarta.servlet.http.HttpSession;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class DashboardController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    InstructorService instructorService;
 
     @Autowired
     public DashboardController(UserRepository userRepository) {
@@ -42,4 +47,15 @@ public class DashboardController {
         // If user or authentication is not present, return an error response
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
+
+    @GetMapping("/instructor")
+    public ResponseEntity<ResponseDTO> getNumOfStudents(Authentication authentication) {
+        return ResponseEntity.ok().body(instructorService.getDataDashBoard(authentication));
+    }
+
+    @GetMapping("/instructor/income-month")
+    public ResponseEntity<ResponseDTO> getIncomeFollowMonth(Authentication authentication, int year) {
+        return ResponseEntity.ok().body(instructorService.getIncomeFollowMonth(authentication, year));
+    }
+
 }

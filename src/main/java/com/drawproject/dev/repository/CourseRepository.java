@@ -90,4 +90,5 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
 
     Boolean existsByInstructorInstructorIdAndCourseId(int instructorId, int courseId);
 
+    Integer countByInstructorInstructorId(int instructorId);
 }
