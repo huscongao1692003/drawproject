@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-public class OrderAdminDTO {
+@AllArgsConstructor
+public class OrderInstructorDTO {
     private String username;
     private String fullName;
     private String courseName;

@@ -1,5 +1,7 @@
 package com.drawproject.dev.service;
 
+import com.drawproject.dev.dto.OrderAdminDTO;
+import com.drawproject.dev.dto.OrderInstructorDTO;
 import com.drawproject.dev.model.Enroll;
 import com.drawproject.dev.model.Orders;
 import com.drawproject.dev.model.User;
@@ -38,6 +40,13 @@ public class OrderService {
     public List<Orders> getAllOrder(){
         return orderRepository.findAll();
     }
+
+
+    // In your service class
+    public List<OrderInstructorDTO> getOrderDetailsByInstructor(Integer instructorId) {
+        return orderRepository.findOrdersWithUserDetailsByInstructorId(instructorId);
+    }
+
 
 
 }
