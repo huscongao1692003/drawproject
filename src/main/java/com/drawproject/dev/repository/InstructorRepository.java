@@ -51,16 +51,26 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
             "GROUP BY c.instructor.instructorId")
     Float getTotalIncome(int instructorId);
 
-    @Query("SELECT c.style.drawingStyleId, count(c.courseId) FROM " +
-            "Courses c JOIN c.orders " +
-            "WHERE c.instructor.instructorId = :instructorId " +
-            "GROUP BY c.style.drawingStyleId")
+    @Query(value = "SELECT ds.drawing_style_id, IFNULL(course_count, 0) AS course_count " +
+            "FROM drawing_style ds " +
+            "LEFT JOIN (" +
+            "SELECT c.drawing_style_id, COUNT(e.course_id) AS course_count " +
+            "FROM courses c " +
+            "LEFT JOIN enroll e ON c.course_id = e.course_id " +
+            "where c.instructor_id = :instructorId " +
+            "GROUP BY c.drawing_style_id " +
+            ") subquery ON ds.drawing_style_id = subquery.drawing_style_id", nativeQuery = true)
     List<Object[]> getNumOfCourseByStyle(int instructorId);
 
-    @Query("SELECT c.category.categoryId, count(c.courseId) FROM " +
-            "Courses c JOIN c.orders " +
-            "WHERE c.instructor.instructorId = :instructorId " +
-            "GROUP BY c.category.categoryId")
+    @Query(value = "SELECT ds.category_id, IFNULL(course_count, 0) AS course_count " +
+            "FROM category ds " +
+            "LEFT JOIN (" +
+            "SELECT c.category_id, COUNT(e.course_id) AS course_count " +
+            "FROM courses c " +
+            "LEFT JOIN enroll e ON c.course_id = e.course_id " +
+            "where c.instructor_id = :instructorId " +
+            "GROUP BY c.category_id " +
+            ") subquery ON ds.category_id = subquery.category_id", nativeQuery = true)
     List<Object[]> getNumOfCourseByCategory(int instructorId);
 
     @Query("SELECT month(o.createdAt), sum(o.price) " +
