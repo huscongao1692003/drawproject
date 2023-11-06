@@ -95,7 +95,7 @@ public class ArtWorkService {
 
     public ResponseDTO rejectArtWork(String message, int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
-        artwork.setStatus(DrawProjectConstaints.REJECTED);
+        artwork.setStatus(DrawProjectConstaints.CLOSE);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.OK, "Artwork checked", message);

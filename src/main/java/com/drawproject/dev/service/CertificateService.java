@@ -88,7 +88,7 @@ public class CertificateService {
 
     public ResponseDTO rejectCertificate(int certificateId, String message) {
         Certificate certificate = certificateRepository.findById(certificateId).orElseThrow();
-        certificate.setStatus(DrawProjectConstaints.REJECTED);
+        certificate.setStatus(DrawProjectConstaints.CLOSE);
         certificateRepository.save(certificate);
 
         return new ResponseDTO(HttpStatus.OK, "Certificate checked", "");
