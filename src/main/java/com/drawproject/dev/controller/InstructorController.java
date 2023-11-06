@@ -140,26 +140,13 @@ public class InstructorController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderAdminDTO>> getOrderHistory(Authentication authentication){
+    public ResponseEntity<List<OrderInstructorDTO>> getOrderHistory(Authentication authentication){
         String username = authentication.getName();
         User user = userRepository.findByUsername(username).orElse(null);
         if (user != null && user.getRoles().getName().equals(DrawProjectConstaints.INSTRUCTOR)) {
-            List<Orders> instructorOrders = orderRepository.findOrdersByCourse_InstructorInstructorId(user.getUserId()); // Retrieve user's orders
+            List<OrderInstructorDTO> orderInstructorDTOS = orderService.getOrderDetailsByInstructor(user.getUserId()); // Retrieve user's orders
 
-            List<OrderAdminDTO> orderAdminDTOs = new ArrayList<>();
-
-            for (Orders order : instructorOrders) {
-                OrderAdminDTO orderAdminDTO = new OrderAdminDTO();
-                orderAdminDTO.setUsername(user.getUsername());
-                orderAdminDTO.setFullName(user.getFullName());
-                orderAdminDTO.setCourseName(order.getCourse().getCourseTitle());
-                orderAdminDTO.setStatus(order.getStatus());
-                orderAdminDTO.setPrice(String.valueOf(order.getPrice())); // Convert price to string or format it as needed
-
-                orderAdminDTOs.add(orderAdminDTO);
-            }
-
-            return ResponseEntity.ok(orderAdminDTOs);
+            return ResponseEntity.ok(orderInstructorDTOS);
         } else {
             return ResponseEntity.notFound().build();
         }

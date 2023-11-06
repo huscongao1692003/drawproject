@@ -1,5 +1,6 @@
 package com.drawproject.dev.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

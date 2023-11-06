@@ -40,6 +40,4 @@ public class Orders extends BaseEntity {
 
     private String status;
 
-    private LocalDateTime createdAt;
-
 }
