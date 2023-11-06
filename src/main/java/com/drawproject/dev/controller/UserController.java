@@ -125,4 +125,11 @@ public class UserController {
         return ResponseEntity.ok().body(processService.recordProgressStudy(authentication, courseId, lessonId));
     }
 
+    @GetMapping("/instructors")
+    public ResponseEntity<ResponsePagingDTO> getInforOfInstructor(@RequestParam(value = "page", defaultValue = "1") int page,
+                                                            @RequestParam(value = "eachPage", defaultValue = "4") int eachPage) {
+
+        return ResponseEntity.ok().body(userService.getInforOfInstructor(page, eachPage));
+    }
+
 }

@@ -13,6 +13,6 @@ public interface ArtworkRepository extends JpaRepository<Artwork, Integer> {
     Page<Artwork> findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(int instructorId, int categoryId, String status, Pageable pageable);
     Page<Artwork> findByStatus(String status, Pageable pageable);
     Page<Artwork> findByInstructorInstructorId(int instructorId, Pageable pageable);
-
+    int countByInstructorInstructorIdAndStatus(int instructorId, String status);
 
 }

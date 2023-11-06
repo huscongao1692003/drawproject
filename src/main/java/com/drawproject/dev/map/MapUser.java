@@ -2,6 +2,7 @@ package com.drawproject.dev.map;
 
 import com.drawproject.dev.dto.UserCourseDTO;
 import com.drawproject.dev.dto.UserDTO;
+import com.drawproject.dev.dto.instructor.CollectionInstructor;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.service.ProcessService;
 import org.modelmapper.ModelMapper;
@@ -42,5 +43,18 @@ public class MapUser {
         return list;
     }
 
+    public static CollectionInstructor mapUserToCollectionInstructor(User user) {
+        return modelMapper.map(user, CollectionInstructor.class);
+    }
+
+    public static List<CollectionInstructor> mapUserToCollectionInstructors(List<User> user) {
+        List<CollectionInstructor> list = new ArrayList<>();
+
+        user.forEach(users -> {
+            list.add(mapUserToCollectionInstructor(users));
+        });
+
+        return list;
+    }
 
 }

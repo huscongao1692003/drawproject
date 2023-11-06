@@ -18,4 +18,6 @@ public interface CertificateRepository extends JpaRepository<Certificate, Intege
 
     Page<Certificate> findByStatus(String status, Pageable pageable);
 
+    int countByInstructorInstructorIdAndStatus(int instructorId, String status);
+
 }

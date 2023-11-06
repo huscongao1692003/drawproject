@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer> {
+    Page<User> findByStatusAndRoles_Name(String status, String name, Pageable pageable);
 
     User readByEmail(String email);
 

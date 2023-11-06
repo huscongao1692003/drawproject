@@ -112,6 +112,7 @@ public class SecurityConfig {
                                         DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
                  .requestMatchers(HttpMethod.GET, "/api/v1/users/posts").hasAnyRole(DrawProjectConstaints.INSTRUCTOR, DrawProjectConstaints.USER_ROLE)
                  .requestMatchers(HttpMethod.GET, "/api/v1/users/avatar").authenticated()
+                 .requestMatchers(HttpMethod.GET, "/api/v1/users/instructors").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/artworks/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.PUT, "/api/v1/staff/certificates/complete-check").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
                  .requestMatchers(HttpMethod.GET, "/api/v1/staff/artworks").hasAnyRole(DrawProjectConstaints.STAFF, DrawProjectConstaints.ADMIN_ROLE)
