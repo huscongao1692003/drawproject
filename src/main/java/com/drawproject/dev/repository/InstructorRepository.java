@@ -51,7 +51,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
             "GROUP BY c.instructor.instructorId")
     Float getTotalIncome(int instructorId);
 
-    @Query(value = "SELECT ds.drawing_style_id, IFNULL(course_count, 0) AS course_count " +
+    @Query(value = "SELECT ds.drawing_style_name, IFNULL(course_count, 0) AS course_count " +
             "FROM drawing_style ds " +
             "LEFT JOIN (" +
             "SELECT c.drawing_style_id, COUNT(e.course_id) AS course_count " +
@@ -62,7 +62,7 @@ public interface InstructorRepository extends JpaRepository<Instructor, Integer>
             ") subquery ON ds.drawing_style_id = subquery.drawing_style_id", nativeQuery = true)
     List<Object[]> getNumOfCourseByStyle(int instructorId);
 
-    @Query(value = "SELECT ds.category_id, IFNULL(course_count, 0) AS course_count " +
+    @Query(value = "SELECT ds.category_name, IFNULL(course_count, 0) AS course_count " +
             "FROM category ds " +
             "LEFT JOIN (" +
             "SELECT c.category_id, COUNT(e.course_id) AS course_count " +
