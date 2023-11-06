@@ -4,11 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class OrderInstructorDTO {
     private String username;
     private String fullName;
     private String courseName;
     private String status;
-    private String price;
+    private int price;
+    public OrderInstructorDTO(String username, String fullName, String courseName, String status, int price) {
+        this.username = username;
+        this.fullName = fullName;
+        this.courseName = courseName;
+        this.status = status;
+        this.price = price;
+    }
 }

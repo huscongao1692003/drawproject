@@ -18,11 +18,13 @@ public interface OrderRepository extends JpaRepository<Orders,Integer> {
 
 
     // In your repository interface
-    @Query("SELECT new com.drawproject.dev.dto.OrderInstructorDTO(u.username, u.fullName, o.course.courseTitle, o.status, STRING(o.price)) " +
+    @Query("SELECT new com.drawproject.dev.dto.OrderInstructorDTO(u.username, u.fullName, o.course.courseTitle, o.status, o.price) " +
             "FROM Orders o " +
             "JOIN o.user u " +
             "WHERE o.course.instructor.instructorId = :instructorId")
     List<OrderInstructorDTO> findOrdersWithUserDetailsByInstructorId(@Param("instructorId") Integer instructorId);
+
+
 
 
 
