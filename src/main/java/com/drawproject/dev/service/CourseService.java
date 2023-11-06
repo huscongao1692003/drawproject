@@ -174,14 +174,20 @@ public class CourseService {
         Courses course = courseRepository.findById(courseId).orElseThrow();
         modelMapper.map(course, courseDetail);
 
+        int number = 0;
         //set number of student on course
         courseDetail.setNumStudent(enrollRepository.countByCourseCourseIdAndStatus(courseId, DrawProjectConstaints.ENROLL));
         //set number of topic
         courseDetail.setNumQuiz(assignmentRepository.countByLessonTopicCourseCourseId(courseId));
-        //set videoIntro
-        courseDetail.setVideoIntro(lessonService.getTrailler(courseId));
         //set number of lesson
-        courseDetail.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN));
+        number = lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN);
+        courseDetail.setNumLesson(number);
+        if(number != 0) {
+            //set videoIntro
+            courseDetail.setVideoIntro(lessonService.getTrailler(courseId));
+        } else {
+            courseDetail.setVideoIntro("");
+        }
 
         return new ResponseDTO(HttpStatus.OK, "FOUND COURSE", courseDetail);
     }
