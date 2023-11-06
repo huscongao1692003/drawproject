@@ -306,7 +306,7 @@ public class CourseService {
     public ResponseDTO openCourse(int courseId, String message) {
         Courses course = courseRepository.findById(courseId).orElseThrow();
         if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
-            return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "This course is not enough lesson to Open! Please, create lesson to Open.", "Project need at least 3 lesson to open");
+            return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "This course is not enough lesson to Open! Please, create lesson to Open.", "This course need at least 3 lesson to open");
         }
         course.setStatus(DrawProjectConstaints.OPEN);
         courseRepository.save(course);
