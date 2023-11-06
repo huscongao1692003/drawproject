@@ -85,20 +85,28 @@ public class ArtWorkService {
         return new ResponseDTO(HttpStatus.CREATED, "Artwork created", "Your artwork will be reviewed by our");
     }
 
-    public ResponseDTO openArtWork(String message, int artWorkId) {
+    public ResponseDTO acceptArtWork(String message, int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
         artwork.setStatus(DrawProjectConstaints.OPEN);
+        artworkRepository.save(artwork);
+
+        return new ResponseDTO(HttpStatus.OK, "Artwork checked", "");
+    }
+
+    public ResponseDTO rejectArtWork(String message, int artWorkId) {
+        Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
+        artwork.setStatus(DrawProjectConstaints.REJECTED);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.OK, "Artwork checked", message);
     }
 
-    public ResponseDTO deleteArtWork(String message, int artWorkId) {
+    public ResponseDTO deleteArtWork(int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
-        artwork.setStatus(DrawProjectConstaints.CLOSE);
+        artwork.setStatus(DrawProjectConstaints.DELETED);
         artworkRepository.save(artwork);
 
-        return new ResponseDTO(HttpStatus.OK, "Artwork checked", message);
+        return new ResponseDTO(HttpStatus.OK, "Artwork deleted successfully!", "");
     }
 
     public ResponsePagingDTO viewArtWork(int page, int eachPage, String status) {

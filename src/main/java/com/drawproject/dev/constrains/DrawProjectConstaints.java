@@ -20,6 +20,8 @@ public class DrawProjectConstaints {
     public static final String TEMPLATE_REPORT_STUDENT = "report_student.ftl";
     public static final String TEMPLATE_REPORT_COURSE = "report_course.ftl";
     public static final String TEMPLATE_CHECK_COMPLETE = "check_complete.ftl";
+    public static final String DELETED = "Deleted";
+    public static final String REJECTED = "Rejected";
 
 
 }

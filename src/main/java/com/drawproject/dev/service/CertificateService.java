@@ -78,22 +78,27 @@ public class CertificateService {
         return new ResponseDTO(HttpStatus.CREATED, "Certificate created", "Your certificate will be reviewed before updating!");
     }
 
-    public ResponseDTO deleteCertificate(int certificateId) {
+    public ResponseDTO acceptCertificate(int certificateId, String message) {
         Certificate certificate = certificateRepository.findById(certificateId).orElseThrow();
-        certificate.setStatus(DrawProjectConstaints.CLOSE);
+        certificate.setStatus(DrawProjectConstaints.OPEN);
         certificateRepository.save(certificate);
-        return new ResponseDTO(HttpStatus.OK, "Certificate deleted", null);
+
+        return new ResponseDTO(HttpStatus.OK, "Certificate checked", "");
     }
 
-    @SneakyThrows
-    public ResponseDTO updateCertificate(int certificateId, MultipartFile image, int instructorId) {
-        Certificate certificate = certificateRepository.findByCertificateIdAndInstructorInstructorId(certificateId, instructorId);
-        if(certificate == null) {
-            return new ResponseDTO(HttpStatus.NOT_FOUND, "Not existed", null);
-        }
-         certificate.setImage(fileService.uploadFile(image, instructorId, "image", "certificates"));
+    public ResponseDTO rejectCertificate(int certificateId, String message) {
+        Certificate certificate = certificateRepository.findById(certificateId).orElseThrow();
+        certificate.setStatus(DrawProjectConstaints.REJECTED);
         certificateRepository.save(certificate);
-        return new ResponseDTO(HttpStatus.OK, "Certificate updated", "Your certificate will be reviewed before updating!");
+
+        return new ResponseDTO(HttpStatus.OK, "Certificate checked", "");
+    }
+
+    public ResponseDTO deleteCertificate(int certificateId) {
+        Certificate certificate = certificateRepository.findById(certificateId).orElseThrow();
+        certificate.setStatus(DrawProjectConstaints.DELETED);
+        certificateRepository.save(certificate);
+        return new ResponseDTO(HttpStatus.OK, "Certificate deleted", null);
     }
 
     public ResponsePagingDTO viewCertificate(int page, int eachPage, String status) {

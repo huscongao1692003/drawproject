@@ -125,14 +125,6 @@ public class InstructorController {
         return ResponseEntity.ok().body(certificateService.createCertificate(instructor.getUserId(), listImages));
     }
 
-    @PutMapping("/certificates/{certificateId}")
-    public ResponseEntity<ResponseDTO> updateCertificates(@PathVariable("certificateId") int certificateId,
-                                                     MultipartFile image, Authentication authentication) {
-        String username = authentication.getName();
-        User instructor = userRepository.findByUsername(username).orElse(null);
-        return ResponseEntity.ok().body(certificateService.updateCertificate(certificateId, image, instructor.getUserId()));
-    }
-
     @DeleteMapping("/certificates/{certificateId}")
     public ResponseEntity<ResponseDTO> deleteCertificates(@PathVariable("certificateId") int certificateId) {
 
@@ -205,20 +197,11 @@ public class InstructorController {
         return ResponseEntity.ok(artWorkService.createArtwork(requestImage, artWorkDTO, authentication));
     }
 
-    @PutMapping("/artworks/{artworkId}")
-    public ResponseEntity<Object> openArtWork(@PathVariable("artworkId") int artworkId,
-                                               @RequestParam(value = "message", defaultValue = "") String message) {
-
-
-        return ResponseEntity.ok(artWorkService.openArtWork(message, artworkId));
-    }
-
     @DeleteMapping("/artworks/{artworkId}")
-    public ResponseEntity<Object> deleteArtWork(@PathVariable("artworkId") int artworkId,
-                                                @RequestParam(value = "message", defaultValue = "") String message) {
+    public ResponseEntity<Object> deleteArtWork(@PathVariable("artworkId") int artworkId) {
 
 
-        return ResponseEntity.ok(artWorkService.deleteArtWork(message, artworkId));
+        return ResponseEntity.ok(artWorkService.deleteArtWork(artworkId));
     }
 
     @GetMapping("/top-instructors")

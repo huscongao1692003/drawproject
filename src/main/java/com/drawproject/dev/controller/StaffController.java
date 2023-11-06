@@ -3,12 +3,15 @@ package com.drawproject.dev.controller;
 
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.service.ArtWorkService;
 import com.drawproject.dev.service.CertificateService;
 import com.drawproject.dev.service.ReportStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("api/v1/staff")
@@ -22,6 +25,9 @@ public class StaffController {
 
     @Autowired
     ReportStudentService reportStudentService;
+
+    @Autowired
+    ArtWorkService artWorkService;
 
     @GetMapping("/artworks")
     public ResponseEntity<ResponsePagingDTO> getArtworks(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -82,6 +88,36 @@ public class StaffController {
     public ResponseEntity<ResponseDTO> completeCheckCertificate(@RequestParam(value = "message", defaultValue = "", required = false) String message,
                                                             @RequestParam(value = "instructorId") int instructorId) {
         return ResponseEntity.ok().body(certificateService.completeCheckCertificates(instructorId, message));
+    }
+
+    @PutMapping("/artworks/accept")
+    public ResponseEntity<Object> acceptArtWork(@RequestParam(value = "artworkId") int artworkId,
+                                              @RequestParam(value = "message", defaultValue = "") String message) {
+
+
+        return ResponseEntity.ok(artWorkService.acceptArtWork(message, artworkId));
+    }
+
+    @PutMapping("/artworks/reject")
+    public ResponseEntity<Object> rejectArtWork(@RequestParam(value = "artworkId") int artworkId,
+                                              @RequestParam(value = "message", defaultValue = "") String message) {
+
+
+        return ResponseEntity.ok(artWorkService.rejectArtWork(message, artworkId));
+    }
+
+    @PutMapping("/certificates/accept")
+    public ResponseEntity<ResponseDTO> acceptCertificates(@RequestParam(value = "certificateId") int certificateId,
+                                                          @RequestParam(value = "message", defaultValue = "") String message) {
+
+        return ResponseEntity.ok().body(certificateService.acceptCertificate(certificateId, message));
+    }
+
+    @PutMapping("/certificates/reject")
+    public ResponseEntity<ResponseDTO> rejectCertificates(@RequestParam(value = "certificateId") int certificateId,
+                                                          @RequestParam(value = "message", defaultValue = "") String message) {
+
+        return ResponseEntity.ok().body(certificateService.rejectCertificate(certificateId, message));
     }
 
 }
