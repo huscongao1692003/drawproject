@@ -15,5 +15,6 @@ public class LessonDTO {
     private String name;
     private String typeFile;
     private int number;
+    private String status;
     private List<AssignmentResponseDTO> listAssignment;
 }

@@ -44,6 +44,7 @@ public class TopicService {
         }
 
         List<TopicDTO> topicsDTOs = MapTopic.mapTopicpsToDTOs(topics);
+        
 //        topicsDTOs.forEach(topicDTO -> {
 //            topicDTO.getLessons().forEach(lessonDTO -> {
 //                lessonDTO.setListAssignment(assignmentService.getAssignmentDTOs(lessonDTO.getLessonId()));
