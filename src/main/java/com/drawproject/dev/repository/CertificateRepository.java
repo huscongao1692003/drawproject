@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public interface CertificateRepository extends JpaRepository<Certificate, Integer> {
+    long countByInstructor_InstructorIdAndStatus(int instructorId, String status);
     List<Certificate> findByInstructorInstructorId(int instructionId);
 
     List<Certificate> findByInstructorInstructorIdAndStatus(int instructorId, String status);

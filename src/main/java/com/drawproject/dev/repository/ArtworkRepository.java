@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ArtworkRepository extends JpaRepository<Artwork, Integer> {
+    int countByInstructor_InstructorIdAndStatus(int instructorId, String status);
 
     Page<Artwork> findByInstructorInstructorIdAndStatus(int instructorId, String status, Pageable pageable);
     Page<Artwork> findByInstructorInstructorIdAndCategoryCategoryIdAndStatus(int instructorId, int categoryId, String status, Pageable pageable);

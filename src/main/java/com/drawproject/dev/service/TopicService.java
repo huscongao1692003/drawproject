@@ -8,6 +8,7 @@ import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Topic;
 import com.drawproject.dev.repository.AssignmentRepository;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.LessonRepository;
 import com.drawproject.dev.repository.TopicRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,9 @@ public class TopicService {
 
     @Autowired
     AssignmentService assignmentService;
+
+    @Autowired
+    LessonRepository lessonRepository;
 
 
     public ResponseDTO getTopicByCourse(int courseId) {
@@ -101,6 +105,7 @@ public class TopicService {
         lessonService.deleteLessons(topicId);
         topicRepository.save(topic);
         checkIndexNumber(topic.getCourse().getCourseId());
+        checkLesson(topic.getCourse().getCourseId());
         return new ResponseDTO(HttpStatus.OK, "Topic deleted", "Topic and lessons deleted");
     }
 
@@ -125,6 +130,16 @@ public class TopicService {
                 topics.get(i).setNumber(i + 1);
                 topicRepository.save(topics.get(i));
             }
+        }
+    }
+
+    public void checkLesson(int courseId) {
+        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
+            Courses course = courseRepository.findById(courseId).orElseThrow();
+
+            course.setStatus(DrawProjectConstaints.CLOSE);
+
+            courseRepository.save(course);
         }
     }
 

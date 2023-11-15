@@ -99,8 +99,9 @@ public class CourseController {
 
     @PutMapping(value = "/{id}/open")
     public ResponseEntity<ResponseDTO> openCourse(@PathVariable("id") int id,
-                                                    @RequestBody(required = false) String message) {
-        return ResponseEntity.ok().body(courseService.openCourse(id, message));
+                                                    @RequestBody(required = false) String message,
+                                                  Authentication authentication) {
+        return ResponseEntity.ok().body(courseService.openCourse(id, message, authentication));
     }
 
     @GetMapping("/{id}/check-enroll")

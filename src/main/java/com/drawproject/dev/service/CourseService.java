@@ -69,6 +69,11 @@ public class CourseService {
     @Autowired
     LessonRepository lessonRepository;
 
+    @Autowired
+    ArtworkRepository artworkRepository;
+    @Autowired
+    private CertificateRepository certificateRepository;
+
     /**
      * Gets top course by category.
      *
@@ -309,15 +314,30 @@ public class CourseService {
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.CLOSE);
     }
 
-    public ResponseDTO openCourse(int courseId, String message) {
+    public ResponseDTO openCourse(int courseId, String message, Authentication authentication) {
         Courses course = courseRepository.findById(courseId).orElseThrow();
-        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
-            return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, "This course is not enough lesson to Open! Please, create lesson to Open.", "This course need at least 3 lesson to open");
+        String messCheck = checkInstructor(courseId, authentication);
+        if(!messCheck.isEmpty()) {
+            return new ResponseDTO(HttpStatus.NOT_ACCEPTABLE, messCheck, "");
         }
         course.setStatus(DrawProjectConstaints.OPEN);
         courseRepository.save(course);
 
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.OPEN);
+    }
+
+    public String checkInstructor(int courseId, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
+            return "This course is not enough lesson to Open! Please, create lesson to Open.";
+        } else if(artworkRepository.countByInstructor_InstructorIdAndStatus(user.getUserId(), DrawProjectConstaints.OPEN) <= 3) {
+            return "You is not enough artwork to Open! Please, upload artwork to Open";
+        } else  if(certificateRepository.countByInstructor_InstructorIdAndStatus(user.getUserId(), DrawProjectConstaints.OPEN) <= 3) {
+            return "You are not enough certificate to Open! Please, upload certificate to Open";
+        }
+        return "";
+
     }
 
     public ResponseDTO getNumOfCourseForEachFeature() {
