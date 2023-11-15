@@ -15,6 +15,8 @@ import com.drawproject.dev.repository.SkillRepository;
 import com.drawproject.dev.repository.UserRepository;
 import com.drawproject.dev.security.JWTGenerator;
 import com.drawproject.dev.service.InstructorService;
+import com.drawproject.dev.service.RateLimitService;
+import io.github.bucket4j.Bucket;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -52,6 +54,9 @@ public class AuthController {
     SkillRepository skillRepository;
 
     @Autowired
+    RateLimitService rateLimitService;
+
+    @Autowired
     public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository,
                           RoleRepository roleRepository, PasswordEncoder passwordEncoder, JWTGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
@@ -62,14 +67,19 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<AuthResponseDTO> login(@RequestBody LoginDTO loginDto){
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginDto.getUsername(),
-                        loginDto.getPwd()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        String token = jwtGenerator.generateToken(authentication);
-        return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+    public ResponseEntity<Object> login(HttpServletRequest request, @RequestBody LoginDTO loginDto){
+        Bucket bucket = rateLimitService.getBucketByClientId(request);
+        if (bucket.tryConsume(1)) {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginDto.getUsername(),
+                            loginDto.getPwd()));
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtGenerator.generateToken(authentication);
+            return new ResponseEntity<>(new AuthResponseDTO(token), HttpStatus.OK);
+        }
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).body("Too many requests, please try again after 5 minutes");
+
     }
 
     @PostMapping("register")

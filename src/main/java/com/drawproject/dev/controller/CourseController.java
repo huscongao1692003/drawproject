@@ -4,10 +4,7 @@ import com.drawproject.dev.dto.report.ReportStudentDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.dto.course.CourseDTO;
 import com.drawproject.dev.dto.course.ResponsePagingDTO;
-import com.drawproject.dev.service.CourseService;
-import com.drawproject.dev.service.ProcessService;
-import com.drawproject.dev.service.ReportStudentService;
-import com.drawproject.dev.service.UserService;
+import com.drawproject.dev.service.*;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,6 +33,7 @@ public class CourseController {
 
     @GetMapping("/top-courses")
     public ResponseEntity<ResponseDTO> getTopCourse(@RequestParam(value = "limit", required = false, defaultValue = "3") int limit) {
+
         return ResponseEntity.ok().body(courseService.getTopCourseByCategory(limit));
     }
 
