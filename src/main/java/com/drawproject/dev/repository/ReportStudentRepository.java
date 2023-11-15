@@ -17,4 +17,6 @@ public interface ReportStudentRepository extends JpaRepository<ReportStudent, Re
     void deleteByIdStudentIdAndIdCourseId(int studentId, int courseId);
     ReportStudent findById_StudentIdAndId_CourseId(int studentId, int courseId);
 
+    Boolean existsByStudentUserIdAndCourseCourseId(int studentId, int courseId);
+
 }

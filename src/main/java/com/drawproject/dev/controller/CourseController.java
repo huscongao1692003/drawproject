@@ -109,9 +109,9 @@ public class CourseController {
     }
 
     @PostMapping(value = "/student/report")
-    public ResponseEntity<Object> reportStudent(ReportStudentDTO reportStudentDTO) {
+    public ResponseEntity<Object> reportStudent(Authentication authentication, ReportStudentDTO reportStudentDTO) {
 
-        return ResponseEntity.ok().body(reportStudentService.createReport(reportStudentDTO));
+        return ResponseEntity.ok().body(reportStudentService.createReport(authentication, reportStudentDTO));
     }
 
     @GetMapping(value = "/feature")

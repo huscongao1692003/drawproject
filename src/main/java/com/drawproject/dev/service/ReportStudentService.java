@@ -8,7 +8,9 @@ import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.map.MapReport;
 import com.drawproject.dev.model.ReportStudent;
 import com.drawproject.dev.model.ReportStudentId;
+import com.drawproject.dev.model.User;
 import com.drawproject.dev.repository.CourseRepository;
+import com.drawproject.dev.repository.EnrollRepository;
 import com.drawproject.dev.repository.ReportStudentRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,10 +45,26 @@ public class ReportStudentService {
     @Autowired
     MailService mailService;
 
-    public ResponseDTO createReport(ReportStudentDTO reportStudentDTO) {
+    @Autowired
+    EnrollRepository enrollRepository;
+
+    public ResponseDTO createReport(Authentication authentication, ReportStudentDTO reportStudentDTO) {
+        //check exist report
+        if(reportStudentRepository.existsByStudentUserIdAndCourseCourseId(reportStudentDTO.getStudentId(), reportStudentDTO.getCourseId())) {
+            return new ResponseDTO(HttpStatus.CONFLICT, "Report is existing", "");
+        }
+        //get userId who want to create report
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        //create report
         ReportStudent reportStudent = new ReportStudent();
+        //check course is existing of user
+        reportStudent.setCourse(courseRepository.findByCourseIdAndInstructorInstructorId(reportStudentDTO.getCourseId(), user.getUserId()).orElseThrow());
+        //check student is existing on course
+        if(!enrollRepository.existsByUserUserIdAndCourseCourseId(reportStudentDTO.getStudentId(), reportStudentDTO.getCourseId())) {
+            return new ResponseDTO(HttpStatus.NOT_FOUND, "Student is not existing on course", "");
+        }
         reportStudent.setStudent(userRepository.findById(reportStudentDTO.getStudentId()).orElseThrow());
-        reportStudent.setCourse(courseRepository.findById(reportStudentDTO.getCourseId()).orElseThrow());
         ReportStudentId reportStudentId = new ReportStudentId(reportStudentDTO.getStudentId(), reportStudentDTO.getCourseId());
         reportStudent.setId(reportStudentId);
         reportStudent.setMessage(reportStudentDTO.getMessage());
