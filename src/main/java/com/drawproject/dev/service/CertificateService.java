@@ -96,7 +96,7 @@ public class CertificateService {
 
     public ResponseDTO deleteCertificate(int certificateId) {
         Certificate certificate = certificateRepository.findById(certificateId).orElseThrow();
-        certificate.setStatus(DrawProjectConstaints.DELETED);
+        certificate.setStatus(DrawProjectConstaints.CLOSE);
         certificateRepository.save(certificate);
         return new ResponseDTO(HttpStatus.OK, "Certificate deleted", null);
     }

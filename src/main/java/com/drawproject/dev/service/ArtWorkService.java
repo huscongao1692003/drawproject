@@ -103,7 +103,7 @@ public class ArtWorkService {
 
     public ResponseDTO deleteArtWork(int artWorkId) {
         Artwork artwork = artworkRepository.findById(artWorkId).orElseThrow();
-        artwork.setStatus(DrawProjectConstaints.DELETED);
+        artwork.setStatus(DrawProjectConstaints.CLOSE);
         artworkRepository.save(artwork);
 
         return new ResponseDTO(HttpStatus.OK, "Artwork deleted successfully!", "");
