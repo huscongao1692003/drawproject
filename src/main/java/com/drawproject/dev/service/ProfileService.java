@@ -4,7 +4,9 @@ package com.drawproject.dev.service;
 import com.drawproject.dev.constrains.DrawProjectConstaints;
 import com.drawproject.dev.model.Collection;
 import com.drawproject.dev.model.Contact;
+import com.drawproject.dev.model.Instructor;
 import com.drawproject.dev.model.User;
+import com.drawproject.dev.repository.InstructorRepository;
 import com.drawproject.dev.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,12 @@ public class ProfileService {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    InstructorRepository instructorRepository;
+
     public List<User> findInstructor(){
-        List<User> instructor = userRepository.findByRolesName(DrawProjectConstaints.INSTRUCTOR);
-        return instructor;
+        List<Integer> instructors = instructorRepository.findAll().stream().map(Instructor::getInstructorId).toList();
+        return userRepository.findByUserIdInAndStatus(instructors, DrawProjectConstaints.OPEN);
     }
 
     public User findInstructorById(int userId){
