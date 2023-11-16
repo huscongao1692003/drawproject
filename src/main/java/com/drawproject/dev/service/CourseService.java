@@ -236,12 +236,18 @@ public class CourseService {
 
     public Object getCoursesByUser(int userId, int page, int eachPage) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-        Page<Courses> course = courseRepository.findByEnrollsUserUserId(userId, pageable);
+        Page<Courses> courses = courseRepository.findByEnrollsUserUserId(userId, pageable);
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                course.getTotalElements(), page, course.getTotalPages(), eachPage, MapCourse.mapListToDTO(course.getContent()));
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, courses.getContent());
 
-        if(!course.isEmpty()) {
+        if(!courses.isEmpty()) {
+            List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
+            coursePreviewDTOS.forEach(coursePreviewDTO -> {
+                coursePreviewDTO.setAvatar(userRepository.findById(coursePreviewDTO.getInstructorId()).orElseThrow().getAvatar());
+                coursePreviewDTO.setNumLesson(lessonRepository.countByTopicCourseCourseIdAndStatus(coursePreviewDTO.getCourseId(), DrawProjectConstaints.OPEN));
+            });
+            responsePagingDTO.setData(coursePreviewDTOS);
             responsePagingDTO.setMessage("Course found");
             responsePagingDTO.setStatus(HttpStatus.OK);
         }
@@ -259,7 +265,7 @@ public class CourseService {
         }
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
-                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, MapCourse.mapListToDTO(courses.getContent()));
+                courses.getTotalElements(), page, courses.getTotalPages(), eachPage, courses.getContent());
 
         if(!courses.isEmpty()) {
             List<CoursePreviewDTO> coursePreviewDTOS = MapCourse.mapListToDTO(courses.getContent());
