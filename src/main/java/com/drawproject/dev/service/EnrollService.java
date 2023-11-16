@@ -24,7 +24,7 @@ public class EnrollService {
 
     public boolean unBannedEnroll(int studentId, int courseId) {
         Enroll enroll = enrollRepository.findByUserUserIdAndCourseCourseId(studentId, courseId).orElseThrow();
-        enroll.setStatus(DrawProjectConstaints.OPEN);
+        enroll.setStatus(DrawProjectConstaints.ENROLL);
         enrollRepository.save(enroll);
         return true;
     }
