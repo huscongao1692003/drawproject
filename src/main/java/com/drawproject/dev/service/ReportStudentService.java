@@ -128,6 +128,7 @@ public class ReportStudentService {
             return new ResponseDTO(HttpStatus.NOT_FOUND, "Report not found", null);
         }
         reportStudentRepository.deleteByIdStudentIdAndIdCourseId(studentId, courseId);
+        enrollService.unBannedEnroll(studentId, courseId);
         return new ResponseDTO(HttpStatus.OK, "Report rejected", message);
     }
 

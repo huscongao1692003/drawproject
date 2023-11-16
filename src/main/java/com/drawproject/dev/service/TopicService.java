@@ -99,6 +99,7 @@ public class TopicService {
         return new ResponseDTO(HttpStatus.CREATED, "Topic has been saved", "Save topic successfully!");
     }
 
+    @Transactional
     public ResponseDTO deleteTopic(int topicId) {
         Topic topic = topicRepository.findById(topicId).orElseThrow();
         topic.setStatus(DrawProjectConstaints.CLOSE);
@@ -133,6 +134,7 @@ public class TopicService {
         }
     }
 
+    @Transactional
     public void checkLesson(int courseId) {
         if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
             Courses course = courseRepository.findById(courseId).orElseThrow();

@@ -22,4 +22,11 @@ public class EnrollService {
         return true;
     }
 
+    public boolean unBannedEnroll(int studentId, int courseId) {
+        Enroll enroll = enrollRepository.findByUserUserIdAndCourseCourseId(studentId, courseId).orElseThrow();
+        enroll.setStatus(DrawProjectConstaints.OPEN);
+        enrollRepository.save(enroll);
+        return true;
+    }
+
 }
