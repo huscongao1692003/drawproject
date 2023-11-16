@@ -106,7 +106,6 @@ public class TopicService {
         lessonService.deleteLessons(topicId);
         topicRepository.save(topic);
         checkIndexNumber(topic.getCourse().getCourseId());
-        checkLesson(topic.getCourse().getCourseId());
         return new ResponseDTO(HttpStatus.OK, "Topic deleted", "Topic and lessons deleted");
     }
 
@@ -134,16 +133,7 @@ public class TopicService {
         }
     }
 
-    @Transactional
-    public void checkLesson(int courseId) {
-        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
-            Courses course = courseRepository.findById(courseId).orElseThrow();
 
-            course.setStatus(DrawProjectConstaints.CLOSE);
-
-            courseRepository.save(course);
-        }
-    }
 
 
 }

@@ -5,8 +5,10 @@ import com.drawproject.dev.dto.LessonDTO;
 import com.drawproject.dev.dto.LessonRequestDTO;
 import com.drawproject.dev.dto.ResponseDTO;
 import com.drawproject.dev.map.MapLesson;
+import com.drawproject.dev.model.Courses;
 import com.drawproject.dev.model.Lesson;
 import com.drawproject.dev.model.Topic;
+import com.drawproject.dev.repository.CourseRepository;
 import com.drawproject.dev.repository.LessonRepository;
 import com.drawproject.dev.repository.TopicRepository;
 import org.modelmapper.ModelMapper;
@@ -37,6 +39,9 @@ public class LessonService {
 
     @Autowired
     FileService fileService;
+
+    @Autowired
+    CourseRepository courseRepository;
 
     /*
     @Transactional
@@ -94,7 +99,7 @@ public class LessonService {
         return lesson.getUrl();
     }
 
-
+    @Transactional
     public void deleteLessons(int topicId) {
         List<Lesson> lessons = lessonRepository.findByTopicTopicIdAndStatus(topicId, DrawProjectConstaints.OPEN);
         if(lessons.isEmpty()) {
@@ -104,14 +109,28 @@ public class LessonService {
             lesson.setStatus(DrawProjectConstaints.CLOSE);
             lessonRepository.save(lesson);
         });
+        checkLesson(lessons.get(0).getTopic().getCourse().getCourseId());
     }
 
+    @Transactional
     public ResponseDTO deleteLesson(int lessonId) {
         Lesson lesson= lessonRepository.findById(lessonId).orElseThrow();
         lesson.setStatus(DrawProjectConstaints.CLOSE);
         lessonRepository.save(lesson);
         checkIndexLesson(lesson.getTopic().getTopicId());
+        checkLesson(lesson.getTopic().getCourse().getCourseId());
         return new ResponseDTO(HttpStatus.OK, "Delete lesson successfully", "");
+    }
+
+    @Transactional
+    public void checkLesson(int courseId) {
+        if(lessonRepository.countByTopicCourseCourseIdAndStatus(courseId, DrawProjectConstaints.OPEN) <= 3) {
+            Courses course = courseRepository.findById(courseId).orElseThrow();
+
+            course.setStatus(DrawProjectConstaints.CLOSE);
+
+            courseRepository.save(course);
+        }
     }
 
     public ResponseDTO createLesson(MultipartFile file, LessonRequestDTO lessonRequestDTO) {
