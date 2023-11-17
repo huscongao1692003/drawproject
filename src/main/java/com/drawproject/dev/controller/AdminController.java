@@ -81,6 +81,7 @@ public class AdminController {
         user.setUsername(userDTO.getUsername());
         user.setPwd(userDTO.getPwd());
         user.setMobileNum(userDTO.getMobileNum());
+        user.setFullName(userDTO.getFullName());
         user.setEmail(userDTO.getEmail());
         user.setStatus(DrawProjectConstaints.OPEN);
         Skill skill = skillRepository.findBySkillId(userDTO.getSkillId());

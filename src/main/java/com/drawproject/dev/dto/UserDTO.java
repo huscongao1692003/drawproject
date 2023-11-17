@@ -14,6 +14,9 @@ public class UserDTO {
     @Size(min=3, message="Name must be at least 3 characters long")
     private String username;
 
+    private String fullName;
+
+
     @NotBlank(message="Email must not be blank")
     @Email(message = "Please provide a valid email address" )
     private String email;
@@ -23,6 +26,7 @@ public class UserDTO {
     private String mobileNum;
 
     private String pwd;
+
 
     private String status;
 
