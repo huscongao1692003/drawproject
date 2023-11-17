@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,10 @@ public class AdminController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
 
     @Autowired
     RoleRepository roleRepository;
@@ -79,7 +84,8 @@ public class AdminController {
         }
         User user = new User();
         user.setUsername(userDTO.getUsername());
-        user.setPwd(userDTO.getPwd());
+        String hashedPassword = passwordEncoder.encode(userDTO.getPwd());
+        user.setPwd(hashedPassword);
         user.setMobileNum(userDTO.getMobileNum());
         user.setFullName(userDTO.getFullName());
         user.setEmail(userDTO.getEmail());

@@ -163,24 +163,24 @@ VALUES
 
 INSERT INTO `orders` (`order_id`, `price`, `method`, `description`, `user_id`, `course_id`, `created_at`, `updated_at`, `status`)
 VALUES
-    (1, 100, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Completed'),
-    (2, 150, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),
-    (3, 200, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed'),
-    (4, 120, 'PayPal', 'Order for Course 4', 10, 4, NOW(), NOW(), 'Completed'),
-    (5, 180, 'Credit Card', 'Order for Course 5', 5, 5, NOW(), NOW(), 'Completed'),
-    (6, 110, 'PayPal', 'Order for Course 1', 8, 1, NOW(), NOW(), 'Completed'),
-    (7, 160, 'Credit Card', 'Order for Course 2', 9, 2, NOW(), NOW(), 'Completed'),
-    (8, 210, 'PayPal', 'Order for Course 3', 10, 3, NOW(), NOW(), 'Completed'),
-    (9, 130, 'Credit Card', 'Order for Course 4', 5, 4, NOW(), NOW(), 'Completed'),
-    (10, 190, 'PayPal', 'Order for Course 5', 8, 5, NOW(), NOW(), 'Completed'),
-    (11, 105, 'Credit Card', 'Order for Course 1', 10, 1, NOW(), NOW(), 'Completed'),
-    (12, 155, 'PayPal', 'Order for Course 2', 9, 2, NOW(), NOW(), 'Completed'),
-    (13, 215, 'Credit Card', 'Order for Course 3', 8, 3, NOW(), NOW(), 'Completed'),
-    (14, 125, 'PayPal', 'Order for Course 4', 5, 4, NOW(), NOW(), 'Completed'),
-    (15, 185, 'Credit Card', 'Order for Course 5', 10, 5, NOW(), NOW(), 'Completed'),
-    (16, 120, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Completed'),
-    (17, 170, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Completed'),
-    (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Completed');
+    (1, 100, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Pay Success'),
+    (2, 150, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Pay Success'),
+    (3, 200, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Pay Success'),
+    (4, 120, 'PayPal', 'Order for Course 4', 10, 4, NOW(), NOW(), 'Pay Success'),
+    (5, 180, 'Credit Card', 'Order for Course 5', 5, 5, NOW(), NOW(), 'Pay Success'),
+    (6, 110, 'PayPal', 'Order for Course 1', 8, 1, NOW(), NOW(), 'Pay Success'),
+    (7, 160, 'Credit Card', 'Order for Course 2', 9, 2, NOW(), NOW(), 'Pay Success'),
+    (8, 210, 'PayPal', 'Order for Course 3', 10, 3, NOW(), NOW(), 'Pay Success'),
+    (9, 130, 'Credit Card', 'Order for Course 4', 5, 4, NOW(), NOW(), 'Pay Success'),
+    (10, 190, 'PayPal', 'Order for Course 5', 8, 5, NOW(), NOW(), 'Pay Success'),
+    (11, 105, 'Credit Card', 'Order for Course 1', 10, 1, NOW(), NOW(), 'Pay Success'),
+    (12, 155, 'PayPal', 'Order for Course 2', 9, 2, NOW(), NOW(), 'Pay Success'),
+    (13, 215, 'Credit Card', 'Order for Course 3', 8, 3, NOW(), NOW(), 'Pay Success'),
+    (14, 125, 'PayPal', 'Order for Course 4', 5, 4, NOW(), NOW(), 'Pay Success'),
+    (15, 185, 'Credit Card', 'Order for Course 5', 10, 5, NOW(), NOW(), 'Pay Success'),
+    (16, 120, 'Credit Card', 'Order for Course 1', 5, 1, NOW(), NOW(), 'Pay Success'),
+    (17, 170, 'PayPal', 'Order for Course 2', 8, 2, NOW(), NOW(), 'Pay Success'),
+    (18, 220, 'Credit Card', 'Order for Course 3', 9, 3, NOW(), NOW(), 'Pay Success');
 
 INSERT INTO `drawcourses`.`assignment` (`assignment_id`, `assignment_title`, `topic`, `lesson_id`, `status`, `number`) VALUES ('1', 'a', 'animal', '1', 'Pending', 1);
 
