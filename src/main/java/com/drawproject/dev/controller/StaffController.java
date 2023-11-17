@@ -6,6 +6,7 @@ import com.drawproject.dev.dto.course.ResponsePagingDTO;
 import com.drawproject.dev.model.User;
 import com.drawproject.dev.service.ArtWorkService;
 import com.drawproject.dev.service.CertificateService;
+import com.drawproject.dev.service.CourseService;
 import com.drawproject.dev.service.ReportStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class StaffController {
 
     @Autowired
     ArtWorkService artWorkService;
+
+    @Autowired
+    CourseService courseService;
 
     @GetMapping("/artworks")
     public ResponseEntity<ResponsePagingDTO> getArtworks(@RequestParam(value = "page", defaultValue = "1") int page,
@@ -118,6 +122,12 @@ public class StaffController {
                                                           @RequestParam(value = "message", defaultValue = "") String message) {
 
         return ResponseEntity.ok().body(certificateService.rejectCertificate(certificateId, message));
+    }
+
+    @PutMapping(value = "/courses/report")
+    public ResponseEntity<ResponseDTO> reportCourse(@RequestParam("id") int id,
+                                                    @RequestParam(required = false, defaultValue = "") String message) {
+        return ResponseEntity.ok().body(courseService.reportCourse(id, message));
     }
 
 }
