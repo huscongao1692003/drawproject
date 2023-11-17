@@ -236,7 +236,7 @@ public class CourseService {
 
     public Object getCoursesByUser(int userId, int page, int eachPage) {
         Pageable pageable = PageRequest.of(page - 1, eachPage);
-        Page<Courses> courses = courseRepository.findByEnrollsUserUserId(userId, pageable);
+        Page<Courses> courses = courseRepository.findByEnrollsUserUserIdAndStatus(userId, DrawProjectConstaints.OPEN,pageable);
 
         ResponsePagingDTO responsePagingDTO = new ResponsePagingDTO(HttpStatus.NOT_FOUND, "Course not found",
                 courses.getTotalElements(), page, courses.getTotalPages(), eachPage, courses.getContent());
