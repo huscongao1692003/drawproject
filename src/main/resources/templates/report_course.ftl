@@ -94,6 +94,12 @@
                                                     Create at: <strong
                                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">${createAt}</strong>
                                                 </div>
+                                                <div class="content-block"
+                                                     style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
+                                                     valign="top">
+                                                    Reason: <strong
+                                                            style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">${message}</strong>
+                                                </div>
                                             </div>
                                             <div style="width: 100%">
                                                 <img src="${image}" alt="image" style="width: 100%;"/>

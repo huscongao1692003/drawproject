@@ -303,19 +303,17 @@ public class CourseService {
 
         //notificaiton email
         User user = userRepository.findById(course.getInstructor().getInstructorId()).orElseThrow();
-        if(!message.isBlank()) {
-            Mail mail = new Mail(user.getEmail(), DrawProjectConstaints.TEMPLATE_REPORT_COURSE);
-            mailService.sendMessage(mail, new HashMap<String, Object>() {
-                {
-                    put("courseId", course.getCourseId());
-                    put("message", message);
-                    put("courseName", course.getCourseTitle());
-                    put("fullName", user.getFullName());
-                    put("createAt", course.getCreatedAt());
-                    put("image", course.getImage());
-                }
-            });
-        }
+        Mail mail = new Mail(user.getEmail(), DrawProjectConstaints.TEMPLATE_REPORT_COURSE);
+        mailService.sendMessage(mail, new HashMap<String, Object>() {
+            {
+                put("courseId", course.getCourseId());
+                put("message", message);
+                put("courseName", course.getCourseTitle());
+                put("fullName", user.getFullName());
+                put("createAt", course.getCreatedAt());
+                put("image", course.getImage());
+            }
+        });
 
         return new ResponseDTO(HttpStatus.OK, message, DrawProjectConstaints.CLOSE);
     }
