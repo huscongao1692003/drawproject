@@ -140,6 +140,7 @@ public class SecurityConfig {
                  .requestMatchers(HttpMethod.POST,"/api/v1/post").authenticated()
                  .requestMatchers(HttpMethod.PUT,"/api/v1/post/{id}").authenticated()
                  .requestMatchers("/api/v1/post/deletePost").hasAnyRole(DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
+                 .requestMatchers(HttpMethod.POST, "/api/v1/post/save-image").authenticated()
                  .requestMatchers("/api/v1/admin/**").hasAnyRole(DrawProjectConstaints.ADMIN_ROLE, DrawProjectConstaints.STAFF)
                  .requestMatchers(HttpMethod.POST,"/api/v1/contact").permitAll()
                  .requestMatchers(HttpMethod.POST,"/api/v1/pay").authenticated()
