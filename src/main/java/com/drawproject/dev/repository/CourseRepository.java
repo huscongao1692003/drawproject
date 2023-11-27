@@ -51,8 +51,8 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     int countByInstructorInstructorIdAndStatus(int instructorId, String status);
 
     @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(s.skillId, s.skillName, count(c.courseId)) " +
-            "FROM Courses c " +
-            "RIGHT JOIN Skill s " +
+            "FROM Skill s " +
+            "LEFT JOIN Courses c " +
             "ON c.skill.skillId = s.skillId " +
             "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
             "' Or c.status IS null " +
@@ -60,8 +60,8 @@ public interface CourseRepository extends JpaRepository<Courses, Integer> {
     List<CourseFeature> getCourseOfSkills();
 
     @Query("SELECT new com.drawproject.dev.dto.course.CourseFeature(ca.categoryId, ca.categoryName, count(c.courseId)) " +
-            "FROM Courses c " +
-            "JOIN Category ca " +
+            "FROM Category ca " +
+            "LEFT JOIN Courses c " +
             "ON ca.categoryId = c.category.categoryId " +
             "WHERE c.status LIKE '" + DrawProjectConstaints.OPEN +
             "' Or c.status IS null " +

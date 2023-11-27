@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +36,9 @@ public class PostService {
 
     @Autowired
     UserRepository  userRepository;
+
+    @Autowired
+    FileService fileService;
 
     public List<Posts> findPostWithOpenStatus(){
         List<Posts> posts = postRepository.findByStatus(DrawProjectConstaints.OPEN);
@@ -114,6 +118,14 @@ public class PostService {
 
         return responsePagingDTO;
 
+    }
+
+    public List<String> saveImagesPost(List<MultipartFile> images, Authentication authentication) {
+        String username = authentication.getName();
+        User user = userRepository.findByUsername(username).orElseThrow();
+        return images.stream()
+                .map(image -> fileService.uploadFile(image, user.getUserId(), DrawProjectConstaints.IMAGE, "posts/content"))
+                .toList();
     }
 
 }

@@ -71,7 +71,7 @@ public class PostController {
             category.setCategoryId(postDTO.getCategoryId());
             Posts posts = new Posts();
             posts.setCategory(category);
-            posts.setImage(fileService.uploadFile(requestImage, user.getUserId(), "image", "posts"));
+            posts.setImage(fileService.uploadFile(requestImage, user.getUserId(), "image", "posts/thumbnail"));
             posts.setDescription(postDTO.getDescription());
             posts.setReadingTime(postDTO.getReadingTime());
             posts.setStatus(DrawProjectConstaints.OPEN);
@@ -149,6 +149,12 @@ public class PostController {
 
         return ResponseEntity.ok().body(postService.searchPosts(page, eachPage, search, categoryId));
 
+    }
+
+    @PostMapping("/save-image")
+    public ResponseEntity<List<String>> saveImagesContent(List<MultipartFile> images, Authentication authentication) {
+
+        return ResponseEntity.ok().body(postService.saveImagesPost(images, authentication));
     }
 
 }
